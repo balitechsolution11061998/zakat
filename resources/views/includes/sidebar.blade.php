@@ -10,8 +10,8 @@
                 <i class="fas fa-users me-2"></i> <span>Data Muzakki</span>
             </a>
             <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Master Data Muzakki</a></li>
-                <li><a class="dropdown-item" href="#">Atur & Tambah Data Muzakki</a></li>
+                <li><a class="dropdown-item" href="{{ url('/dashboard/muzakki')}}">Master Data Muzakki</a></li>
+                <li><a class="dropdown-item" href="{{ url('/dashboard/muzakki/create') }}">Atur & Tambah Data Muzakki</a></li>
             </ul>
         </li>
         <li class="nav-item dropdown">

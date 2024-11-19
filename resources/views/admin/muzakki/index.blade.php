@@ -1,56 +1,190 @@
-@extends('layouts.app')
-@extends('includes.sidebar')
+@extends('layouts.apps')
 
 @section('title', 'Data Muzakki')
 @section('content')
-<div class="container-fluid">
-    <div class="page-title">
-        <div class="card card-absolute">
-            <div class="card-header bg-primary">
-                <h3 class="text-white">Data Muzakki</h3>
+    <!-- DataTables CSS -->
+    <link href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.bootstrap5.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+
+    <div id="main-content" class="p-4" style="margin-top: 60px;">
+        <!-- Page Title Section -->
+        <div class="container mb-4">
+            <div class="card rounded shadow-lg animate__animated animate__fadeInDown">
+                <div class="card-header bg-success text-white rounded-top-2 text-left">
+                    <h3 class="mb-0" style="font-family: 'Roboto', sans-serif;color:white;">Data Muzakki</h3>
+                </div>
+                <div class="card-body">
+                    <p class="text-muted" style="font-family: 'Poppins', sans-serif; text-align: justify;">
+                        Dibawah ini adalah data muzakki yang telah anda tambahkan. Muzakki adalah orang yang mempunyai
+                        kewajiban membayar zakat fitrah sesuai dengan nisabnya. Data di bawah juga bisa anda lihat detailnya
+                        dengan menekan logo mata berwarna hijau, edit dengan menekan logo pensil berwarna ungu, dan hapus
+                        dengan menekan logo sampah berwarna merah.
+                    </p>
+                </div>
             </div>
-            <div class="card-body">
-                <h5>Dibawah ini adalah data muzakki yang telah anda tambahkan.</h5>
+        </div>
+
+        <!-- Table Section -->
+        <div class="container">
+            <div class="card rounded shadow-lg animate__animated animate__fadeInUp">
+                <div class="card-header bg-success text-white rounded-top-2 text-left">
+                    <h4 class="mb-0" style="font-family: 'Roboto', sans-serif;color:white;">Tabel Data Muzakki</h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive rounded-4">
+                        <table id="muzakkiTable" class="table table-striped table-bordered rounded-4 overflow-hidden">
+                            <thead class="table-success">
+                                <tr class="text-center">
+                                    <th>ID</th>
+                                    <th>Nama Muzakki</th>
+                                    <th>Jumlah Tanggungan</th>
+                                    <th>Alamat</th>
+                                    <th>Nomor Telepon</th>
+                                    <th>Opsi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Data is loaded via AJAX -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
-    <div class="container">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">No</th>
-                    <th scope="col">Nama</th>
-                    <th scope="col">Jumlah Tanggungan</th>
-                    <th scope="col">Alamat</th>
-                    <th scope="col">Nomor Telepon</th>
-                    <th scope="col">Nomor KK</th>
-                    <th scope="col">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($items as $item)
-                    <tr>
-                        <th>{{ $item->id }}</th>
-                        <td>{{ $item->nama_muzakki }}</td>
-                        <td>{{ $item->jumlah_tanggungan }}</td>
-                        <td>{{ $item->alamat }}</td>
-                        <td>{{ $item->handphone }}</td>
-                        <td>{{ $item->nomor_kk }}</td>
-                        <td class="d-flex gap-2">
-                            <div>
-                                <a class="btn btn-primary"
-                                    href="{{ route('muzakki.edit', $item->id) }}">Edit</a>
-                            </div>
-                            <form action="{{ route('muzakki.destroy', $item->id) }}" method="POST">
-                                @method('DELETE')
-                                @csrf
-                                <button class="btn btn-danger" type="submit">Delete</button>
-                            </form>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
+
+@section('scripts')
+    <script>
+        toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "newestOnTop": true,
+            "progressBar": true,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": true,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        };
+        toastr.success("This is a success message!");
+        toastr.error("This is an error message!");
+    </script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <!-- FontAwesome -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#muzakkiTable').DataTable({
+                serverSide: true,
+                processing: true,
+                responsive: true, // Enable responsive feature
+                ajax: "{{ route('muzakki.index') }}",
+                columns: [{
+                        data: 'id',
+                        name: 'id'
+                    },
+                    {
+                        data: 'nama_muzakki',
+                        name: 'nama_muzakki'
+                    },
+                    {
+                        data: 'jumlah_tanggungan',
+                        name: 'jumlah_tanggungan',
+                        render: function(data) {
+                            return formatRupiah(data);
+                        }
+                    },
+                    {
+                        data: 'alamat',
+                        name: 'alamat'
+                    },
+                    {
+                        data: 'handphone',
+                        name: 'handphone'
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false
+                    }
+                ],
+                order: [
+                    [0, 'desc']
+                ],
+                pagingType: "simple_numbers",
+                lengthMenu: [
+                    [5, 10, 25, 50, -1],
+                    [5, 10, 25, 50, "All"]
+                ],
+                language: {
+                    search: "Cari:",
+                    paginate: {
+                        next: "Berikutnya",
+                        previous: "Sebelumnya"
+                    },
+                    lengthMenu: "Tampilkan _MENU_ entri",
+                    info: "Menampilkan _START_ ke _END_ dari _TOTAL_ entri"
+                },
+                dom: 'Bfrtip',
+                buttons: [{
+                        extend: 'copy',
+                        className: 'btn btn-black text-white rounded-pill shadow-sm',
+                        text: '<i class="fas fa-copy"></i> Salin' // FA icon for Copy
+                    },
+                    {
+                        extend: 'excel',
+                        className: 'btn btn-black text-white rounded-pill shadow-sm',
+                        text: '<i class="fas fa-file-excel"></i> Excel' // FA icon for Excel
+                    },
+                    {
+                        extend: 'pdf',
+                        className: 'btn btn-black text-white rounded-pill shadow-sm',
+                        text: '<i class="fas fa-file-pdf"></i> PDF' // FA icon for PDF
+                    },
+                    {
+                        extend: 'print',
+                        className: 'btn btn-black text-white rounded-pill shadow-sm',
+                        text: '<i class="fas fa-print"></i> Cetak' // FA icon for Print
+                    }
+                ],
+                drawCallback: function() {
+                    // Add animation class to rows
+                    $('#muzakkiTable tbody tr').each(function(index, row) {
+                        $(row).addClass('animate__animated animate__fadeIn');
+                    });
+                }
+            });
+
+            function formatRupiah(value) {
+                const formatter = new Intl.NumberFormat('id-ID', {
+                    style: 'currency',
+                    currency: 'IDR',
+                    minimumFractionDigits: 0
+                });
+                return formatter.format(value);
+            }
+        });
+    </script>
+
+@endsection
+
 @endsection
