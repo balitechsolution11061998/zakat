@@ -123,7 +123,13 @@ class MuzakkiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id) {}
+    public function show($id) {
+        $item = Muzakki::findOrFail($id);
+
+        return view('admin.muzakki.show', [
+            'item' => $item
+        ]);
+    }
 
     /**
      * Show the form for editing the specified resource.

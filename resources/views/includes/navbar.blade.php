@@ -1,5 +1,5 @@
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg fixed-top shadow-sm bg-primary rounded-bottom">
+<nav class="navbar navbar-expand-lg fixed-top shadow-sm bg-success rounded-bottom">
     <div class="container-fluid">
         <button class="btn btn-outline-light rounded-circle" id="toggleSidebar">
             <i class="fas fa-bars"></i>
@@ -11,7 +11,7 @@
             <a class="btn btn-light dropdown-toggle d-flex align-items-center rounded-pill px-3" href="#"
                 role="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                 <img src="https://via.placeholder.com/40" alt="Profile Picture"
-                    class="rounded-circle me-2 border border-2 border-primary">
+                    class="rounded-circle me-2 border border-2 border-success">
                 <span class="username">{{ Auth::user()->name }}</span>
             </a>
             <ul class="dropdown-menu dropdown-menu-end shadow-lg rounded-3 animate__fadeIn"
@@ -46,12 +46,13 @@
 </nav>
 
 <!-- Sidebar -->
-<div id="sidebar" class="sidebar bg-dark text-white mt-5 pt-3">
+<div id="sidebar" class="sidebar bg-dark text-white mt-5 pt-3 animate__animated">
     <ul class="nav flex-column">
         <!-- Dashboard Link -->
         <li class="nav-item">
-            <a class="nav-link text-white d-flex align-items-center" href="#">
-                <i class="fas fa-tachometer-alt me-2"></i> <span>Dashboard</span>
+            <a class="nav-link text-white d-flex align-items-center py-3" href="#">
+                <i class="fas fa-tachometer-alt me-2"></i>
+                <span class="mt-2">Dashboard</span> <!-- Teks diturunkan -->
             </a>
         </li>
 
@@ -101,83 +102,32 @@
     </ul>
 </div>
 
-<!-- Updated Sidebar JavaScript -->
+<!-- Optional JavaScript -->
 <script>
-    const toggleSidebar = document.getElementById('toggleSidebar');
-    const sidebar = document.getElementById('sidebar');
-
-    toggleSidebar.addEventListener('click', () => {
-        sidebar.classList.toggle('collapsed');
+    document.getElementById('toggleSidebar').addEventListener('click', () => {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('d-none');
+        sidebar.classList.toggle('animate__fadeInLeft'); // Animasi masuk
+        sidebar.classList.toggle('animate__fadeOutLeft'); // Animasi keluar
     });
 </script>
 
-<!-- Updated CSS -->
+<!-- CSS -->
 <style>
-    /* General Sidebar Styling */
     .sidebar {
         width: 250px;
         position: fixed;
         top: 70px; /* Align below navbar */
         height: calc(100vh - 70px);
-        background-color: #343a40;
-        transition: all 0.3s ease-in-out;
-        z-index: 1050;
+        transition: all 0.3s ease; /* Smooth transition */
     }
 
-    /* Collapsed Sidebar */
-    .sidebar.collapsed {
-        width: 60px; /* Reduced width for mobile */
-    }
-
-    .sidebar.collapsed .nav-link span {
-        display: none; /* Hide text in collapsed mode */
-    }
-
-    .sidebar.collapsed .nav-link i {
-        margin-right: 0; /* Adjust icon spacing */
-    }
-
-    .sidebar.collapsed ul {
-        padding-left: 0;
-    }
-
-    /* Navigation Item Styling */
-    .nav-link {
-        font-size: 1rem;
-        padding: 10px 15px;
-        transition: background-color 0.2s ease-in-out;
-        display: flex;
-        align-items: center;
-    }
-
-    .nav-link i {
-        font-size: 1.2rem;
-        margin-right: 10px;
-    }
-
-    .nav-link:hover {
-        background-color: #495057;
-        border-radius: 5px;
-    }
-
-    .dropdown-menu-dark {
-        background-color: #212529;
-        border: none;
-        border-radius: 5px;
-    }
-
-    /* Responsive Design */
     @media (max-width: 768px) {
         .sidebar {
-            width: 80px; /* Smaller width for mobile */
-        }
-
-        .sidebar.collapsed {
-            width: 60px;
-        }
-
-        .nav-link span {
-            display: none; /* Hide text completely in mobile collapsed mode */
+            width: 100%;
+            position: static;
+            top: 0;
+            height: auto;
         }
     }
 </style>
