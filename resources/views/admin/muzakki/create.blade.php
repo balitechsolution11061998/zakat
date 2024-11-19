@@ -3,7 +3,6 @@
 @section('title', 'Tambah Muzakki')
 
 @section('content')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
     <div id="main-content" class="p-4" style="margin-top: 60px; font-family: 'Roboto', sans-serif;">
         <!-- Header Section -->
@@ -98,8 +97,6 @@
     </div>
 
 @section('scripts')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Script to format Rupiah -->
     <script>
         const rupiahFormat = (value) => {
@@ -130,7 +127,10 @@
                     const form = event.target;
                     const formData = new FormData(form);
 
-                    // Show loading progress
+                    // Show the loader
+                    document.getElementById('loader').style.display = 'block';
+
+                    // Show loading progress in SweetAlert
                     Swal.fire({
                         title: 'Processing...',
                         text: 'Data sedang diproses, harap tunggu.',
@@ -153,6 +153,9 @@
                         })
                         .then(response => response.json())
                         .then(data => {
+                            // Hide the loader after the process completes
+                            document.getElementById('loader').style.display = 'none';
+
                             if (data.status === 'success') {
                                 Swal.fire({
                                     title: 'Berhasil!',
@@ -163,6 +166,8 @@
                                     showConfirmButton: false
                                 }).then(() => {
                                     form.reset(); // Reset the form
+                                    // Redirect to /dashboard/muzakki/
+                                    window.location.href = '/dashboard/muzakki/';
                                 });
                             } else {
                                 Swal.fire({
@@ -176,11 +181,13 @@
                             }
                         })
                         .catch(error => {
+                            // Hide the loader after error
+                            document.getElementById('loader').style.display = 'none';
                             Swal.fire({
                                 title: 'Error!',
-                                text: `Terjadi kesalahan saat menyimpan data. Error: ${error.message}`,
+                                text: 'Terjadi kesalahan saat menyimpan data.',
                                 icon: 'error',
-                                timer: 5000, // Auto-close after 5 seconds
+                                timer: 3000, // Auto-close after 3 seconds
                                 timerProgressBar: true,
                                 showConfirmButton: false
                             });

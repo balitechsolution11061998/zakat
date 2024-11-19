@@ -16,7 +16,6 @@ class MuzakkiController extends Controller
      */
     public function index(Request $request)
     {
-
         if ($request->ajax()) {
             $items = Muzakki::query();
             return DataTables::of($items)
@@ -33,12 +32,12 @@ class MuzakkiController extends Controller
                                     data-bs-toggle="tooltip" title="Edit">
                                     <i class="fas fa-pen"></i>
                                 </a>
-                                <form action="' . route('muzakki.destroy', $item->id) . '" method="POST" onsubmit="return confirm(\'Yakin ingin menghapus data ini?\');">
-                                    ' . csrf_field() . method_field('DELETE') . '
-                                    <button class="btn btn-danger btn-sm rounded-pill shadow-sm" type="submit" data-bs-toggle="tooltip" title="Hapus">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </form>
+                                <button class="btn btn-danger btn-sm rounded-pill shadow-sm btn-delete"
+                                    data-url="' . route('muzakki.destroy', $item->id) . '"
+                                    data-id="' . $item->id . '"
+                                    data-bs-toggle="tooltip" title="Hapus">
+                                    <i class="fas fa-trash"></i>
+                                </button>
                             </div>
                         ';
                 })
@@ -48,6 +47,7 @@ class MuzakkiController extends Controller
 
         return view('admin.muzakki.index');
     }
+
 
 
 
@@ -72,12 +72,27 @@ class MuzakkiController extends Controller
         try {
             // Validate the request data
             $validated = $request->validate([
-                'nama_muzakki' => 'required|string|max:255',
-                'nomor_kk' => 'required|digits:16', // Exactly 16 digits
-                'jumlah_tanggungan' => 'required|string', // Will sanitize later
-                'alamat' => 'required|string|max:255',
-                'handphone' => 'required|numeric|digits_between:10,13', // Between 10 and 13 digits
+                'nama_muzakki' => 'required|string|max:255', // Nama wajib diisi dan maksimal 255 karakter
+                'nomor_kk' => 'required|digits:16', // Nomor KK wajib diisi dan harus 16 digit
+                'jumlah_tanggungan' => 'required|string', // Jumlah tanggungan wajib diisi
+                'alamat' => 'required|string|max:255', // Alamat wajib diisi dan maksimal 255 karakter
+                'handphone' => 'required|numeric|digits_between:10,13', // Nomor handphone wajib diisi dan harus antara 10-13 digit
+            ], [
+                'nama_muzakki.required' => 'Nama muzakki wajib diisi.',
+                'nama_muzakki.string' => 'Nama muzakki harus berupa teks.',
+                'nama_muzakki.max' => 'Nama muzakki tidak boleh lebih dari 255 karakter.',
+                'nomor_kk.required' => 'Nomor KK wajib diisi.',
+                'nomor_kk.digits' => 'Nomor KK harus terdiri dari 16 digit.',
+                'jumlah_tanggungan.required' => 'Jumlah tanggungan wajib diisi.',
+                'jumlah_tanggungan.string' => 'Jumlah tanggungan harus berupa teks.',
+                'alamat.required' => 'Alamat wajib diisi.',
+                'alamat.string' => 'Alamat harus berupa teks.',
+                'alamat.max' => 'Alamat tidak boleh lebih dari 255 karakter.',
+                'handphone.required' => 'Nomor handphone wajib diisi.',
+                'handphone.numeric' => 'Nomor handphone harus berupa angka.',
+                'handphone.digits_between' => 'Nomor handphone harus terdiri dari 10 hingga 13 digit.',
             ]);
+
 
             // Remove dots from jumlah_tanggungan
             $validated['jumlah_tanggungan'] = str_replace('.', '', $validated['jumlah_tanggungan']);
@@ -134,14 +149,31 @@ class MuzakkiController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = $request->all();
+        try {
+            // Get the request data
+            $data = $request->all();
 
-        $item = Muzakki::findOrFail($id);
+            // Find the Muzakki record by ID
+            $item = Muzakki::findOrFail($id);
 
-        $item->update($data);
+            // Update the Muzakki record
+            $item->update($data);
 
-        return redirect()->route('muzakki.index');
+            // Return a success response
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Data Muzakki berhasil diperbarui.',
+            ]);
+        } catch (\Exception $e) {
+
+            // Return an error response with the exception message
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Terjadi kesalahan saat memperbarui data: ' . $e->getMessage(),
+            ], 500); // 500 is the HTTP status code for server errors
+        }
     }
+
 
     /**
      * Remove the specified resource from storage.

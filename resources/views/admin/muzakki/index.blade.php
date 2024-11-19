@@ -55,26 +55,7 @@
     </div>
 
 @section('scripts')
-    <script>
-        toastr.options = {
-            "closeButton": true,
-            "debug": false,
-            "newestOnTop": true,
-            "progressBar": true,
-            "positionClass": "toast-top-right",
-            "preventDuplicates": true,
-            "showDuration": "300",
-            "hideDuration": "1000",
-            "timeOut": "5000",
-            "extendedTimeOut": "1000",
-            "showEasing": "swing",
-            "hideEasing": "linear",
-            "showMethod": "fadeIn",
-            "hideMethod": "fadeOut"
-        };
-        toastr.success("This is a success message!");
-        toastr.error("This is an error message!");
-    </script>
+
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- DataTables JS -->
@@ -132,8 +113,7 @@
                 ],
                 pagingType: "simple_numbers",
                 lengthMenu: [
-                    [5, 10, 25, 50, -1],
-                    [5, 10, 25, 50, "All"]
+                    [10, 20, 30, 40, 50, "All"]
                 ],
                 language: {
                     search: "Cari:",
@@ -182,6 +162,56 @@
                 });
                 return formatter.format(value);
             }
+        });
+
+        $(document).on('click', '.btn-delete', function(e) {
+            e.preventDefault();
+
+            const url = $(this).data('url'); // Retrieve the delete URL
+            const rowId = $(this).data('id'); // Retrieve the ID of the row (optional)
+
+            Swal.fire({
+                title: 'Apakah Anda yakin?',
+                text: "Data ini akan dihapus secara permanen!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, hapus!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Perform the AJAX delete request
+                    $.ajax({
+                        url: url,
+                        type: 'POST',
+                        data: {
+                            _method: 'DELETE',
+                            _token: '{{ csrf_token() }}'
+                        },
+                        success: function(response) {
+                            Swal.fire({
+                                title: 'Terhapus!',
+                                text: response.message || 'Data berhasil dihapus.',
+                                icon: 'success',
+                                timer: 2000,
+                                showConfirmButton: false
+                            });
+
+                            // Optionally, refresh the DataTable or remove the deleted row
+                            $('#muzakkiTable').DataTable().ajax.reload(); // Adjust selector to match your table ID
+                        },
+                        error: function(xhr) {
+                            Swal.fire({
+                                title: 'Gagal!',
+                                text: xhr.responseJSON?.message ||
+                                    'Terjadi kesalahan saat menghapus data.',
+                                icon: 'error'
+                            });
+                        }
+                    });
+                }
+            });
         });
     </script>
 
