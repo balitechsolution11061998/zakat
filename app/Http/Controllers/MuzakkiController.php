@@ -93,7 +93,6 @@ class MuzakkiController extends Controller
                 'handphone.digits_between' => 'Nomor handphone harus terdiri dari 10 hingga 13 digit.',
             ]);
 
-
             // Remove dots from jumlah_tanggungan
             $validated['jumlah_tanggungan'] = str_replace('.', '', $validated['jumlah_tanggungan']);
 
@@ -156,14 +155,20 @@ class MuzakkiController extends Controller
     public function update(Request $request, $id)
     {
         try {
-            // Get the request data
-            $data = $request->all();
+            // Validate the incoming request data
+            $validated = $request->validate([
+                'jumlah_tanggungan' => 'required|string', // Adjust validation rules as needed
+                // Add other fields and validation rules
+            ]);
+
+            // Remove dots from jumlah_tanggungan
+            $validated['jumlah_tanggungan'] = str_replace('.', '', $validated['jumlah_tanggungan']);
 
             // Find the Muzakki record by ID
             $item = Muzakki::findOrFail($id);
 
-            // Update the Muzakki record
-            $item->update($data);
+            // Update the Muzakki record with the validated data
+            $item->update($validated);
 
             // Return a success response
             return response()->json([
@@ -171,7 +176,6 @@ class MuzakkiController extends Controller
                 'message' => 'Data Muzakki berhasil diperbarui.',
             ]);
         } catch (\Exception $e) {
-
             // Return an error response with the exception message
             return response()->json([
                 'status' => 'error',
@@ -179,6 +183,7 @@ class MuzakkiController extends Controller
             ], 500); // 500 is the HTTP status code for server errors
         }
     }
+
 
 
     /**

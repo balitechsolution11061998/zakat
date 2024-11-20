@@ -6,53 +6,59 @@
     <link href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.bootstrap5.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <div class="pc-container">
+        <div class="pc-content">
 
-    <div id="main-content" class="p-4" style="margin-top: 60px;">
-        <!-- Page Title Section -->
-        <div class="container mb-4">
-            <div class="card rounded shadow-lg animate__animated animate__fadeInDown">
-                <div class="card-header bg-success text-white rounded-top-2 text-left">
-                    <h3 class="mb-0" style="font-family: 'Roboto', sans-serif;color:white;">Data Muzakki</h3>
-                </div>
-                <div class="card-body">
-                    <p class="text-muted" style="font-family: 'Poppins', sans-serif; text-align: justify;">
-                        Dibawah ini adalah data muzakki yang telah anda tambahkan. Muzakki adalah orang yang mempunyai
-                        kewajiban membayar zakat fitrah sesuai dengan nisabnya. Data di bawah juga bisa anda lihat detailnya
-                        dengan menekan logo mata berwarna hijau, edit dengan menekan logo pensil berwarna ungu, dan hapus
-                        dengan menekan logo sampah berwarna merah.
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Table Section -->
-        <div class="container">
-            <div class="card rounded shadow-lg animate__animated animate__fadeInUp">
-                <div class="card-header bg-success text-white rounded-top-2 text-left">
-                    <h4 class="mb-0" style="font-family: 'Roboto', sans-serif;color:white;">Tabel Data Muzakki</h4>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive rounded-4">
-                        <table id="muzakkiTable" class="table table-striped table-bordered rounded-4 overflow-hidden">
-                            <thead class="table-success">
-                                <tr class="text-center">
-                                    <th>ID</th>
-                                    <th>Nama Muzakki</th>
-                                    <th>Jumlah Tanggungan</th>
-                                    <th>Alamat</th>
-                                    <th>Nomor Telepon</th>
-                                    <th>Opsi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- Data is loaded via AJAX -->
-                            </tbody>
-                        </table>
+            <!-- Page Title Section -->
+            <div class="container mb-4 mt-10">
+                <div class="card rounded shadow-lg animate__animated animate__fadeInDown">
+                    <div class="card-header bg-success text-white rounded-top-2 text-left">
+                        <h3 class="mb-0" style="font-family: 'Roboto', sans-serif;color:white;">Data Muzakki</h3>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted" style="font-family: 'Poppins', sans-serif; text-align: justify;">
+                            Dibawah ini adalah data muzakki yang telah anda tambahkan. Muzakki adalah orang yang mempunyai
+                            kewajiban membayar zakat fitrah sesuai dengan nisabnya. Data di bawah juga bisa anda lihat
+                            detailnya
+                            dengan menekan logo mata berwarna hijau, edit dengan menekan logo pensil berwarna ungu, dan
+                            hapus
+                            dengan menekan logo sampah berwarna merah.
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="pc-content">
+            <div class="container">
+                <div class="card rounded shadow-lg animate__animated animate__fadeInUp">
+                    <div class="card-header bg-success text-white rounded-top-2 text-left">
+                        <h4 class="mb-0" style="font-family: 'Roboto', sans-serif;color:white;">Tabel Data Muzakki</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive rounded-4">
+                            <table id="muzakkiTable" class="table table-striped table-bordered rounded-4 overflow-hidden">
+                                <thead class="table-success">
+                                    <tr class="text-center">
+                                        <th>ID</th>
+                                        <th>Nama Muzakki</th>
+                                        <th>Jumlah Tanggungan</th>
+                                        <th>Alamat</th>
+                                        <th>Nomor Telepon</th>
+                                        <th>Opsi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Data is loaded via AJAX -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
+
 
 @section('scripts')
 
@@ -90,7 +96,7 @@
                         data: 'jumlah_tanggungan',
                         name: 'jumlah_tanggungan',
                         render: function(data) {
-                            return formatRupiah(data);
+                            return formatRupiah(data); // Format as currency in the table
                         }
                     },
                     {
@@ -128,22 +134,30 @@
                 buttons: [{
                         extend: 'copy',
                         className: 'btn btn-black text-white rounded-pill shadow-sm',
-                        text: '<i class="fas fa-copy"></i> Salin' // FA icon for Copy
+                        text: '<i class="fas fa-copy"></i> Salin'
                     },
                     {
                         extend: 'excel',
                         className: 'btn btn-black text-white rounded-pill shadow-sm',
-                        text: '<i class="fas fa-file-excel"></i> Excel' // FA icon for Excel
+                        text: '<i class="fas fa-file-excel"></i> Excel',
+                        customizeData: function(data) {
+                            // Preprocess the data for the Excel export
+                            data.body.forEach(row => {
+                                // Assuming jumlah_tanggungan is the 3rd column (index 2)
+                                row[2] = formatRupiah(row[2]).replace("Rp", "")
+                                    .trim(); // Format as plain number for export
+                            });
+                        }
                     },
                     {
                         extend: 'pdf',
                         className: 'btn btn-black text-white rounded-pill shadow-sm',
-                        text: '<i class="fas fa-file-pdf"></i> PDF' // FA icon for PDF
+                        text: '<i class="fas fa-file-pdf"></i> PDF'
                     },
                     {
                         extend: 'print',
                         className: 'btn btn-black text-white rounded-pill shadow-sm',
-                        text: '<i class="fas fa-print"></i> Cetak' // FA icon for Print
+                        text: '<i class="fas fa-print"></i> Cetak'
                     }
                 ],
                 drawCallback: function() {
@@ -155,13 +169,23 @@
             });
 
             function formatRupiah(value) {
+                console.log(value);
+                // Check if value is a number or can be converted to one
+                const numericValue = Number(value);
+                if (isNaN(numericValue)) {
+                    console.error('Invalid number:', value);
+                    return 'Invalid Value'; // Return a fallback string if input is not valid
+                }
+
+                // Format as currency
                 const formatter = new Intl.NumberFormat('id-ID', {
                     style: 'currency',
                     currency: 'IDR',
                     minimumFractionDigits: 0
                 });
-                return formatter.format(value);
+                return formatter.format(numericValue);
             }
+
         });
 
         $(document).on('click', '.btn-delete', function(e) {
@@ -199,7 +223,8 @@
                             });
 
                             // Optionally, refresh the DataTable or remove the deleted row
-                            $('#muzakkiTable').DataTable().ajax.reload(); // Adjust selector to match your table ID
+                            $('#muzakkiTable').DataTable().ajax
+                                .reload(); // Adjust selector to match your table ID
                         },
                         error: function(xhr) {
                             Swal.fire({

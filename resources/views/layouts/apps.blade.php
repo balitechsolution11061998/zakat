@@ -1,361 +1,354 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+<!-- [Head] start -->
 
 <head>
-    <!-- Required meta tags -->
+    <title>Dashboard | Berry Dashboard Template</title>
+    <!-- [Meta] -->
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description"
+        content="Berry is trending dashboard template made using Bootstrap 5 design framework. Berry is available in Bootstrap, React, CodeIgniter, Angular,  and .net Technologies.">
+    <meta name="keywords"
+        content="Bootstrap admin template, Dashboard UI Kit, Dashboard Template, Backend Panel, react dashboard, angular dashboard">
+    <meta name="author" content="codedthemes">
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <!-- Font Awesome CSS for icons -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <!-- [Favicon] icon -->
+    <link rel="icon" href="{{ asset('/assets/images/favicon.svg') }}" type="image/x-icon"> <!-- [Google Font] Family -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+        id="main-font-link">
+    <!-- [Tabler Icons] https://tablericons.com -->
+    <link rel="stylesheet" href="{{ asset('/assets/fonts/tabler-icons.min.css') }}">
+    <!-- [Feather Icons] https://feathericons.com -->
+    <link rel="stylesheet" href="{{ asset('/assets/fonts/feather.css') }}">
+    <!-- [Font Awesome Icons] https://fontawesome.com/icons -->
+    <link rel="stylesheet" href="{{ asset('/assets/fonts/fontawesome.css') }}">
+    <!-- [Material Icons] https://fonts.google.com/icons -->
+    <link rel="stylesheet" href="{{ asset('/assets/fonts/material.css') }}">
+    <!-- [Template CSS Files] -->
+    <link rel="stylesheet" href="{{ asset('/assets/css/style.css') }}" id="main-style-link">
+    <link rel="stylesheet" href="{{ asset('/assets/css/style-preset.css') }}">
 
-    <style>
-  /* Sidebar Styling */
-#sidebar {
-    width: 250px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100%;
-    background-color: #343a40;
-    color: #ffffff;
-    padding-top: 60px;
-    transition: width 0.3s ease;
-}
-
-#sidebar.collapsed {
-    width: 80px;
-}
-
-#sidebar h5 {
-    color: #ffc107;
-    font-size: 18px;
-    text-align: center;
-}
-
-#sidebar ul.nav .nav-link {
-    color: #adb5bd;
-    padding: 10px 20px;
-    font-size: 16px;
-    transition: padding 0.3s ease;
-}
-
-#sidebar.collapsed ul.nav .nav-link {
-    padding: 10px 10px;
-    text-align: center;
-}
-
-#sidebar ul.nav .nav-link.active,
-#sidebar ul.nav .nav-link:hover {
-    color: #ffffff;
-    background-color: #495057;
-    border-radius: 5px;
-}
-
-#sidebar ul.nav .nav-link i {
-    margin-right: 10px;
-}
-
-#sidebar.collapsed ul.nav .nav-link i {
-    margin-right: 0;
-}
-
-#sidebar.collapsed ul.nav .nav-link span {
-    display: none;
-}
-
-#sidebar .dropdown-menu {
-    background-color: #495057;
-    border: none;
-    padding-left: 20px;
-}
-
-#sidebar.collapsed .dropdown-menu {
-    position: static;
-}
-
-/* Main Content */
-#main-content {
-    margin-left: 250px;
-    transition: margin-left 0.3s ease;
-}
-
-#main-content.full-width {
-    margin-left: 80px;
-}
-
-/* Navbar Styling */
-.navbar {
-    border-radius: 0 0 15px 15px;
-    padding: 0.5rem 1rem;
-    transition: background-color 0.3s ease;
-}
-
-.profile-dropdown .btn {
-    border-radius: 50px;
-    padding: 5px 15px;
-    transition: background-color 0.3s ease;
-}
-
-.profile-dropdown .dropdown-menu {
-    border-radius: 12px;
-    animation: fadeIn 0.3s ease-in-out;
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.dropdown-menu .user-info {
-    border-bottom: 1px solid #e9ecef;
-}
-
-.dropdown-item:hover {
-    background-color: #f8f9fa;
-}
-
-/* Buttons */
-.btn-outline-light {
-    border-color: #ffffff;
-    color: #ffffff;
-    transition: color 0.3s ease, background-color 0.3s ease;
-}
-
-.btn-outline-light:hover {
-    background-color: #ffffff;
-    color: #0d6efd;
-}
-
-/* Sidebar Responsive */
-@media (max-width: 768px) {
-    #sidebar {
-        width: 100%;
-        position: fixed;
-        z-index: 1045;
-    }
-}
-
-/* Font Settings */
-body {
-    font-family: 'Poppins', sans-serif;
-    font-size: 16px;
-    line-height: 1.6;
-    color: #333;
-}
-
-h1, h2, h3, h4, h5, h6 {
-    font-family: 'Roboto', sans-serif;
-    font-weight: 700;
-    color: #222;
-}
-
-p, td {
-    font-family: 'Poppins', sans-serif;
-    font-weight: 400;
-    color: #555;
-}
-
-th {
-    font-family: 'Roboto', sans-serif;
-    font-weight: 700;
-    text-transform: uppercase;
-    color: #444;
-    background-color: #f8f9fa;
-}
-
-label {
-    font-family: 'Roboto', sans-serif;
-    font-weight: 600;
-    color: #333;
-}
-
-button, .btn {
-    font-family: 'Roboto', sans-serif;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-}
-
-input, textarea, select {
-    font-family: 'Poppins', sans-serif;
-    font-weight: 400;
-    border-radius: 5px;
-    padding: 10px;
-}
-
-/* Card Styles */
-.card {
-    border-radius: 15px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.card-header {
-    font-family: 'Roboto', sans-serif;
-    font-weight: 700;
-    font-size: 20px;
-    color: white;
-    background: linear-gradient(90deg, #28a745, #218838);
-    border-radius: 15px 15px 0 0;
-}
-
-.card-footer {
-    background-color: #f8f9fa;
-    border-radius: 0 0 15px 15px;
-}
-
-/* Table Styles */
-.table {
-    border-radius: 15px;
-    overflow: hidden;
-}
-
-.table-striped tbody tr:nth-of-type(odd) {
-    background-color: #f9f9f9;
-}
-
-.table-striped tbody tr:nth-of-type(even) {
-    background-color: #e9f7ef;
-}
-
-.table-hover tbody tr:hover {
-    background-color: #f1f9f3;
-    cursor: pointer;
-}
-
-.table thead th {
-    background-color: #28a745;
-    color: white;
-    font-weight: 600;
-    text-transform: uppercase;
-    border-bottom: 2px solid #218838;
-}
-
-.table-bordered {
-    border: 2px solid #218838;
-    border-radius: 10px;
-}
-
-.table-responsive {
-    padding: 15px;
-    background-color: #ffffff;
-    border-radius: 15px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.05);
-}
-
-/* Tooltip Styling */
-[data-bs-toggle="tooltip"] {
-    font-family: 'Poppins', sans-serif;
-    font-size: 14px;
-}
-
-.dataTables_wrapper .dt-buttons button {
-    border-radius: 20px !important;
-    padding: 6px 12px;
-    font-size: 14px;
-}
-
-.dataTables_wrapper .dt-buttons .btn {
-    margin-right: 5px;
-}
-
-.btn-black {
-    background-color: #000 !important;
-    color: #fff !important;
-    border: none !important;
-}
-
-.btn-black:hover {
-    background-color: #333 !important;
-}
-.card.rounded {
-    border-radius: 10px !important;
-    /* Smooth, exaggerated rounded corners */
-    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.15);
-    /* Gentle shadow effect */
-    overflow: hidden;
-    /* Ensures child content stays within rounded boundaries */
-}
-.loader {
-  width: 40px;
-  aspect-ratio: 1;
-  --c: linear-gradient(#000 0 0);
-  --r1: radial-gradient(farthest-side at bottom,#000 93%,#0000);
-  --r2: radial-gradient(farthest-side at top   ,#000 93%,#0000);
-  background:
-    var(--c) ,var(--r1),var(--r2),
-    var(--c) ,var(--r1),var(--r2),
-    var(--c) ,var(--r1),var(--r2);
-  background-repeat: no-repeat;
-  animation: l2 1s infinite alternate;
-}
-@keyframes l2 {
-  0%,25% {
-    background-size: 8px 0,8px 4px,8px 4px,8px 0,8px 4px,8px 4px,8px 0,8px 4px;
-    background-position: 0 50%,0 calc(50% - 2px),0 calc(50% + 2px),50% 50%,50% calc(50% - 2px),50% calc(50% + 2px),100% 50%,100% calc(50% - 2px),100% calc(50% + 2px);
-  }
-  50% {
-    background-size: 8px 100%,8px 4px,8px 4px,8px 0,8px 4px,8px 4px,8px 0,8px 4px,8px 4px;
-    background-position: 0 50%,0 calc(0% - 2px),0 calc(100% + 2px),50% 50%,50% calc(50% - 2px),50% calc(50% + 2px),100% 50%,100% calc(50% - 2px),100% calc(50% + 2px);
-  }
-  75% {
-    background-size: 8px 100%,8px 4px,8px 4px,8px 100%,8px 4px,8px 4px,8px 0,8px 4px,8px 4px;
-    background-position: 0 50%,0 calc(0% - 2px),0 calc(100% + 2px),50% 50%,50% calc(0% - 2px),50% calc(100% + 2px),100% 50%,100% calc(50% - 2px),100% calc(50% + 2px);
-  }
-  95%,100% {
-    background-size: 8px 100%,8px 4px, 8px 4px,8px 100%,8px 4px,8px 4px,8px 100%,8px 4px,8px 4px;
-    background-position: 0 50%,0 calc(0% - 2px),0 calc(100% + 2px),50% 50%,50% calc(0% - 2px),50% calc(100% + 2px),100% 50%,100% calc(0% - 2px),100% calc(100% + 2px);
-  }
-}
-
-    </style>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Roboto:wght@400;700&display=swap"
-        rel="stylesheet">
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-
-    <title>@yield('title')</title>
 </head>
+<!-- [Head] end -->
+<!-- [Body] Start -->
 
 <body>
-    <div class="loader" id="loader" style="display: none;"></div>
-
-    <!-- Navbar -->
+    <!-- [ Pre-loader ] start -->
+    <div class="loader-bg" id="loader">
+        <div class="loader-track">
+            <div class="loader-fill"></div>
+        </div>
+    </div>
     @include('includes.navbar')
 
 
-    <!-- Sidebar -->
-    {{-- @include('includes.sidebar') --}}
-
-    <!-- Main Content -->
     @yield('content')
+    <!-- [ Main Content ] start -->
+    {{-- <div class="pc-container">
+        <div class="pc-content">
+            <!-- [ Main Content ] start -->
+            <div class="row">
+                <!-- [ sample-page ] start -->
+                <div class="col-xl-4 col-md-6">
+                    <div class="card bg-secondary-dark dashnum-card text-white overflow-hidden">
+                        <span class="round small"></span>
+                        <span class="round big"></span>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="avtar avtar-lg">
+                                        <i class="text-white ti ti-credit-card"></i>
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="btn-group">
+                                        <a href="#" class="avtar bg-secondary dropdown-toggle arrow-none"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="ti ti-dots"></i>
+                                        </a>
+                                        <ul class="dropdown-menu dropdown-menu-end">
+                                            <li><button class="dropdown-item">Import Card</button></li>
+                                            <li><button class="dropdown-item">Export</button></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <span class="text-white d-block f-34 f-w-500 my-2">1350 <i
+                                    class="ti ti-arrow-up-right-circle opacity-50"></i></span>
+                            <p class="mb-0 opacity-50">Total Pending Orders</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-md-6">
+                    <div class="card bg-primary-dark dashnum-card text-white overflow-hidden">
+                        <span class="round small"></span>
+                        <span class="round big"></span>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="avtar avtar-lg">
+                                        <i class="text-white ti ti-credit-card"></i>
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <ul class="nav nav-pills justify-content-end mb-0" id="chart-tab-tab"
+                                        role="tablist">
+                                        <li class="nav-item" role="presentation">
+                                            <button class="nav-link text-white active" id="chart-tab-home-tab"
+                                                data-bs-toggle="pill" data-bs-target="#chart-tab-home" role="tab"
+                                                aria-controls="chart-tab-home" aria-selected="true">Month</button>
+                                        </li>
+                                        <li class="nav-item" role="presentation">
+                                            <button class="nav-link text-white" id="chart-tab-profile-tab"
+                                                data-bs-toggle="pill" data-bs-target="#chart-tab-profile"
+                                                role="tab" aria-controls="chart-tab-profile"
+                                                aria-selected="false">Year</button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="tab-content" id="chart-tab-tabContent">
+                                <div class="tab-pane show active" id="chart-tab-home" role="tabpanel"
+                                    aria-labelledby="chart-tab-home-tab" tabindex="0">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <span class="text-white d-block f-34 f-w-500 my-2">$1305 <i
+                                                    class="ti ti-arrow-up-right-circle opacity-50"></i></span>
+                                            <p class="mb-0 opacity-50">Total Earning</p>
+                                        </div>
+                                        <div class="col-6">
+                                            <div id="tab-chart-1"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="chart-tab-profile" role="tabpanel"
+                                    aria-labelledby="chart-tab-profile-tab" tabindex="0">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <span class="text-white d-block f-34 f-w-500 my-2">$29961 <i
+                                                    class="ti ti-arrow-down-right-circle opacity-50"></i></span>
+                                            <p class="mb-0 opacity-50">C/W Last Year</p>
+                                        </div>
+                                        <div class="col-6">
+                                            <div id="tab-chart-2"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-md-12">
+                    <div class="card bg-primary-dark dashnum-card dashnum-card-small text-white overflow-hidden">
+                        <span class="round bg-primary small"></span>
+                        <span class="round bg-primary big"></span>
+                        <div class="card-body p-3">
+                            <div class="d-flex align-items-center">
+                                <div class="avtar avtar-lg">
+                                    <i class="text-white ti ti-credit-card"></i>
+                                </div>
+                                <div class="ms-2">
+                                    <h4 class="text-white mb-1">$203k <i
+                                            class="ti ti-arrow-up-right-circle opacity-50"></i></h4>
+                                    <p class="mb-0 opacity-50 text-sm">Net Profit</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card dashnum-card dashnum-card-small overflow-hidden">
+                        <span class="round bg-warning small"></span>
+                        <span class="round bg-warning big"></span>
+                        <div class="card-body p-3">
+                            <div class="d-flex align-items-center">
+                                <div class="avtar avtar-lg bg-light-warning">
+                                    <i class="text-warning ti ti-credit-card"></i>
+                                </div>
+                                <div class="ms-2">
+                                    <h4 class="mb-1">$550K <i class="ti ti-arrow-up-right-circle opacity-50"></i>
+                                    </h4>
+                                    <p class="mb-0 opacity-50 text-sm">Total Revenue</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-    <!-- Bootstrap JS Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
-    </script>
-    <!-- Font Awesome JS for icons -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+                <div class="col-xl-8 col-md-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row mb-3 align-items-center">
+                                <div class="col">
+                                    <small>Total Growth</small>
+                                    <h3>$2,324.00</h3>
+                                </div>
+                                <div class="col-auto">
+                                    <select class="form-select p-r-35">
+                                        <option>Today</option>
+                                        <option selected>This Month</option>
+                                        <option>This Year</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div id="growthchart"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-md-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row mb-3 align-items-center">
+                                <div class="col">
+                                    <h4>Popular Stocks</h4>
+                                </div>
+                                <div class="col-auto"> </div>
+                            </div>
+                            <div class="rounded bg-light-secondary overflow-hidden mb-3">
+                                <div class="px-3 pt-3">
+                                    <div class="row mb-1 align-items-start">
+                                        <div class="col">
+                                            <h5 class="text-secondary mb-0">Bajaj Finery</h5>
+                                            <small class="text-muted">10% Profit</small>
+                                        </div>
+                                        <div class="col-auto">
+                                            <h4 class="mb-0">$1839.00</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="bajajchart"></div>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item px-0">
+                                    <div class="row align-items-start">
+                                        <div class="col">
+                                            <h5 class="mb-0">Bajaj Finery</h5>
+                                            <small class="text-success">10% Profit</small>
+                                        </div>
+                                        <div class="col-auto">
+                                            <h4 class="mb-0">$1839.00<span
+                                                    class="ms-2 align-top avtar avtar-xxs bg-light-success"><i
+                                                        class="ti ti-chevron-up text-success"></i></span></h4>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item px-0">
+                                    <div class="row align-items-start">
+                                        <div class="col">
+                                            <h5 class="mb-0">TTML</h5>
+                                            <small class="text-danger">10% Profit</small>
+                                        </div>
+                                        <div class="col-auto">
+                                            <h4 class="mb-0">$100.00<span
+                                                    class="ms-2 align-top avtar avtar-xxs bg-light-danger"><i
+                                                        class="ti ti-chevron-down text-danger"></i></span></h4>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item px-0">
+                                    <div class="row align-items-start">
+                                        <div class="col">
+                                            <h5 class="mb-0">Reliance</h5>
+                                            <small class="text-success">10% Profit</small>
+                                        </div>
+                                        <div class="col-auto">
+                                            <h4 class="mb-0">$200.00<span
+                                                    class="ms-2 align-top avtar avtar-xxs bg-light-success"><i
+                                                        class="ti ti-chevron-up text-success"></i></span></h4>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item px-0">
+                                    <div class="row align-items-start">
+                                        <div class="col">
+                                            <h5 class="mb-0">TTML</h5>
+                                            <small class="text-danger">10% Profit</small>
+                                        </div>
+                                        <div class="col-auto">
+                                            <h4 class="mb-0">$189.00<span
+                                                    class="ms-2 align-top avtar avtar-xxs bg-light-danger"><i
+                                                        class="ti ti-chevron-down text-danger"></i></span></h4>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item px-0">
+                                    <div class="row align-items-start">
+                                        <div class="col">
+                                            <h5 class="mb-0">Stolon</h5>
+                                            <small class="text-danger">10% Profit</small>
+                                        </div>
+                                        <div class="col-auto">
+                                            <h4 class="mb-0">$189.00<span
+                                                    class="ms-2 align-top avtar avtar-xxs bg-light-danger"><i
+                                                        class="ti ti-chevron-down text-danger"></i></span></h4>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div class="text-center">
+                                <a href="#!" class="b-b-primary text-primary">View all <i
+                                        class="ti ti-chevron-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- [ sample-page ] end -->
+            </div>
+            <!-- [ Main Content ] end -->
+        </div>
+    </div> --}}
+    @include('includes.footer')
+    <script src="{{ asset('/assets/js/plugins/popper.min.js') }}"></script>
+    <script src="{{ asset('/assets/js/plugins/simplebar.min.js') }}"></script>
+    <script src="{{ asset('/assets/js/plugins/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('/assets/js/fonts/custom-font.js') }}"></script>
+    <script src="{{ asset('/assets/js/pcoded.js') }}"></script>
+    <script src="{{ asset('/assets/js/plugins/feather.min.js') }}"></script>
+    <script src="{{ asset('/assets/js/plugins/apexcharts.min.js') }}"></script>
+    <script src="{{ asset('/assets/js/pages/dashboard-default.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+
+
+
+
+    <script>
+        layout_change('light');
+    </script>
 
     @yield('scripts')
 
-    <!-- JavaScript to toggle sidebar -->
+
     <script>
-        document.getElementById('toggleSidebar').addEventListener('click', function() {
-            document.getElementById('sidebar').classList.toggle('collapsed');
-            document.getElementById('main-content').classList.toggle('full-width');
-        });
+        font_change("Roboto");
     </script>
+
+
+    <script>
+        change_box_container('false');
+    </script>
+
+
+    <script>
+        layout_caption_change('true');
+    </script>
+
+
+
+
+    <script>
+        layout_rtl_change('false');
+    </script>
+
+
+    <script>
+        preset_change("preset-1");
+    </script>
+
+
+
 </body>
+<!-- [Body] end -->
 
 </html>

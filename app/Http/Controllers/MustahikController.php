@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\KategoriMustahik;
 use Illuminate\Http\Request;
 use App\Models\Mustahik;
+use Yajra\DataTables\Facades\DataTables;
 
 class MustahikController extends Controller
 {
@@ -14,13 +15,30 @@ class MustahikController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $items = Mustahik::all();
+        if ($request->ajax()) {
+            $items = Mustahik::query(); // Use query builder for better performance with large datasets
 
-        return view('admin.mustahik.index', [
-            'items' => $items
-        ]);
+            return DataTables::of($items)
+                ->addColumn('action', function ($row) {
+                    $editUrl = route('mustahik.edit', $row->id);
+                    $deleteUrl = route('mustahik.destroy', $row->id);
+
+                    return '<div class="d-flex gap-2">
+                                <a href="' . $editUrl . '" class="btn btn-primary">
+                                    <i class="fas fa-edit"></i> Edit
+                                </a>
+                                <button class="btn btn-danger btn-delete" data-id="' . $row->id . '" data-url="' . $deleteUrl . '">
+                                    <i class="fas fa-trash"></i> Delete
+                                </button>
+                            </div>';
+                })
+                ->rawColumns(['action']) // Allow raw HTML for the action column
+                ->make(true);
+        }
+
+        return view('admin.mustahik.index');
     }
 
     /**
