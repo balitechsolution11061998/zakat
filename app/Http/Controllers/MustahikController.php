@@ -18,10 +18,10 @@ class MustahikController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            // Fetch the data with proper joins and select fields
-            $items = Mustahik::join('kategori_mustahik', 'kategori_mustahik.id', '=', 'mustahik.kategori_mustahik')
-                ->select('mustahik.*', 'kategori_mustahik.nama_kategori') // Make sure you fetch the fields you need
-                ->get(); // Use get() for retrieving the data
+            // Fetch the data with a LEFT JOIN to ensure that even items without categories are included
+            $items = Mustahik::with('kategori_mustahik')
+                ->get(); // Use get() to retrieve all records
+
             return DataTables::of($items)
                 ->addColumn('action', function ($item) {
                     // Create the action buttons dynamically
@@ -46,13 +46,12 @@ class MustahikController extends Controller
                         </div>
                     ';
                 })
-                ->rawColumns(['action']) // Mark 'action' column as raw HTML
-                ->make(true); // Make sure the response is processed as DataTables format
+                ->rawColumns(['action']) // Mark the 'action' column as raw HTML
+                ->make(true); // Ensure the response is processed as DataTables format
         }
 
         return view('admin.mustahik.index');
     }
-
 
 
     /**

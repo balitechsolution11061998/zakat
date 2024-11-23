@@ -12,4 +12,9 @@ class Mustahik extends Model
 
     protected $guarded = [];
     protected $table = 'mustahik';
+
+    public function kategori_mustahik()
+{
+    return $this->belongsTo(KategoriMustahik::class, 'kategori_mustahik');
+}
 }
