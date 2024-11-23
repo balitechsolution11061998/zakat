@@ -18,32 +18,36 @@ class MustahikController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $items = Mustahik::query();
+            // Fetch the data with proper joins and select fields
+            $items = Mustahik::join('kategori_mustahik', 'kategori_mustahik.id', '=', 'mustahik.kategori_mustahik')
+                ->select('mustahik.*', 'kategori_mustahik.nama_kategori') // Make sure you fetch the fields you need
+                ->get(); // Use get() for retrieving the data
             return DataTables::of($items)
                 ->addColumn('action', function ($item) {
+                    // Create the action buttons dynamically
                     return '
-                            <div class="d-flex gap-2 justify-content-center">
-                                <a class="btn btn-success btn-sm rounded-pill shadow-sm"
-                                    href="' . route('mustahik.show', $item->id) . '"
-                                    data-bs-toggle="tooltip" title="Detail">
-                                    <i class="fas fa-eye"></i>
-                                </a>
-                                <a class="btn btn-primary btn-sm rounded-pill shadow-sm"
-                                    href="' . route('mustahik.edit', $item->id) . '"
-                                    data-bs-toggle="tooltip" title="Edit">
-                                    <i class="fas fa-pen"></i>
-                                </a>
-                                <button class="btn btn-danger btn-sm rounded-pill shadow-sm btn-delete"
-                                    data-url="' . route('mustahik.destroy', $item->id) . '"
-                                    data-id="' . $item->id . '"
-                                    data-bs-toggle="tooltip" title="Hapus">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        ';
+                        <div class="d-flex gap-2 justify-content-center">
+                            <a class="btn btn-success btn-sm rounded-pill shadow-sm"
+                                href="' . route('mustahik.show', $item->id) . '"
+                                data-bs-toggle="tooltip" title="Detail">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            <a class="btn btn-primary btn-sm rounded-pill shadow-sm"
+                                href="' . route('mustahik.edit', $item->id) . '"
+                                data-bs-toggle="tooltip" title="Edit">
+                                <i class="fas fa-pen"></i>
+                            </a>
+                            <button class="btn btn-danger btn-sm rounded-pill shadow-sm btn-delete"
+                                data-url="' . route('mustahik.destroy', $item->id) . '"
+                                data-id="' . $item->id . '"
+                                data-bs-toggle="tooltip" title="Hapus">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    ';
                 })
-                ->rawColumns(['action']) // Ensure the action column is interpreted as raw HTML
-                ->make(true);
+                ->rawColumns(['action']) // Mark 'action' column as raw HTML
+                ->make(true); // Make sure the response is processed as DataTables format
         }
 
         return view('admin.mustahik.index');

@@ -34,7 +34,8 @@
                     </div>
 
                     <!-- Form -->
-                    <form id="mustahikForm" method="POST" action="{{ route('mustahik.update', $item->id) }}" enctype="multipart/form-data" class="needs-validation">
+                    <form id="mustahikForm" method="POST" action="{{ route('mustahik.update', $item->id) }}"
+                        enctype="multipart/form-data" class="needs-validation">
                         @method('PUT')
                         @csrf
 
@@ -43,7 +44,9 @@
                             @if ($errors->any())
                                 <div class="alert alert-danger">
                                     <ul>
-                                        <li><h4>Ada error nih 😓</h4></li>
+                                        <li>
+                                            <h4>Ada error nih 😓</h4>
+                                        </li>
                                         @foreach ($errors->all() as $error)
                                             <li>{{ $error }}</li>
                                         @endforeach
@@ -55,57 +58,64 @@
                             <div class="row">
                                 <div class="col-md-6 mb-4">
                                     <label for="nama_mustahik" class="form-label">
-                                        <i class="fas fa-user text-success"></i> Nama Lengkap Mustahik <span class="text-danger">*</span>
+                                        <i class="fas fa-user text-success"></i> Nama Lengkap Mustahik <span
+                                            class="text-danger">*</span>
                                     </label>
                                     <input id="nama_mustahik" type="text" class="form-control form-control-lg"
-                                        name="nama_mustahik" value="{{ $item->nama_mustahik }}" placeholder="Masukkan nama lengkap..." required>
+                                        name="nama_mustahik" value="{{ $item->nama_mustahik }}"
+                                        placeholder="Masukkan nama lengkap..." required>
                                 </div>
 
                                 <div class="col-md-6 mb-4">
                                     <label for="nomor_kk" class="form-label">
-                                        <i class="fas fa-id-card text-success"></i> Nomor Kartu Keluarga <span class="text-danger">*</span>
+                                        <i class="fas fa-id-card text-success"></i> Nomor Kartu Keluarga <span
+                                            class="text-danger">*</span>
                                     </label>
                                     <input id="nomor_kk" type="text" class="form-control form-control-lg"
-                                        name="nomor_kk" value="{{ $item->nomor_kk }}" placeholder="Masukkan nomor KK..." required>
+                                        name="nomor_kk" value="{{ $item->nomor_kk }}" placeholder="Masukkan nomor KK..."
+                                        required>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="col-md-4 mb-4">
                                     <label for="kategori_mustahik" class="form-label">
-                                        <i class="fas fa-users text-success"></i> Kategori Mustahik <span class="text-danger">*</span>
+                                        <i class="fas fa-users text-success"></i> Kategori Mustahik <span
+                                            class="text-danger">*</span>
                                     </label>
-                                    <select id="kategori_mustahik" class="form-control form-control-lg" name="kategori_mustahik" required>
-                                        <option value="">Pilih kategori...</option>
-                                        <option value="Fakir" {{ $item->kategori_mustahik == 'Fakir' ? 'selected' : '' }}>Fakir</option>
-                                        <option value="Miskin" {{ $item->kategori_mustahik == 'Miskin' ? 'selected' : '' }}>Miskin</option>
-                                        <option value="Amil" {{ $item->kategori_mustahik == 'Amil' ? 'selected' : '' }}>Amil</option>
-                                        <option value="Ghorim" {{ $item->kategori_mustahik == 'Ghorim' ? 'selected' : '' }}>Ghorim</option>
+                                    <select id="kategori_mustahik" class="form-control form-control-lg"
+                                        name="kategori_mustahik" required value="{{ $item->kategori_mustahik }}">
+                                        <option value="">Memuat kategori...</option>
                                     </select>
                                 </div>
 
                                 <div class="col-md-4 mb-4">
                                     <label for="jumlah_hak" class="form-label">
-                                        <i class="fas fa-phone text-success"></i> Jumlah Hak <span class="text-danger">*</span>
+                                        <i class="fas fa-phone text-success"></i> Jumlah Hak <span
+                                            class="text-danger">*</span>
                                     </label>
                                     <input id="jumlah_hak" type="number" class="form-control form-control-lg"
-                                        name="jumlah_hak" value="{{ $item->jumlah_hak }}" placeholder="Masukkan jumlah hak..." required>
+                                        name="jumlah_hak" value="{{ $item->jumlah_hak }}"
+                                        placeholder="Masukkan jumlah hak..." required>
                                 </div>
 
                                 <div class="col-md-4 mb-4">
                                     <label for="handphone" class="form-label">
-                                        <i class="fas fa-phone-alt text-success"></i> Handphone <span class="text-danger">*</span>
+                                        <i class="fas fa-phone-alt text-success"></i> Handphone <span
+                                            class="text-danger">*</span>
                                     </label>
                                     <input id="handphone" type="text" class="form-control form-control-lg"
-                                        name="handphone" value="{{ $item->handphone }}" placeholder="Masukkan nomor telepon..." required>
+                                        name="handphone" value="{{ $item->handphone }}"
+                                        placeholder="Masukkan nomor telepon..." required>
                                 </div>
 
                                 <div class="col-md-12 mb-4">
                                     <label for="alamat" class="form-label">
-                                        <i class="fas fa-map-marker-alt text-success"></i> Alamat <span class="text-danger">*</span>
+                                        <i class="fas fa-map-marker-alt text-success"></i> Alamat <span
+                                            class="text-danger">*</span>
                                     </label>
-                                    <input id="alamat" type="text" class="form-control form-control-lg"
-                                        name="alamat" value="{{ $item->alamat }}" placeholder="Masukkan alamat lengkap..." required>
+                                    <input id="alamat" type="text" class="form-control form-control-lg" name="alamat"
+                                        value="{{ $item->alamat }}" placeholder="Masukkan alamat lengkap..." required>
                                 </div>
                             </div>
                         </div>
@@ -116,7 +126,8 @@
                             <button type="submit" class="btn btn-success btn-sm shadow-sm" style="border-radius: 30px;">
                                 <i class="fas fa-check"></i> Update
                             </button>
-                            <button type="reset" class="btn btn-secondary btn-sm shadow-sm" style="border-radius: 30px;">
+                            <button type="reset" class="btn btn-secondary btn-sm shadow-sm"
+                                style="border-radius: 30px;">
                                 <i class="fas fa-redo"></i> Reset
                             </button>
                         </div>
@@ -128,7 +139,10 @@
     </div>
 @section('scripts')
     <script>
+        var selectedKategoriId = "{{ $item->kategori_mustahik }}";
+
         document.addEventListener('DOMContentLoaded', function() {
+            fetchKategoriMustahik(selectedKategoriId);
             // Handle form submission with SweetAlert2 and AJAX
             document.getElementById('mustahikForm').addEventListener('submit', function(event) {
                 event.preventDefault(); // Prevent normal form submission
@@ -219,6 +233,40 @@
                 });
             });
         });
+
+        function fetchKategoriMustahik(selectedId = null) {
+            $.ajax({
+                url: "{{ route('kategori_mustahik.get') }}", // Laravel route
+                type: "GET",
+                dataType: "json", // Ensure the response is parsed as JSON
+                success: function(response) {
+                    // Check if the response has a success status
+                    if (response.status === 'success') {
+                        // Build the dropdown options
+                        let options = '<option value="">Pilih kategori...</option>';
+                        response.data.forEach(function(item) {
+                            options +=
+                                `<option value="${item.id}" ${selectedId == item.id ? 'selected' : ''}>${item.nama_kategori}</option>`;
+                        });
+
+                        // Populate the select element
+                        $('#kategori_mustahik').html(options);
+
+                        // If `selectedId` is provided, set the selected option
+                        if (selectedId) {
+                            $('#kategori_mustahik').val(selectedId); // Set the value
+                        }
+                    } else {
+                        console.warn('Unexpected response format:', response);
+                        Swal.fire('Warning', 'Data kategori tidak valid.', 'warning');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Gagal mengambil data kategori mustahik:', xhr.responseText);
+                    Swal.fire('Error', 'Tidak dapat memuat kategori mustahik. Silakan coba lagi.', 'error');
+                }
+            });
+        }
     </script>
 
 @endsection

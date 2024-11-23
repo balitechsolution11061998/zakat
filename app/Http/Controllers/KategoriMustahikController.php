@@ -45,6 +45,17 @@ class KategoriMustahikController extends Controller
         return view('admin.kategori_mustahik.index');
     }
 
+    public function getKategoriMustahik()
+    {
+        $kategoriMustahik = KategoriMustahik::select('id', 'nama_kategori')->get();
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $kategoriMustahik,
+        ]);
+    }
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -66,7 +77,7 @@ class KategoriMustahikController extends Controller
     {
         KategoriMustahik::create($request->all());
 
-        return redirect()->route('kategori_mustahik.index')->with('success','Product created successfully.');
+        return redirect()->route('kategori_mustahik.index')->with('success', 'Product created successfully.');
     }
 
     /**
@@ -75,10 +86,7 @@ class KategoriMustahikController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-
-    }
+    public function show($id) {}
 
     /**
      * Show the form for editing the specified resource.
@@ -132,5 +140,4 @@ class KategoriMustahikController extends Controller
             'message' => 'Kategori mustahik berhasil dihapus.'
         ], 200);
     }
-
 }

@@ -136,8 +136,8 @@
                         name: 'nama_mustahik'
                     },
                     {
-                        data: 'kategori_mustahik',
-                        name: 'kategori_mustahik'
+                        data: 'nama_kategori',
+                        name: 'nama_kategori'
                     },
                     {
                         data: 'alamat',

@@ -24,6 +24,7 @@ Route::prefix('dashboard')
         Route::resource('mustahik', 'App\Http\Controllers\MustahikController');
         Route::resource('kategori_mustahik', 'App\Http\Controllers\KategoriMustahikController');
         Route::put('/kategori_mustahik/{id}', [KategoriMustahikController::class, 'update'])->name('kategori_mustahik.update');
+        Route::get('/get-kategori-mustahik', [KategoriMustahikController::class, 'getKategoriMustahik'])->name('kategori_mustahik.get');
 
         /* ----------------- Kelola Distribusi dan Pengumpulan Zakat ---------------- */
         Route::resource('pengumpulan_zakat', 'App\Http\Controllers\PengumpulanZakatController');
