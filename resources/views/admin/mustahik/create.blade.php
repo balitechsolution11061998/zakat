@@ -11,7 +11,7 @@
                     <div class="card-header bg-success text-white text-left"
                         style="padding: 20px; border-top-left-radius: 15px; border-top-right-radius: 15px;">
                         <h3 class="mb-0" style="color: white;">
-                            <i class="fas fa-user-plus"></i> Tambah Data Muzakki
+                            <i class="fas fa-user-plus"></i> Tambah Data Mustahik
                         </h3>
                     </div>
                     <div class="card-body" style="background: #f8f9fa;">
@@ -106,7 +106,7 @@
                         <!-- Form Footer -->
                         <div class="card-footer bg-light d-flex justify-content-between"
                             style="padding: 20px; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px;">
-                            <button type="button" class="btn btn-success btn-lg shadow-sm" id="submitButton"
+                            <button type="submit" class="btn btn-success btn-lg shadow-sm" id="submitButton"
                                 style="border-radius: 30px;">
                                 <i class="fas fa-check"></i> Tambah
                             </button>
@@ -134,7 +134,20 @@
             // Set nilai hidden input dengan nilai hak
             hakInput.value = selectedHak;
         }
-        document.getElementById('submitButton').addEventListener('click', function() {
+        // Show spinner while the page is loading
+        document.addEventListener('DOMContentLoaded', function() {
+            const spinner = document.getElementById('loadingSpinner');
+            spinner.style.display = 'block';
+
+            // Hide the spinner once the page has loaded
+            window.onload = function() {
+                spinner.style.display = 'none';
+            };
+        });
+
+        document.getElementById('mustahikForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+
             Swal.fire({
                 title: 'Konfirmasi Tambah Data',
                 text: "Apakah Anda yakin ingin menambahkan data ini?",
@@ -149,6 +162,16 @@
                 }
             }).then((result) => {
                 if (result.isConfirmed) {
+                    // Show progress bar
+                    Swal.fire({
+                        title: 'Memproses Data...',
+                        text: 'Harap tunggu beberapa saat.',
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        },
+                    });
+
                     // Gather form data
                     const form = document.getElementById('mustahikForm');
                     const formData = new FormData(form);
@@ -156,29 +179,47 @@
                     // Send AJAX POST request
                     fetch(form.action, {
                             method: 'POST',
-                            body: formData,
                             headers: {
-                                'X-Requested-With': 'XMLHttpRequest',
-                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
-                                    .getAttribute('content')
-                            }
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            },
+                            body: formData
                         })
                         .then(response => response.json())
                         .then(data => {
                             if (data.success) {
+                                // Close loading and show success
                                 Swal.fire({
                                     title: 'Berhasil!',
                                     text: data.message || 'Data berhasil ditambahkan.',
                                     icon: 'success',
                                     confirmButtonColor: '#28a745',
+                                    timer: 3000, // Auto-close after 3 seconds
+                                    timerProgressBar: true, // Progress bar
+                                    showConfirmButton: false, // No need for manual confirmation
                                     customClass: {
                                         popup: 'swal2-rounded'
                                     }
-                                }).then(() => form.reset());
+                                }).then(() => {
+                                    // Delay and redirect after the success modal closes
+                                    form.reset(); // Reset the form
+                                    setTimeout(() => {
+                                        window.location.href = '/dashboard/mustahik/';
+                                    }, 1000); // Redirect after 1 second delay
+                                });
                             } else {
+                                // Close loading and show validation or server errors
+                                let errorDetails = '';
+                                if (data.error) {
+                                    errorDetails = `<ul>`;
+                                    for (const [field, message] of Object.entries(data.error)) {
+                                        errorDetails += `<li>${message}</li>`;
+                                    }
+                                    errorDetails += `</ul>`;
+                                }
+
                                 Swal.fire({
                                     title: 'Gagal!',
-                                    text: data.message || 'Terjadi kesalahan.',
+                                    html: `<p>${data.message || 'Terjadi kesalahan.'}</p>${errorDetails}`,
                                     icon: 'error',
                                     confirmButtonColor: '#d33',
                                     customClass: {

@@ -18,28 +18,38 @@ class MustahikController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $items = Mustahik::query(); // Use query builder for better performance with large datasets
-
+            $items = Mustahik::query();
             return DataTables::of($items)
-                ->addColumn('action', function ($row) {
-                    $editUrl = route('mustahik.edit', $row->id);
-                    $deleteUrl = route('mustahik.destroy', $row->id);
-
-                    return '<div class="d-flex gap-2">
-                                <a href="' . $editUrl . '" class="btn btn-primary">
-                                    <i class="fas fa-edit"></i> Edit
+                ->addColumn('action', function ($item) {
+                    return '
+                            <div class="d-flex gap-2 justify-content-center">
+                                <a class="btn btn-success btn-sm rounded-pill shadow-sm"
+                                    href="' . route('mustahik.show', $item->id) . '"
+                                    data-bs-toggle="tooltip" title="Detail">
+                                    <i class="fas fa-eye"></i>
                                 </a>
-                                <button class="btn btn-danger btn-delete" data-id="' . $row->id . '" data-url="' . $deleteUrl . '">
-                                    <i class="fas fa-trash"></i> Delete
+                                <a class="btn btn-primary btn-sm rounded-pill shadow-sm"
+                                    href="' . route('mustahik.edit', $item->id) . '"
+                                    data-bs-toggle="tooltip" title="Edit">
+                                    <i class="fas fa-pen"></i>
+                                </a>
+                                <button class="btn btn-danger btn-sm rounded-pill shadow-sm btn-delete"
+                                    data-url="' . route('mustahik.destroy', $item->id) . '"
+                                    data-id="' . $item->id . '"
+                                    data-bs-toggle="tooltip" title="Hapus">
+                                    <i class="fas fa-trash"></i>
                                 </button>
-                            </div>';
+                            </div>
+                        ';
                 })
-                ->rawColumns(['action']) // Allow raw HTML for the action column
+                ->rawColumns(['action']) // Ensure the action column is interpreted as raw HTML
                 ->make(true);
         }
 
         return view('admin.mustahik.index');
     }
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -62,10 +72,43 @@ class MustahikController extends Controller
      */
     public function store(Request $request)
     {
-        Mustahik::create($request->all());
+        try {
+            // Validate the incoming request data
+            $validatedData = $request->validate([
+                'nama_mustahik' => 'required|string|max:255',
+                'nomor_kk' => 'required|numeric',
+                'kategori_mustahik' => 'required|string',
+                'jumlah_hak' => 'required|numeric',
+                'handphone' => 'required|numeric',
+                'alamat' => 'required|string',
+            ]);
 
-        return redirect()->route('mustahik.index')->with('success', 'Product created successfully.');
+            // Create the Mustahik record
+            $mustahik = Mustahik::create([
+                'nama_mustahik' => $validatedData['nama_mustahik'],
+                'nomor_kk' => $validatedData['nomor_kk'],
+                'kategori_mustahik' => $validatedData['kategori_mustahik'],
+                'jumlah_hak' => $validatedData['jumlah_hak'],
+                'handphone' => $validatedData['handphone'],
+                'alamat' => $validatedData['alamat'],
+            ]);
+
+            // Return success response
+            return response()->json([
+                'success' => true,
+                'message' => 'Data Mustahik berhasil ditambahkan.',
+                'data' => $mustahik,
+            ], 201); // 201 Created
+        } catch (\Exception $e) {
+            // Return error response
+            return response()->json([
+                'success' => false,
+                'message' => 'Terjadi kesalahan saat menyimpan data. Silakan coba lagi.',
+                'error' => $e->getMessage(), // Optionally include error details
+            ], 500); // 500 Internal Server Error
+        }
     }
+
 
     /**
      * Display the specified resource.
@@ -103,14 +146,31 @@ class MustahikController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = $request->all();
+        try {
+            // Retrieve all form data from the request
+            $data = $request->all();
 
-        $item = Mustahik::findOrFail($id);
+            // Find the Mustahik record by ID
+            $item = Mustahik::findOrFail($id);
 
-        $item->update($data);
+            // Update the Mustahik record with new data
+            $item->update($data);
 
-        return redirect()->route('mustahik.index');
+            // Return a successful response as JSON
+            return response()->json([
+                'success' => true,
+                'message' => 'Data berhasil diperbarui.',
+                'data' => $item // Optionally, return the updated item data
+            ]);
+        } catch (\Exception $e) {
+            // If an error occurs, return a failure response as JSON
+            return response()->json([
+                'success' => false,
+                'message' => 'Terjadi kesalahan: ' . $e->getMessage(),
+            ], 500); // Return HTTP status 500 for internal server errors
+        }
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -120,9 +180,33 @@ class MustahikController extends Controller
      */
     public function destroy($id)
     {
-        $item = Mustahik::findOrFail($id);
-        $item->delete();
+        try {
+            // Find the Mustahik record
+            $item = Mustahik::findOrFail($id);
 
-        return redirect()->route('mustahik.index');
+            // Delete the record
+            $item->delete();
+
+            // Return a JSON success response
+            return response()->json([
+                'success' => true,
+                'message' => 'Data berhasil dihapus.'
+            ], 200);
+
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            // Handle case when the record is not found
+            return response()->json([
+                'success' => false,
+                'message' => 'Data tidak ditemukan.'
+            ], 404);
+
+        } catch (\Exception $e) {
+            // Handle general exceptions
+            return response()->json([
+                'success' => false,
+                'message' => 'Terjadi kesalahan saat menghapus data. Silakan coba lagi.'
+            ], 500);
+        }
     }
+
 }

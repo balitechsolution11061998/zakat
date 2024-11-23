@@ -134,18 +134,32 @@
                     </li>
                     <li class="pc-item pc-hasmenu">
                         <a href="#!" class="pc-link"><span class="pc-micon"><i class="fas fa-hand-holding-heart me-2"></i></span><span
-                                class="pc-mtext">Data Muzakki</span><span class="pc-arrow"><i data-feather="chevron-right"></i></span></a>
+                                class="pc-mtext">Data Mustahik</span><span class="pc-arrow"><i data-feather="chevron-right"></i></span></a>
                         <ul class="pc-submenu">
                             <li class="pc-item"><a class="pc-link" href="{{ url('/dashboard/mustahik')}}">Master Data Mustahik</a></li>
-                            <li class="pc-item"><a class="pc-link" href="{{ url('/dashboard/mustahik/create') }}">Atur & Tambah Data Muzakki</a></li>
+                            <li class="pc-item"><a class="pc-link" href="{{ url('/dashboard/mustahik/create') }}">Atur & Tambah Data Mustahik</a></li>
                         </ul>
                     </li>
-                    <li class="pc-item">
-                        <a href="../elements/icon-tabler.html" class="pc-link">
-                            <span class="pc-micon"><i class="ti ti-plant-2"></i></span>
-                            <span class="pc-mtext">Icons</span>
+                    <li class="pc-item pc-hasmenu">
+                        <a href="#!" class="pc-link">
+                            <span class="pc-micon"><i class="fas fa-users me-2"></i></span>
+                            <span class="pc-mtext">Kategori Mustahik</span>
+                            <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
                         </a>
+                        <ul class="pc-submenu">
+                            <li class="pc-item">
+                                <a class="pc-link" href="{{ url('/dashboard/kategori_mustahik')}}">
+                                    <i class="fas fa-database me-2"></i> Master Data Mustahik
+                                </a>
+                            </li>
+                            <li class="pc-item">
+                                <a class="pc-link" href="{{ url('/dashboard/kategori_mustahik/create') }}">
+                                    <i class="fas fa-user-plus me-2"></i> Atur & Tambah Data Mustahik
+                                </a>
+                            </li>
+                        </ul>
                     </li>
+
 
                     <li class="pc-item pc-caption">
                         <label>Pages</label>

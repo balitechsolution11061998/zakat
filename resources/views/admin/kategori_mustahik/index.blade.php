@@ -1,6 +1,6 @@
 @extends('layouts.apps')
 
-@section('title', 'Data Mustahik')
+@section('title', 'Data Kategori Mustahik')
 
 @section('content')
     <link href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" rel="stylesheet">
@@ -35,78 +35,52 @@
             }
         }
     </style>
+
     <div class="pc-container">
         <div class="pc-content">
-            <!-- Intro Card -->
             <div class="card rounded shadow-lg mt-4 animate__animated animate__fadeInDown">
                 <div class="card-header bg-success text-white rounded-top-2">
-                    <h3 class="mb-0" style="font-family: 'Roboto', sans-serif;color:white;">Data Mustahik</h3>
+                    <h3 class="mb-0" style="font-family: 'Roboto', sans-serif;color:white;">Data Kategori Mustahik</h3>
                 </div>
                 <div class="card-body">
                     <p class="text-muted" style="font-family: 'Poppins', sans-serif; text-align: justify;">
-                        Dibawah ini adalah data mustahik yang telah anda tambahkan. Data dibawah juga bisa anda lihat
-                        detailnya dengan menekan logo mata berwarna hijau, edit dengan menekan logo pencil berwarna ungu dan
-                        hapus dengan menekan logo sampah berwarna merah
+                        Dibawah ini adalah data kategori mustahik yang berlaku di DKM. Data ini nantinya akan dibawa untuk
+                        kategori mustahik yang akan didistribusikan.
                     </p>
                 </div>
             </div>
         </div>
+
         <div class="pc-content">
-            <!-- Data Table Card -->
             <div class="card rounded shadow-lg mt-4 animate__animated animate__fadeInUp">
                 <div class="card-header bg-success text-white rounded-top-2">
-                    <h4 class="mb-0" style="font-family: 'Roboto', sans-serif;color:white;">Tabel Data Mustahik</h4>
+                    <h4 class="mb-0" style="font-family: 'Roboto', sans-serif;color:white;">Tabel Data Kategori Mustahik
+                    </h4>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table id="mustahikTable" class="table table-striped table-bordered">
+                        <table id="kategoriMustahikTable" class="table table-striped table-bordered">
                             <thead class="bg-light">
                                 <tr>
                                     <th scope="col">No</th>
-                                    <th scope="col">Nama</th>
-                                    <th scope="col">Kategori</th>
-                                    <th scope="col">Alamat</th>
-                                    <th scope="col">Nomor Telepon</th>
+                                    <th scope="col">Nama Kategori</th>
+                                    <th scope="col">Jumlah Hak</th>
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <!-- Example row -->
-                                <tr>
-                                    <td>1</td>
-                                    <td>Ahmad</td>
-                                    <td>Fakir</td>
-                                    <td>Jalan Merdeka No. 10</td>
-                                    <td>08123456789</td>
-                                    <td class="text-center">
-                                        <a href="#" class="btn btn-sm btn-success" title="View">
-                                            <i class="fas fa-eye"></i>
-                                        </a>
-                                        <a href="#" class="btn btn-sm btn-primary" title="Edit">
-                                            <i class="fas fa-pencil-alt"></i>
-                                        </a>
-                                        <a href="#" class="btn btn-sm btn-danger" title="Delete">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <!-- Additional rows here -->
+                                <!-- Data will be loaded here dynamically -->
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
-
-
-
 
 @endsection
 
 @section('scripts')
-    <!-- DataTables and Plugins -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
@@ -122,41 +96,29 @@
     <script>
         $(document).ready(function() {
             // Initialize DataTable
-            $('#mustahikTable').DataTable({
+            $('#kategoriMustahikTable').DataTable({
                 serverSide: true,
                 processing: true,
                 responsive: true,
-                ajax: "{{ route('mustahik.index') }}",
+                ajax: "{{ route('kategori_mustahik.index') }}",
                 columns: [{
                         data: 'id',
                         name: 'id'
                     },
                     {
-                        data: 'nama_mustahik',
-                        name: 'nama_mustahik'
+                        data: 'nama_kategori',
+                        name: 'nama_kategori'
                     },
                     {
-                        data: 'kategori_mustahik',
-                        name: 'kategori_mustahik'
-                    },
-                    {
-                        data: 'alamat',
-                        name: 'alamat'
-                    },
-                    {
-                        data: 'handphone',
-                        name: 'handphone'
+                        data: 'jumlah_hak',
+                        name: 'jumlah_hak'
                     },
                     {
                         data: 'action',
                         name: 'action',
                         orderable: false,
                         searchable: false,
-
                     }
-
-
-
                 ],
                 order: [
                     [0, 'desc']
@@ -193,14 +155,11 @@
                     }
                 ]
             });
-
-            // Delete button click event
-
-
         });
 
         $(document).on('click', '.btn-delete', function() {
             const url = $(this).data('url');
+            console.log(url);
 
             Swal.fire({
                 title: 'Apakah Anda yakin?',
@@ -213,6 +172,19 @@
                 cancelButtonText: 'Batal'
             }).then((result) => {
                 if (result.isConfirmed) {
+                    // Show loading spinner
+                    Swal.fire({
+                        title: 'Sedang Memproses...',
+                        text: 'Mohon tunggu sebentar.',
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        showConfirmButton: false, // Disable confirmation button
+                        willOpen: () => {
+                            Swal.showLoading(); // Show loading spinner
+                        },
+                    });
+
+                    // AJAX DELETE request
                     $.ajax({
                         url: url,
                         type: 'DELETE',
@@ -220,12 +192,26 @@
                             _token: $('meta[name="csrf-token"]').attr('content') // CSRF token
                         },
                         success: function(response) {
-                            Swal.fire('Terhapus!', response.message, 'success');
-                            $('#mustahikTable').DataTable().ajax.reload();
+                            Swal.fire({
+                                title: 'Terhapus!',
+                                text: response.message,
+                                icon: 'success',
+                                showConfirmButton: false,
+                                timer: 2000, // Automatically close after 2 seconds
+                                timerProgressBar: true
+                            }).then(() => {
+                                // Refresh DataTable
+                                $('#kategoriMustahikTable').DataTable().ajax.reload();
+                            });
                         },
                         error: function(xhr) {
-                            Swal.fire('Gagal!', xhr.responseJSON.message ||
-                                'Terjadi kesalahan!', 'error');
+                            Swal.fire({
+                                title: 'Gagal!',
+                                text: xhr.responseJSON.message || 'Terjadi kesalahan!',
+                                icon: 'error',
+                                confirmButtonColor: '#d33',
+                                showConfirmButton: true
+                            });
                         }
                     });
                 }

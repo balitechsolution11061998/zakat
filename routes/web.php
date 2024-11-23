@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\KategoriMustahikController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -22,6 +23,7 @@ Route::prefix('dashboard')
         Route::resource('muzakki', 'App\Http\Controllers\MuzakkiController');
         Route::resource('mustahik', 'App\Http\Controllers\MustahikController');
         Route::resource('kategori_mustahik', 'App\Http\Controllers\KategoriMustahikController');
+        Route::put('/kategori_mustahik/{id}', [KategoriMustahikController::class, 'update'])->name('kategori_mustahik.update');
 
         /* ----------------- Kelola Distribusi dan Pengumpulan Zakat ---------------- */
         Route::resource('pengumpulan_zakat', 'App\Http\Controllers\PengumpulanZakatController');

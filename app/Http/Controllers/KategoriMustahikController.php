@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\KategoriMustahik;
+use Yajra\DataTables\Facades\DataTables;
 
 class KategoriMustahikController extends Controller
 {
@@ -13,14 +14,37 @@ class KategoriMustahikController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $items = KategoriMustahik::all();
+        if ($request->ajax()) {
+            $items = KategoriMustahik::query(); // Use query builder for better scalability
 
-        return view('admin.kategori_mustahik.index', [
-            'items' => $items
-        ]);
+            return DataTables::of($items)
+                ->addColumn('action', function ($row) {
+                    $editUrl = route('kategori_mustahik.edit', $row->id);
+                    $deleteUrl = route('kategori_mustahik.destroy', $row->id);
+
+                    return '
+                        <div class="d-flex gap-2 justify-content-center">
+                            <a href="' . e($editUrl) . '" class="btn btn-primary btn-sm rounded-pill shadow-sm" title="Edit">
+                                <i class="fas fa-pencil-alt"></i>
+                            </a>
+                             <button class="btn btn-danger btn-sm rounded-pill shadow-sm btn-delete"
+                                    data-url="' . route('kategori_mustahik.destroy', $row->id) . '"
+                                    data-id="' . $row->id . '"
+                                    data-bs-toggle="tooltip" title="Hapus">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                        </div>
+                    ';
+                })
+                ->rawColumns(['action']) // Allow raw HTML for the action column
+                ->make(true);
+        }
+
+        return view('admin.kategori_mustahik.index');
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -64,10 +88,10 @@ class KategoriMustahikController extends Controller
      */
     public function edit($id)
     {
-        $item = KategoriMustahik::findOrFail($id);
+        $kategoriMustahik = KategoriMustahik::findOrFail($id);
 
         return view('admin.kategori_mustahik.edit', [
-            'item' => $item
+            'kategoriMustahik' => $kategoriMustahik
         ]);
     }
 
@@ -97,9 +121,16 @@ class KategoriMustahikController extends Controller
      */
     public function destroy($id)
     {
+        // Check if the record exists
         $item = KategoriMustahik::findOrFail($id);
+
+        // Delete the record
         $item->delete();
 
-        return redirect()->route('kategori_mustahik.index');
+        // Return a JSON response with a success message
+        return response()->json([
+            'message' => 'Kategori mustahik berhasil dihapus.'
+        ], 200);
     }
+
 }
