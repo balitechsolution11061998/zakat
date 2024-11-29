@@ -3,7 +3,7 @@
 <!-- [Head] start -->
 
 <head>
-    <title>Dashboard | Berry Dashboard Template</title>
+    <title>@yield('title')</title>
     <!-- [Meta] -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
@@ -15,7 +15,8 @@
     <meta name="author" content="codedthemes">
 
     <!-- [Favicon] icon -->
-    <link rel="icon" href="{{ asset('/assets/images/favicon.svg') }}" type="image/x-icon"> <!-- [Google Font] Family -->
+    <link rel="icon" href="{{ asset('/assets/images/favicon.svg') }}" type="image/x-icon">
+    <!-- [Google Font] Family -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
         id="main-font-link">
     <!-- [Tabler Icons] https://tablericons.com -->
@@ -30,6 +31,8 @@
     <link rel="stylesheet" href="{{ asset('/assets/css/style.css') }}" id="main-style-link">
     <link rel="stylesheet" href="{{ asset('/assets/css/style-preset.css') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
 
 </head>
 <!-- [Head] end -->
@@ -347,6 +350,18 @@
         preset_change("preset-1");
     </script>
 
+    <script>
+        function formatRupiah(element) {
+            let value = element.value.replace(/[^,\d]/g, ""); // Remove non-numeric characters
+            let formatted = new Intl.NumberFormat("id-ID", {
+                style: "currency",
+                currency: "IDR",
+                minimumFractionDigits: 0,
+            }).format(value || 0);
+
+            element.value = formatted.replace(/^IDR\s/, "Rp "); // Format to 'Rp' prefix
+        }
+    </script>
 
 
 </body>

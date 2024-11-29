@@ -12,4 +12,9 @@ class PengumpulanZakat extends Model
 
     protected $guarded = [];
     protected $table = 'pengumpulan_zakat';
+
+    public function muzzaki()
+    {
+        return $this->belongsTo(Muzakki::class, 'nama_muzakki', 'id'); // sesuaikan field foreign key
+    }
 }

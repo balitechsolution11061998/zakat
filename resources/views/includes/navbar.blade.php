@@ -159,75 +159,31 @@
                             </li>
                         </ul>
                     </li>
-
-
                     <li class="pc-item pc-caption">
-                        <label>Pages</label>
-                        <i class="ti ti-news"></i>
-                    </li>
-                    <li class="pc-item">
-                        <a href="../pages/login-v3.html" class="pc-link">
-                            <span class="pc-micon"><i class="ti ti-lock"></i></span>
-                            <span class="pc-mtext">Login</span>
-                        </a>
-                    </li>
-                    <li class="pc-item">
-                        <a href="../pages/register-v3.html" class="pc-link">
-                            <span class="pc-micon"><i class="ti ti-user-plus"></i></span>
-                            <span class="pc-mtext">Register</span>
-                        </a>
-                    </li>
-
-                    <li class="pc-item pc-caption">
-                        <label>Other</label>
-                        <i class="ti ti-brand-chrome"></i>
+                        <label>Kelola Distribusi & Pengumpulan Zakat
+                            Pengumpulan & Distribusi Zakat</label>
+                        <i class="ti ti-apps"></i>
                     </li>
                     <li class="pc-item pc-hasmenu">
-                        <a href="#!" class="pc-link"><span class="pc-micon"><i class="ti ti-menu"></i></span><span
-                                class="pc-mtext">Menu
-                                levels</span><span class="pc-arrow"><i data-feather="chevron-right"></i></span></a>
-                        <ul class="pc-submenu">
-                            <li class="pc-item"><a class="pc-link" href="#!">Level 2.1</a></li>
-                            <li class="pc-item pc-hasmenu">
-                                <a href="#!" class="pc-link">Level 2.2<span class="pc-arrow"><i
-                                            data-feather="chevron-right"></i></span></a>
-                                <ul class="pc-submenu">
-                                    <li class="pc-item"><a class="pc-link" href="#!">Level 3.1</a></li>
-                                    <li class="pc-item"><a class="pc-link" href="#!">Level 3.2</a></li>
-                                    <li class="pc-item pc-hasmenu">
-                                        <a href="#!" class="pc-link">Level 3.3<span class="pc-arrow"><i
-                                                    data-feather="chevron-right"></i></span></a>
-                                        <ul class="pc-submenu">
-                                            <li class="pc-item"><a class="pc-link" href="#!">Level 4.1</a></li>
-                                            <li class="pc-item"><a class="pc-link" href="#!">Level 4.2</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="pc-item pc-hasmenu">
-                                <a href="#!" class="pc-link">Level 2.3<span class="pc-arrow"><i
-                                            data-feather="chevron-right"></i></span></a>
-                                <ul class="pc-submenu">
-                                    <li class="pc-item"><a class="pc-link" href="#!">Level 3.1</a></li>
-                                    <li class="pc-item"><a class="pc-link" href="#!">Level 3.2</a></li>
-                                    <li class="pc-item pc-hasmenu">
-                                        <a href="#!" class="pc-link">Level 3.3<span class="pc-arrow"><i
-                                                    data-feather="chevron-right"></i></span></a>
-                                        <ul class="pc-submenu">
-                                            <li class="pc-item"><a class="pc-link" href="#!">Level 4.1</a></li>
-                                            <li class="pc-item"><a class="pc-link" href="#!">Level 4.2</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="pc-item">
-                        <a href="../other/sample-page.html" class="pc-link">
-                            <span class="pc-micon"><i class="ti ti-brand-chrome"></i></span>
-                            <span class="pc-mtext">Sample page</span>
+                        <a href="#!" class="pc-link">
+                          <span class="pc-micon"><i class="fas fa-boxes me-2"></i></span>
+                          <span class="pc-mtext">Pengumpulan Zakat</span>
+                          <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
                         </a>
-                    </li>
+                        <ul class="pc-submenu">
+                          <li class="pc-item">
+                            <a class="pc-link" href="{{ url('/dashboard/pengumpulan_zakat') }}">
+                              <i class="fas fa-database me-2"></i> Master Data Pengumpulan
+                            </a>
+                          </li>
+                          <li class="pc-item">
+                            <a class="pc-link" href="{{ url('/dashboard/pengumpulan_zakat/create') }}">
+                              <i class="fas fa-hand-holding-usd me-2"></i> Atur & Tambah Data Pengumpulan
+                            </a>
+                          </li>
+                        </ul>
+                      </li>
+
                 </ul>
 
             </div>

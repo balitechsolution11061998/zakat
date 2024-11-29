@@ -18,8 +18,7 @@
                     <!-- Card Body -->
                     <div class="card-body px-5 py-4" style="background: #f9f9f9;">
                         <p class="text-center mb-4" style="font-size: 16px; color: #555;">
-                            <i class="fas fa-info-circle text-success"></i> Silakan isi form di bawah ini untuk menambah
-                            kategori mustahik baru.
+                            <i class="fas fa-info-circle text-success"></i> Dihalaman ini anda dapat menambah data kategori mustahik yang berlaku di DKM. Isi data dibawah ini dengan benar dan seksama sesuai aturan yang ditulis.
                         </p>
                         <form id="kategoriMustahikForm" action="{{ route('kategori_mustahik.store') }}" method="POST">
                             @csrf
