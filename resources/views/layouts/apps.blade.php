@@ -32,7 +32,21 @@
     <link rel="stylesheet" href="{{ asset('/assets/css/style-preset.css') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .title-big {
+            font-size: 1rem;
+            /* Adjust size as needed */
+            font-weight: bold;
+            /* Make it bold */
+        }
 
+        .sub-title {
+            font-size: 0.875rem;
+            /* Smaller size for the subtitle */
+            color: #6c757d;
+            /* Optional: Change color to a muted tone */
+        }
+    </style>
 
 </head>
 <!-- [Head] end -->
@@ -310,9 +324,22 @@
     <script src="{{ asset('/assets/js/plugins/feather.min.js') }}"></script>
     <script src="{{ asset('/assets/js/plugins/apexcharts.min.js') }}"></script>
     <script src="{{ asset('/assets/js/pages/dashboard-default.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-
+    <script src="{{ asset('assets/js/sweetalert2@11.js') }}"></script>
+    <!-- jQuery -->
+    <script src="{{ asset('assets/js/jquery-3.6.0.min.js') }}"></script>
+    <!-- FullCalendar JS -->
+    <script src="{{ asset('assets/js/main.min.js') }}"></script>
+    <!-- DataTables JS -->
+    <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/js/dataTables.bootstrap5.min.js') }}"></script>
+    <script src="{{ asset('assets/js/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('assets/js/buttons.bootstrap5.min.js') }}"></script>
+    <script src="{{ asset('assets/js/buttons.print.min.js') }}s"></script>
+    <script src="{{ asset('assets/js/buttons.html5.min') }}"></script>
+    <script src="{{ asset('assets/js/jszip.min.js') }}"></script>
+    <script src="{{ asset('assets/js/pdfmake.min.js') }}"></script>
+    <script src="{{ asset('assets/js/vfs_fonts.js') }}"></script>
+    <!-- FontAwesome -->
 
 
 

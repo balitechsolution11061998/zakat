@@ -1,11 +1,11 @@
 @extends('layouts.apps')
 
 @section('content')
-    <link href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" rel="stylesheet">
-    <link href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.bootstrap5.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css' rel='stylesheet'>
-    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.6.0/main.min.css" rel="stylesheet" />
+    <link href="{{ asset('assets/css/dataTables.bootstrap5.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/buttons.bootstrap5.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('assets/css/animate.min.css') }}">
+    <link href='{{ asset('assets/css/bootstrap.min.css') }}' rel='stylesheet'>
+    <link href="{{ asset('assets/css/main.min.css') }}" rel="stylesheet" />
 
     <style>
         /* General styles */
@@ -35,6 +35,7 @@
             border-radius: 0.25rem; /* Rounded corners for events */
             background-color: #28a745; /* Green color for events */
             color: white; /* White text for events */
+            padding: 5px; /* Padding for events */
         }
 
         .fc-daygrid-day {
@@ -45,15 +46,10 @@
             background-color: #e9ecef; /* Light hover effect for days */
         }
 
-        /* Table styles */
-        .table th {
-            background-color: #28a745; /* Green background for table headers */
-            color: white; /* White text for table headers */
-            text-align: center; /* Center align text */
-        }
-
-        .table td {
-            vertical-align: middle; /* Center align text vertically */
+        /* Custom class for specific events */
+        .event-green {
+            background-color: #28a745 !important; /* Green color for specific events */
+            border: 2px solid white; /* White border for events */
         }
 
         /* Responsive adjustments */
@@ -70,8 +66,8 @@
                 <div class="row mb-4">
                     <div class="col-xl-6 col-lg-12">
                         <div class="card shadow-sm rounded-3">
-                            <div class="card-header bg-primary text-white rounded-top-3">
-                                <h5 class="mb-0">💰 • Pembayaran Zakat Terbaru</h5>
+                            <div class="card-header bg-success text-white rounded-top-3">
+                                <h5 class="mb-0 text-white">💰 • Pembayaran Zakat Terbaru</h5>
                             </div>
                             <div class="card-body">
                                 <div class="dt-ext table-responsive">
@@ -110,22 +106,6 @@
     </div>
 
 @section('scripts')
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- FullCalendar JS -->
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.6.0/main.min.js"></script>
-    <!-- DataTables JS -->
-    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.bootstrap5.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-    <!-- FontAwesome -->
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 
     <script>
         $(document).ready(function() {
@@ -138,6 +118,7 @@
                     center: 'title',
                     right: 'dayGridMonth,timeGridWeek,timeGridDay'
                 },
+
                 editable: true,
                 selectable: true,
                 eventClick: function(info) {

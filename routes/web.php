@@ -33,4 +33,7 @@ Route::prefix('dashboard')
         /* -------------------------- Laporan Zakat Fitrah -------------------------- */
         Route::resource('laporan_pengumpulan', 'App\Http\Controllers\LaporanPengumpulanController');
         Route::resource('laporan_distribusi', 'App\Http\Controllers\LaporanDistribusiController');
+
+        Route::resource('laporan_distribusi', 'App\Http\Controllers\LaporanDistribusiController');
+
     });
