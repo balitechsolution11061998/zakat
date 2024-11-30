@@ -29,11 +29,12 @@ class PengumpulanZakatController extends Controller
                             data-bs-toggle="tooltip" title="Edit">
                             <i class="fas fa-pen"></i>
                         </a>
-                        <button class="btn btn-danger btn-sm rounded-pill shadow-sm delete"
-                            data-id="' . $row->id . '"
-                            data-bs-toggle="tooltip" title="Delete">
-                            <i class="fas fa-trash"></i>
-                        </button>
+                    <button class="btn btn-danger btn-sm rounded-pill shadow-sm btn-delete"
+                                data-id="' . $row->id . '"
+                                data-url="' . route('pengumpulan_zakat.destroy', $row->id) . '"
+                                data-bs-toggle="tooltip" title="Delete">
+                                <i class="fas fa-trash"></i>
+                            </button>
                     ';
                 })
                 ->addColumn('nama_muzzaki', function ($row) {
@@ -153,9 +154,7 @@ class PengumpulanZakatController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-    }
+    public function show($id) {}
 
     /**
      * Show the form for editing the specified resource.
