@@ -122,7 +122,7 @@
                     </a>
                 </li>
                 <li class="pc-item pc-hasmenu">
-                    <a class="pc-link" href="{{ url('/dashboard/laporan/distribusi_zakat') }}">
+                    <a class="pc-link" href="{{ url('/dashboard/laporan_distribusi') }}">
                         <i class="fas fa-chart-pie me-2"></i> Laporan Distribusi Zakat
                     </a>
                 </li>

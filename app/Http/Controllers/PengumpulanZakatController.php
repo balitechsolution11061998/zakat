@@ -22,6 +22,7 @@ class PengumpulanZakatController extends Controller
         if ($request->ajax()) {
             $data = PengumpulanZakat::with('muzzaki'); // Load relasi muzzaki
             return DataTables::of($data)
+            ->addIndexColumn() // Add index column
                 ->addColumn('action', function ($row) {
                     return '
                         <a class="btn btn-primary btn-sm rounded-pill shadow-sm"

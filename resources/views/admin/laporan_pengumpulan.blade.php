@@ -132,7 +132,7 @@
                 serverSide: true,
                 ajax: "{{ route('pengumpulan_zakat.index') }}", // Replace with your route
                 columns: [
-                    { data: 'id', name: 'id' },
+                    { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false }, // Index Column
                     {
                         data: 'muzzaki',
                         name: 'muzzaki',

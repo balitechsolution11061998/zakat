@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\DistribusiZakat;
+use App\Models\Mustahik;
 use Illuminate\Http\Request;
 
 class LaporanDistribusiController extends Controller
@@ -17,6 +18,7 @@ class LaporanDistribusiController extends Controller
     public function index()
     {
         $jumlahZakat = DB::table('jumlah_zakat')->first();
+        $totalMustahik = Mustahik::count();
         $totalBeras = $jumlahZakat->jumlah_beras;
         $totalUang = $jumlahZakat->jumlah_uang;
         $totalDistribusi = $jumlahZakat->total_distribusi;
@@ -27,7 +29,8 @@ class LaporanDistribusiController extends Controller
             'items' => $items,
             'totalBeras' => $totalBeras,
             'totalUang' => $totalUang,
-            'totalDistribusi' => $totalDistribusi
+            'totalDistribusi' => $totalDistribusi,
+            'totalMustahik'=> $totalMustahik,
         ]);
     }
 

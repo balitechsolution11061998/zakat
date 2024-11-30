@@ -23,6 +23,7 @@ class DistribusiZakatController extends Controller
         if ($request->ajax()) {
             $data = DistribusiZakat::with('mustahik'); // Load relasi mustahik
             return DataTables::of($data)
+                ->addIndexColumn()
                 ->addColumn('action', function ($row) {
                     return '
                         <a class="btn btn-primary btn-sm rounded-pill shadow-sm"
