@@ -63,6 +63,9 @@
                                     </label>
                                     <select id="kategori_mustahik" class="form-control form-control-lg" name="kategori_mustahik" required>
                                         <option value="">Memuat kategori...</option>
+                                        <option value="fakir">Fakir</option>
+                                        <option value="miskin">Miskin</option>
+                                        <option value="amil">Amil</option>
                                     </select>
                                 </div>
 
@@ -131,29 +134,29 @@
         // Show spinner while the page is loading
         document.addEventListener('DOMContentLoaded', function() {
 
-            fetchKategoriMustahik();
+            // fetchKategoriMustahik();
 
         });
 
-        function fetchKategoriMustahik() {
-            $.ajax({
-                url: "{{ route('kategori_mustahik.get') }}", // Laravel route
-                type: "GET",
-                success: function(response) {
-                    if (response.status === 'success') {
-                        let options = '<option value="">Pilih kategori...</option>';
-                        response.data.forEach(function(item) {
-                            options += `<option value="${item.id}">${item.nama_kategori}</option>`;
-                        });
-                        $('#kategori_mustahik').html(options);
-                    }
-                },
-                error: function(xhr) {
-                    console.error('Gagal mengambil data kategori mustahik:', xhr.responseText);
-                    Swal.fire('Error', 'Tidak dapat memuat kategori mustahik.', 'error');
-                }
-            });
-        }
+        // function fetchKategoriMustahik() {
+        //     $.ajax({
+        //         url: "{{ route('kategori_mustahik.get') }}", // Laravel route
+        //         type: "GET",
+        //         success: function(response) {
+        //             if (response.status === 'success') {
+        //                 let options = '<option value="">Pilih kategori...</option>';
+        //                 response.data.forEach(function(item) {
+        //                     options += `<option value="${item.id}">${item.nama_kategori}</option>`;
+        //                 });
+        //                 $('#kategori_mustahik').html(options);
+        //             }
+        //         },
+        //         error: function(xhr) {
+        //             console.error('Gagal mengambil data kategori mustahik:', xhr.responseText);
+        //             Swal.fire('Error', 'Tidak dapat memuat kategori mustahik.', 'error');
+        //         }
+        //     });
+        // }
 
         document.getElementById('mustahikForm').addEventListener('submit', function(event) {
             event.preventDefault(); // Prevent default form submission

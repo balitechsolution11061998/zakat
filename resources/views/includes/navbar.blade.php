@@ -50,7 +50,7 @@
                                 Tambah Data Mustahik</a></li>
                     </ul>
                 </li>
-                <li class="pc-item pc-hasmenu">
+                {{-- <li class="pc-item pc-hasmenu">
                     <a href="#!" class="pc-link">
                         <span class="pc-micon"><i class="fas fa-users me-2"></i></span>
                         <span class="pc-mtext">Kategori Mustahik</span>
@@ -68,7 +68,7 @@
                             </a>
                         </li>
                     </ul>
-                </li>
+                </li> --}}
                 <li class="pc-item pc-caption">
                     <label>
                         <h5 class="title-big">Kelola Distribusi & Pengumpulan Zakat</h5>
@@ -136,7 +136,7 @@
                         <i class="fas fa-chart-pie me-2"></i> Laporan Distribusi Zakat
                     </a>
                 </li>
-                <li class="pc-item pc-caption">
+                {{-- <li class="pc-item pc-caption">
                     <label>
                         <h5 class="title-big">Kelola Data Website</h5>
                         <small class="sub-title">Berita Acara & Galeri</small>
@@ -161,9 +161,9 @@
                             </a>
                         </li>
                     </ul>
-                </li>
+                </li> --}}
 
-                <li class="pc-item pc-hasmenu">
+                {{-- <li class="pc-item pc-hasmenu">
                     <a href="#!" class="pc-link">
                         <span class="pc-micon"><i class="fas fa-clipboard-list me-2"></i></span>
                         <span class="pc-mtext">Distribusi Zakat</span>
@@ -181,7 +181,7 @@
                             </a>
                         </li>
                     </ul>
-                </li>
+                </li> --}}
 
 
             </ul>

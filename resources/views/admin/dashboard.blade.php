@@ -64,7 +64,7 @@
         <div class="pc-content">
             <div class="container-fluid">
                 <div class="row mb-4">
-                    <div class="col-xl-6 col-lg-12">
+                    <div class="col-xl-12 col-lg-12">
                         <div class="card shadow-sm rounded-3">
                             <div class="card-header bg-success text-white rounded-top-3">
                                 <h5 class="mb-0 text-white">💰 • Pembayaran Zakat Terbaru</h5>
@@ -90,7 +90,7 @@
                         </div>
                     </div>
 
-                    <div class="col-xl-6 col-lg-12">
+                    {{-- <div class="col-xl-6 col-lg-12">
                         <div class="card shadow-sm rounded-3">
                             <div class="card-header bg-light rounded-top-3">
                                 <h5 class="mb-0">📅 Kalender</h5>
@@ -99,7 +99,7 @@
                                 <div id="calendar"></div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
@@ -110,22 +110,22 @@
     <script>
         $(document).ready(function() {
             // Initialize FullCalendar
-            var calendarEl = document.getElementById('calendar');
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth',
-                headerToolbar: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
-                },
+            // var calendarEl = document.getElementById('calendar');
+            // var calendar = new FullCalendar.Calendar(calendarEl, {
+            //     initialView: 'dayGridMonth',
+            //     headerToolbar: {
+            //         left: 'prev,next today',
+            //         center: 'title',
+            //         right: 'dayGridMonth,timeGridWeek,timeGridDay'
+            //     },
 
-                editable: true,
-                selectable: true,
-                eventClick: function(info) {
-                    alert('Event: ' + info.event.title);
-                }
-            });
-            calendar.render();
+            //     editable: true,
+            //     selectable: true,
+            //     eventClick: function(info) {
+            //         alert('Event: ' + info.event.title);
+            //     }
+            // });
+            // calendar.render();
 
             // Initialize DataTable
             $('#pengumpulanZakatTable').DataTable({

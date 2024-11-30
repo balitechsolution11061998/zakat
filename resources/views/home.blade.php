@@ -21,19 +21,19 @@
             <h2>Kalkulator Zakat Penghasilan</h2>
 
             <div class="alert alert-info">
-                <p>Sesuai SK Ketua BAZNAS No. 1 tahun 2024</p>
+                <a href="https://baznas.go.id/assets/pdf/ppid/tentang%20zakat/SK_01_2024.pdf" target="_blank">Sesuai SK Ketua BAZNAS No. 1 tahun 2024</a>
 
                 <hr>
 
                 <div>
                     <label for="nisabTahunan">Nisab per tahun</label>
                     <input id="nisabTahunan" readonly disabled class="bg-transparent border-0 text-info-emphasis"
-                        value="Rp82312725"></input>
+                        value="Rp82.312.725"></input>
                 </div>
                 <div>
                     <label for="nisabBulanan">Nisab per bulan</label>
                     <input id="nisabBulanan" readonly disabled class="bg-transparent border-0 text-info-emphasis"
-                        value="Rp6859394"></input>
+                        value="Rp6.859.394"></input>
                 </div>
             </div>
 
@@ -76,10 +76,7 @@
             const totalPenghasilan = gaji + penghasilanLain;
             document.getElementById('totalPenghasilan').value = formatRupiah(totalPenghasilan);
 
-            // Nisab bulanan - clean up "Rp" and parse as a number
-            const nisabBulananString = document.getElementById('nisabBulanan').value; // get value from input
-            const nisabBulanan = parseFloat(nisabBulananString.replace('Rp', '').replace('.', '')
-        .trim()); // Remove 'Rp' and ',' and convert to number
+            const nisabBulanan=6859394;
 
             // Menampilkan hasil zakat
             const resultElement = document.getElementById('zakatResult');
