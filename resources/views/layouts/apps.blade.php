@@ -378,15 +378,23 @@
     </script>
 
     <script>
-        function formatRupiah(element) {
-            let value = element.value.replace(/[^,\d]/g, ""); // Remove non-numeric characters
-            let formatted = new Intl.NumberFormat("id-ID", {
-                style: "currency",
-                currency: "IDR",
-                minimumFractionDigits: 0,
-            }).format(value || 0);
+        function formatRupiah(value) {
+            if (value === undefined || value === null) {
+                return '0'; // Return a default value or an empty string
+            }
 
-            element.value = formatted.replace(/^IDR\s/, "Rp "); // Format to 'Rp' prefix
+            const numericValue = parseFloat(value);
+            if (isNaN(numericValue)) {
+                console.error('Invalid number:', value);
+                return 'Invalid Value'; // Return a fallback string if input is not valid
+            }
+
+            const formatter = new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0
+            });
+            return formatter.format(numericValue);
         }
     </script>
 

@@ -82,7 +82,7 @@
             $('#muzakkiTable').DataTable({
                 serverSide: true,
                 processing: true,
-                responsive: true, // Enable responsive feature
+                responsive: true,
                 ajax: "{{ route('muzakki.index') }}",
                 columns: [{
                         data: 'id',
@@ -111,7 +111,20 @@
                         data: 'action',
                         name: 'action',
                         orderable: false,
-                        searchable: false
+                        searchable: false,
+                        render: function(data, type, row) {
+                            return `
+                        <button class="btn btn-danger btn-delete" data-url="/muzakki/${row.id}" data-id="${row.id}">
+                            <i class="fas fa-trash"></i> Hapus
+                        </button>
+                        <a href="/muzakki/${row.id}/edit" class="btn btn-warning">
+                            <i class="fas fa-pencil-alt"></i> Edit
+                        </a>
+                        <a href="/muzakki/${row.id}" class="btn btn-info">
+                            <i class="fas fa-eye"></i> Detail
+                        </a>
+                    `;
+                        }
                     }
                 ],
                 order: [
@@ -141,12 +154,21 @@
                         className: 'btn btn-black text-white rounded-pill shadow-sm',
                         text: '<i class="fas fa-file-excel"></i> Excel',
                         customizeData: function(data) {
-                            // Preprocess the data for the Excel export
                             data.body.forEach(row => {
-                                // Assuming jumlah_tanggungan is the 3rd column (index 2)
-                                row[2] = formatRupiah(row[2]).replace("Rp", "")
-                                    .trim(); // Format as plain number for export
+                                // Exclude the action column (last column)
+                                row.pop(); // Remove the last element (action column)
+
+                                // Format jumlah_tanggungan as Rupiah
+                                if (row[2]) { // Check if the value exists
+                                    row[2] = row[2]
+                                } else {
+                                    row[2] =
+                                    ''; // Set to empty string if the value is undefined
+                                }
                             });
+
+                            // Remove the header for the action column
+                            data.header.pop(); // Remove the last header (action column)
                         }
                     },
                     {
@@ -161,81 +183,57 @@
                     }
                 ],
                 drawCallback: function() {
-                    // Add animation class to rows
                     $('#muzakkiTable tbody tr').each(function(index, row) {
                         $(row).addClass('animate__animated animate__fadeIn');
                     });
                 }
             });
 
-            function formatRupiah(value) {
-                console.log(value);
-                // Check if value is a number or can be converted to one
-                const numericValue = Number(value);
-                if (isNaN(numericValue)) {
-                    console.error('Invalid number:', value);
-                    return 'Invalid Value'; // Return a fallback string if input is not valid
-                }
+            // Delete action
+            $(document).on('click', '.btn-delete', function(e) {
+                e.preventDefault();
+                const url = $(this).data('url');
 
-                // Format as currency
-                const formatter = new Intl.NumberFormat('id-ID', {
-                    style: 'currency',
-                    currency: 'IDR',
-                    minimumFractionDigits: 0
+                Swal.fire({
+                    title: 'Apakah Anda yakin?',
+                    text: "Data ini akan dihapus secara permanen!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: url,
+                            type: 'POST',
+                            data: {
+                                _method: 'DELETE',
+                                _token: '{{ csrf_token() }}'
+                            },
+                            success: function(response) {
+                                Swal.fire({
+                                    title: 'Terhapus!',
+                                    text: response.message ||
+                                        'Data berhasil dihapus.',
+                                    icon: 'success',
+                                    timer: 2000,
+                                    showConfirmButton: false
+                                });
+                                $('#muzakkiTable').DataTable().ajax.reload();
+                            },
+                            error: function(xhr) {
+                                Swal.fire({
+                                    title: 'Gagal!',
+                                    text: xhr.responseJSON?.message ||
+                                        'Terjadi kesalahan saat menghapus data.',
+                                    icon: 'error'
+                                });
+                            }
+                        });
+                    }
                 });
-                return formatter.format(numericValue);
-            }
-
-        });
-
-        $(document).on('click', '.btn-delete', function(e) {
-            e.preventDefault();
-
-            const url = $(this).data('url'); // Retrieve the delete URL
-            const rowId = $(this).data('id'); // Retrieve the ID of the row (optional)
-
-            Swal.fire({
-                title: 'Apakah Anda yakin?',
-                text: "Data ini akan dihapus secara permanen!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Ya, hapus!',
-                cancelButtonText: 'Batal'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Perform the AJAX delete request
-                    $.ajax({
-                        url: url,
-                        type: 'POST',
-                        data: {
-                            _method: 'DELETE',
-                            _token: '{{ csrf_token() }}'
-                        },
-                        success: function(response) {
-                            Swal.fire({
-                                title: 'Terhapus!',
-                                text: response.message || 'Data berhasil dihapus.',
-                                icon: 'success',
-                                timer: 2000,
-                                showConfirmButton: false
-                            });
-
-                            // Optionally, refresh the DataTable or remove the deleted row
-                            $('#muzakkiTable').DataTable().ajax
-                                .reload(); // Adjust selector to match your table ID
-                        },
-                        error: function(xhr) {
-                            Swal.fire({
-                                title: 'Gagal!',
-                                text: xhr.responseJSON?.message ||
-                                    'Terjadi kesalahan saat menghapus data.',
-                                icon: 'error'
-                            });
-                        }
-                    });
-                }
             });
         });
     </script>
