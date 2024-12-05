@@ -161,6 +161,29 @@
                             </div>
                         </div>
                     </main>
+                    <main class="mt-10 max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg">
+                        <h1 class="text-2xl font-bold text-center">Kalkulator Zakat Fitrah</h1>
+                        <form id="zakatForm" class="mt-6">
+                            <div class="mb-4">
+                                <label for="jumlahJiwa" class="block text-sm font-medium text-gray-700">Jumlah Jiwa</label>
+                                <input type="number" id="jumlahJiwa" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-[#FF2D20]" placeholder="Masukkan jumlah jiwa" required />
+                            </div>
+                            <div class="mb-4">
+                                <label for="jenisMakanan" class="block text-sm font-medium text-gray-700">Jenis Makanan Pokok</label>
+                                <select id="jenisMakanan" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-[#FF2D20]" required>
+                                    <option value="beras">Beras</option>
+                                    <option value="gandum">Gandum</option>
+                                    <option value="jagung">Jagung</option>
+                                    <option value="uang">Uang</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="w-full bg-[#FF2D20] text-white rounded-md px-4 py-2">Hitung Zakat Fitrah</button>
+                        </form>
+                        <div id="results" class="mt-6 hidden">
+                            <h3 class="text-lg font-semibold">Hasil Perhitungan:</h3>
+                            <p id="totalZakat" class="text-sm">Total Zakat Fitrah: <span class="font-bold"></span></p>
+                        </div>
+                    </main>
 
                     <footer class="py-16 text-center text-sm text-black dark:text-white/70">
                         Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})
