@@ -8,6 +8,8 @@ use App\Models\Muzakki;
 use DataTables;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\MuzakkiExport;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
 class MuzakkiController extends Controller
 {
@@ -55,7 +57,19 @@ class MuzakkiController extends Controller
         return Excel::download(new MuzakkiExport, 'muzakki.xlsx');
     }
 
+    public function exportPdf()
+    {
+        $muzakkis = Muzakki::select('id', 'nama_muzakki', 'jumlah_tanggungan', 'alamat', 'handphone')->get();
 
+        // Load the view and pass the data
+        $pdf = new Dompdf();
+        $pdf->loadHtml(view('admin.muzakki.pdf', compact('muzakkis'))->render());
+        $pdf->setPaper('A4', 'landscape');
+        $pdf->render();
+
+        return $pdf->stream('muzakki.pdf');
+
+    }
 
     /**
      * Show the form for creating a new resource.

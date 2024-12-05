@@ -144,13 +144,21 @@
                     info: "Menampilkan _START_ ke _END_ dari _TOTAL_ entri"
                 },
                 dom: 'Bfrtip',
-                buttons: [{
+                buttons: [
+                {
                     text: '<i class="fas fa-file-excel"></i> Export Excel',
                     className: 'btn btn-black text-white rounded-pill shadow-sm',
                     action: function(e, dt, node, config) {
                         window.location = "{{ route('muzakki.export.excel') }}";
                     }
-                }],
+                },{
+                    text: '<i class="fas fa-file-pdf"></i> Export PDF',
+                    className: 'btn btn-black text-white rounded-pill shadow-sm',
+                    action: function(e, dt, node, config) {
+                        window.location = "{{ route('muzakki.export.pdf') }}";
+                    }
+                }
+                ],
                 drawCallback: function() {
                     $('#muzakkiTable tbody tr').each(function(index, row) {
                         $(row).addClass('animate__animated animate__fadeIn');

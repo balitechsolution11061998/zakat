@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\KategoriMustahikController;
+use App\Http\Controllers\MustahikController;
 use App\Http\Controllers\MuzakkiController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -23,8 +24,12 @@ Route::prefix('dashboard')
         /* ---------------------------- Kelola Data Warga --------------------------- */
         Route::resource('muzakki', 'App\Http\Controllers\MuzakkiController');
         Route::get('muzakki/export/excel', [MuzakkiController::class, 'export'])->name('muzakki.export.excel');
+        Route::get('/muzakki/export/pdf', [MuzakkiController::class, 'exportPdf'])->name('muzakki.export.pdf');
 
         Route::resource('mustahik', 'App\Http\Controllers\MustahikController');
+        Route::get('mustahik/export/excel', [MustahikController::class, 'export'])->name('mustahik.export.excel');
+        Route::get('/mustahik/export/pdf', [MustahikController::class, 'exportPdf'])->name('mustahik.export.pdf');
+
         Route::resource('kategori_mustahik', 'App\Http\Controllers\KategoriMustahikController');
         Route::put('/kategori_mustahik/{id}', [KategoriMustahikController::class, 'update'])->name('kategori_mustahik.update');
         Route::get('/get-kategori-mustahik', [KategoriMustahikController::class, 'getKategoriMustahik'])->name('kategori_mustahik.get');

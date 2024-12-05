@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\MustahiExport;
 use App\Http\Controllers\Controller;
 use App\Models\KategoriMustahik;
 use Illuminate\Http\Request;
 use App\Models\Mustahik;
 use Yajra\DataTables\Facades\DataTables;
+use Dompdf\Dompdf;
+use Maatwebsite\Excel\Facades\Excel;
 
 class MustahikController extends Controller
 {
@@ -119,9 +122,7 @@ class MustahikController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-    }
+    public function show($id) {}
 
     /**
      * Show the form for editing the specified resource.
@@ -195,14 +196,12 @@ class MustahikController extends Controller
                 'success' => true,
                 'message' => 'Data berhasil dihapus.'
             ], 200);
-
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             // Handle case when the record is not found
             return response()->json([
                 'success' => false,
                 'message' => 'Data tidak ditemukan.'
             ], 404);
-
         } catch (\Exception $e) {
             // Handle general exceptions
             return response()->json([
@@ -212,4 +211,21 @@ class MustahikController extends Controller
         }
     }
 
+    public function exportPdf()
+    {
+        $mustahiks = Mustahik::select('id', 'nama_mustahik', 'nomor_kk', 'kategori_mustahik', 'jumlah_hak', 'handphone', 'alamat')->get();
+
+        // Load the view and pass the data
+        $pdf = new Dompdf();
+        $pdf->loadHtml(view('admin.mustahik.pdf', compact('mustahiks'))->render());
+        $pdf->setPaper('A4', 'landscape');
+        $pdf->render();
+
+        return $pdf->stream('mustahik.pdf');
+    }
+
+    public function export()
+    {
+        return Excel::download(new MustahiExport, 'muzakki.xlsx');
+    }
 }

@@ -179,26 +179,24 @@
                 },
                 dom: 'Bfrtip',
                 buttons: [{
-                        extend: 'copy',
-                        className: 'btn btn-dark',
-                        text: '<i class="fas fa-copy"></i> Salin'
-                    },
-                    {
                         extend: 'excel',
                         className: 'btn btn-success',
-                        text: '<i class="fas fa-file-excel"></i> Excel'
+                        text: '<i class="fas fa-file-excel"></i> Excel',
+                        action: function(e, dt, node, config) {
+                            window.location =
+                            "{{ route('mustahik.export.excel') }}"; // Redirect to the Excel export route
+                        }
                     },
                     {
                         extend: 'pdf',
                         className: 'btn btn-danger',
-                        text: '<i class="fas fa-file-pdf"></i> PDF'
-                    },
-                    {
-                        extend: 'print',
-                        className: 'btn btn-primary',
-                        text: '<i class="fas fa-print"></i> Cetak'
+                        text: '<i class="fas fa-file-pdf"></i> PDF',
+                        action: function(e, dt, node, config) {
+                            window.location =
+                            "{{ route('mustahik.export.pdf') }}"; // Redirect to the PDF export route
+                        }
                     }
-                ]
+                ],
             });
 
             // Delete button click event
