@@ -114,16 +114,16 @@
                         searchable: false,
                         render: function(data, type, row) {
                             return `
-                        <button class="btn btn-danger btn-delete" data-url="/muzakki/${row.id}" data-id="${row.id}">
-                            <i class="fas fa-trash"></i> Hapus
-                        </button>
-                        <a href="/muzakki/${row.id}/edit" class="btn btn-warning">
-                            <i class="fas fa-pencil-alt"></i> Edit
-                        </a>
-                        <a href="/muzakki/${row.id}" class="btn btn-info">
-                            <i class="fas fa-eye"></i> Detail
-                        </a>
-                    `;
+                    <button class="btn btn-danger btn-delete" data-url="/dashboard/muzakki/${row.id}" data-id="${row.id}">
+                        <i class="fas fa-trash"></i> Hapus
+                    </button>
+                    <a href="/dashboard/muzakki/${row.id}/edit" class="btn btn-warning">
+                        <i class="fas fa-pencil-alt"></i> Edit
+                    </a>
+                    <a href="/dashboard/muzakki/${row.id}" class="btn btn-info">
+                        <i class="fas fa-eye"></i> Detail
+                    </a>
+                `;
                         }
                     }
                 ],
@@ -145,49 +145,19 @@
                 },
                 dom: 'Bfrtip',
                 buttons: [{
-                        extend: 'copy',
-                        className: 'btn btn-black text-white rounded-pill shadow-sm',
-                        text: '<i class="fas fa-copy"></i> Salin'
-                    },
-                    {
-                        extend: 'excel',
-                        className: 'btn btn-black text-white rounded-pill shadow-sm',
-                        text: '<i class="fas fa-file-excel"></i> Excel',
-                        customizeData: function(data) {
-                            data.body.forEach(row => {
-                                // Exclude the action column (last column)
-                                row.pop(); // Remove the last element (action column)
-
-                                // Format jumlah_tanggungan as Rupiah
-                                if (row[2]) { // Check if the value exists
-                                    row[2] = row[2]
-                                } else {
-                                    row[2] =
-                                    ''; // Set to empty string if the value is undefined
-                                }
-                            });
-
-                            // Remove the header for the action column
-                            data.header.pop(); // Remove the last header (action column)
-                        }
-                    },
-                    {
-                        extend: 'pdf',
-                        className: 'btn btn-black text-white rounded-pill shadow-sm',
-                        text: '<i class="fas fa-file-pdf"></i> PDF'
-                    },
-                    {
-                        extend: 'print',
-                        className: 'btn btn-black text-white rounded-pill shadow-sm',
-                        text: '<i class="fas fa-print"></i> Cetak'
+                    text: '<i class="fas fa-file-excel"></i> Export Excel',
+                    className: 'btn btn-black text-white rounded-pill shadow-sm',
+                    action: function(e, dt, node, config) {
+                        window.location = "{{ route('muzakki.export.excel') }}";
                     }
-                ],
+                }],
                 drawCallback: function() {
                     $('#muzakkiTable tbody tr').each(function(index, row) {
                         $(row).addClass('animate__animated animate__fadeIn');
                     });
                 }
             });
+
 
             // Delete action
             $(document).on('click', '.btn-delete', function(e) {

@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Muzakki;
 use DataTables;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\MuzakkiExport;
 
 class MuzakkiController extends Controller
 {
@@ -48,6 +50,10 @@ class MuzakkiController extends Controller
         return view('admin.muzakki.index');
     }
 
+    public function export()
+    {
+        return Excel::download(new MuzakkiExport, 'muzakki.xlsx');
+    }
 
 
 
@@ -122,7 +128,8 @@ class MuzakkiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id) {
+    public function show($id)
+    {
         $item = Muzakki::findOrFail($id);
 
         return view('admin.muzakki.show', [
