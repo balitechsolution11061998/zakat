@@ -76,14 +76,11 @@
                         <p>Perhitungan zakat fitrah dilakukan dengan cara:</p>
                         <ul class="list-disc pl-5">
                             <li>Menentukan jumlah jiwa yang wajib dizakati.</li>
-                            <li>Menentukan jenis bahan makanan pokok yang akan digunakan.</li>
                             <li>Menghitung zakat fitrah.</li>
                         </ul>
                         <p>Zakat fitrah wajib dikeluarkan oleh setiap jiwa yang memenuhi syarat, yaitu beragama Islam,
                             baligh, mampu, dan hidup pada bulan Ramadhan.</p>
-                        <p>Besaran zakat fitrah adalah 2,5 kg atau 3,5 liter beras atau makanan pokok yang biasa dikonsumsi.
-                        </p>
-                        <p>Zakat fitrah juga dapat dibayarkan dalam bentuk uang, dengan nominal yang disesuaikan dengan
+                        <p>Zakat fitrah dapat dibayarkan dalam bentuk uang, dengan nominal yang disesuaikan dengan
                             harga bahan pokok di daerah sekitar.</p>
                         <p>Zakat fitrah dibayarkan sebelum hari raya Idul Fitri atau pada waktu yang ditetapkan oleh lembaga
                             agama setempat.</p>
@@ -95,16 +92,6 @@
                     </div>
 
                     <div>
-                        <label for="jenisMakanan" class="font-medium">Jenis Makanan Pokok</label>
-                        <select id="jenisMakanan" class="form-control">
-                            <option value="beras">Beras (2.5 kg per jiwa)</option>
-                            <option value="gandum">Gandum (2.5 kg per jiwa)</option>
-                            <option value="jagung">Jagung (2.5 kg per jiwa)</option>
-                            <option value="uang">Uang</option>
-                        </select>
-                    </div>
-
-                    <div id="hargaPerKgContainer" style="display: none;">
                         <label for="hargaPerKg" class="font-medium">Harga per kg (Rp)</label>
                         <input type="text" id="hargaPerKg" class="form-control" placeholder="Masukkan harga per kg"
                             onkeyup="formatToRupiah(this)">
@@ -116,6 +103,7 @@
                     <div id="zakatFitrahResult" class="result mt-4"></div>
                 </div>
             </div>
+
         </div>
     </div>
 
@@ -183,21 +171,13 @@
 
         function hitungZakatFitrah() {
             const jumlahJiwa = parseInt(document.getElementById('jumlahJiwa').value) || 0;
-            const jenisMakanan = document.getElementById('jenisMakanan').value;
-            let totalZakat;
-
-            // Calculate total zakat fitrah
-            if (jenisMakanan === 'uang') {
-                const hargaPerKg = parseFloat(document.getElementById('hargaPerKg').value.replace(/\./g, '').replace(/,/g,
-                    '.')) || 0;
-                totalZakat = jumlahJiwa * hargaPerKg; // Calculate total in money
-            } else {
-                totalZakat = jumlahJiwa * 2.5; // 2.5 kg per jiwa for staple foods
-            }
+            const hargaPerKg = parseFloat(document.getElementById('hargaPerKg').value.replace(/\./g, '').replace(/,/g,
+                '.')) || 0;
+            const totalZakat = jumlahJiwa * hargaPerKg; // Calculate total in money
 
             // Display results
             document.getElementById('zakatFitrahResult').innerHTML =
-                `Total Zakat Fitrah: <span>${(jenisMakanan === 'uang' ? 'Rp ' : '') + formatRupiah(totalZakat.toFixed(2)) + (jenisMakanan !== 'uang' ? ' kg' : '')}</span>`;
+                `Total Zakat Fitrah: <span>Rp ${formatRupiah(totalZakat.toFixed(2))}</span>`;
         }
     </script>
 
