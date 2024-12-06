@@ -45,13 +45,13 @@
                     <div>
                         <label for="gaji" class="font-medium">Gaji saya per bulan (Rp)</label>
                         <input type="text" class="form-control" id="gaji" placeholder="0"
-                            onkeyup="formatToRupiah(this)">
+                            onkeyup="formatToRupiah(this); updateTotalPenghasilan()">
                     </div>
 
                     <div>
                         <label for="penghasilanLain" class="font-medium">Penghasilan lain-lain per bulan (Rp)</label>
                         <input type="text" class="form-control" id="penghasilanLain" placeholder="0"
-                            onkeyup="formatToRupiah(this)">
+                            onkeyup="formatToRupiah(this); updateTotalPenghasilan()">
                     </div>
 
                     <div>
@@ -122,6 +122,18 @@
             }
 
             angka.value = rupiah;
+        }
+
+        function updateTotalPenghasilan() {
+            const gaji = parseFloat(document.getElementById('gaji').value.replace(/\./g, '').replace(/,/g, '.')) || 0;
+            const penghasilanLain = parseFloat(document.getElementById('penghasilanLain').value.replace(/\./g, '').replace(
+                /,/g, '.')) || 0;
+
+            // Calculate total income
+            const totalPenghasilan = gaji + penghasilanLain;
+
+            // Update the total income field
+            document.getElementById('totalPenghasilan').value = formatRupiah(totalPenghasilan);
         }
 
         function hitungZakat() {
