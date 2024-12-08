@@ -9,6 +9,7 @@ use App\Models\JumlahZakat;
 use App\Models\Mustahik;
 use App\Models\Muzakki;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 
 class DistribusiZakatController extends Controller
@@ -21,7 +22,8 @@ class DistribusiZakatController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = DistribusiZakat::with('mustahik'); // Load relasi mustahik
+            $userId = Auth::id();
+            $data = DistribusiZakat::with('mustahik')->where('user_id', $userId)->get();
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
@@ -81,6 +83,8 @@ class DistribusiZakatController extends Controller
         DB::beginTransaction();
 
         try {
+            $userId = Auth::id();
+
             // Mengambil data jumlah zakat saat ini
             $jumlahZakat = JumlahZakat::first();
             // Memeriksa apakah stok beras cukup
@@ -96,6 +100,7 @@ class DistribusiZakatController extends Controller
 
             // Membuat entri baru di tabel PengumpulanZakat dengan data yang sudah disanitasi
             $pengumpulanZakat = new DistribusiZakat();
+            $pengumpulanZakat->user_id = $userId; // Set user_id
             $pengumpulanZakat->nama_mustahik = $request->nama_mustahik;
             $pengumpulanZakat->jenis_zakat = $request->jenis_zakat;
             $pengumpulanZakat->jumlah_beras = $request->jumlah_beras;
@@ -177,6 +182,7 @@ class DistribusiZakatController extends Controller
         DB::beginTransaction();
 
         try {
+            $userId = Auth::id();
             // Fetch the current zakat amounts
             $jumlahZakat = JumlahZakat::first();
 
@@ -193,6 +199,7 @@ class DistribusiZakatController extends Controller
             if ($request->jenis_zakat === 'uang' && $jumlahZakat->jumlah_uang < $jumlahUang) {
                 throw new \Exception('Stok uang tidak cukup', 400);
             }
+            $item->user_id = $userId; // Set user_id
 
             // Update the existing record with sanitized data
             $item->nama_mustahik = $request->nama_mustahik;

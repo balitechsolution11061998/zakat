@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth; // Import Auth facade
 use App\Http\Controllers\Controller;
 use App\Models\JumlahZakat;
 use App\Models\Muzakki;
@@ -20,9 +21,11 @@ class PengumpulanZakatController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = PengumpulanZakat::with('muzzaki'); // Load relasi muzzaki
+            // Get the authenticated user's ID
+            $userId = Auth::id();
+            $data = PengumpulanZakat::with('muzzaki')->where('user_id', $userId); // Load relasi muzzaki
             return DataTables::of($data)
-            ->addIndexColumn() // Add index column
+                ->addIndexColumn() // Add index column
                 ->addColumn('action', function ($row) {
                     return '
                         <a class="btn btn-primary btn-sm rounded-pill shadow-sm"
@@ -30,12 +33,12 @@ class PengumpulanZakatController extends Controller
                             data-bs-toggle="tooltip" title="Edit">
                             <i class="fas fa-pen"></i>
                         </a>
-                    <button class="btn btn-danger btn-sm rounded-pill shadow-sm btn-delete"
-                                data-id="' . $row->id . '"
-                                data-url="' . route('pengumpulan_zakat.destroy', $row->id) . '"
-                                data-bs-toggle="tooltip" title="Delete">
-                                <i class="fas fa-trash"></i>
-                            </button>
+                        <button class="btn btn-danger btn-sm rounded-pill shadow-sm btn-delete"
+                            data-id="' . $row->id . '"
+                            data-url="' . route('pengumpulan_zakat.destroy', $row->id) . '"
+                            data-bs-toggle="tooltip" title="Delete">
+                            <i class="fas fa-trash"></i>
+                        </button>
                     ';
                 })
                 ->addColumn('nama_muzzaki', function ($row) {
@@ -47,23 +50,20 @@ class PengumpulanZakatController extends Controller
                 ->editColumn('bayar_uang', function ($row) {
                     return $row->bayar_uang ? 'Rp ' . number_format($row->bayar_uang, 0, ',', '.') : '-';
                 })
-                ->rawColumns(['action']) // Agar HTML tombol action dirender
+                ->rawColumns(['action']) // Allow HTML in action column
                 ->make(true);
         }
 
         return view('admin.pengumpulan_zakat.index');
     }
 
-
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-
     public function create()
     {
-
         $items = Muzakki::all();
         return view('admin.pengumpulan_zakat.create', compact('items'));
     }
@@ -90,11 +90,15 @@ class PengumpulanZakatController extends Controller
         DB::beginTransaction();
 
         try {
+            // Get the authenticated user's ID
+            $userId = Auth::id();
+
             // Cleaning and formatting `bayar_uang`
             $bayar_uang = preg_replace('/[^\d]/', '', $request->bayar_uang); // Remove non-numeric characters
 
             // Create a new entry in the PengumpulanZakat table
             $pengumpulanZakat = new PengumpulanZakat();
+            $pengumpulanZakat->user_id = $userId; // Set user_id
             $pengumpulanZakat->nama_muzakki = $request->nama_muzakki;
             $pengumpulanZakat->jumlah_tanggungan = $request->jumlah_tanggungan;
             $pengumpulanZakat->jumlah_tanggungandibayar = $request->jumlah_tanggungan_dibayar;
@@ -148,7 +152,6 @@ class PengumpulanZakatController extends Controller
         }
     }
 
-
     /**
      * Display the specified resource.
      *
@@ -197,6 +200,9 @@ class PengumpulanZakatController extends Controller
         DB::beginTransaction();
 
         try {
+            // Get the authenticated user's ID
+            $userId = Auth::id();
+
             // Fetch existing record
             $pengumpulanZakat = PengumpulanZakat::findOrFail($id);
 
@@ -220,6 +226,7 @@ class PengumpulanZakatController extends Controller
             $jumlahZakat->jumlah_uang -= $pengumpulanZakat->bayar_uang;
 
             // Update the PengumpulanZakat record
+            $pengumpulanZakat->user_id = $userId; // Set user_id
             $pengumpulanZakat->nama_muzakki = $request->nama_muzakki;
             $pengumpulanZakat->jumlah_tanggungan = $request->jumlah_tanggungan;
             $pengumpulanZakat->jumlah_tanggungandibayar = $request->jumlah_tanggungandibayar;
@@ -248,7 +255,6 @@ class PengumpulanZakatController extends Controller
                 ->with('error', 'Terjadi kesalahan saat memperbarui data pengumpulan zakat: ' . $e->getMessage());
         }
     }
-
 
     /**
      * Remove the specified resource from storage.

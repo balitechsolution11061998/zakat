@@ -12,34 +12,22 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('users')->insert([
+        $userId = DB::table('users')->insertGetId([
             'nama_masjid' => 'Administrator',
             'kota' => 'Sidoarjo',
             'email' => 'admin@example.com',
             'password' => bcrypt('password'),
         ]);
 
+        // Insert into jumlah_zakat with the user_id
         DB::table('jumlah_zakat')->insert([
+            'user_id' => $userId, // Set the user_id to the ID of the inserted user
             'jumlah_uang' => 0,
             'total_uang' => 0,
             'total_distribusi' => 0,
         ]);
 
 
-        DB::table('kategori_mustahik')->insert([
-            'nama_kategori' => 'Fakir',
-            'jumlah_hak' => 1,
-        ]);
-
-        DB::table('kategori_mustahik')->insert([
-            'nama_kategori' => 'Miskin',
-            'jumlah_hak' => 2,
-        ]);
-
-        DB::table('kategori_mustahik')->insert([
-            'nama_kategori' => 'Amil',
-            'jumlah_hak' => 1,
-        ]);
 
     }
 }

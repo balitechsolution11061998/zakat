@@ -46,6 +46,8 @@ Route::prefix('dashboard')
         Route::resource('laporan_distribusi', 'App\Http\Controllers\LaporanDistribusiController');
 
         Route::resource('laporan_distribusi', 'App\Http\Controllers\LaporanDistribusiController');
-
     });
+Route::middleware(['auth'])->group(function () {
     Route::get('/profile/settings', [ProfileController::class, 'settings'])->name('profile.settings');
+    Route::put('/profile/{id}', [ProfileController::class, 'update'])->name('profile.update');
+});

@@ -16,25 +16,35 @@
                     <div class="card-header bg-success text-white rounded-top-2 text-left">
                         <h3 class="mb-0" style="font-family: 'Roboto', sans-serif;">Profile User</h3>
                     </div>
-                    <div class="card-body text-left"> <!-- Changed text-center to text-left -->
+                    <div class="card-body text-left">
                         <div class="profile-header">
-                            <div class="profile-picture mb-3">
-                                <img src="{{ Auth::user()->profile_picture }}" alt="Profile Picture" class="rounded-circle border border-4 border-success" style="width: 120px; height: 120px;">
-                            </div>
-                            <h4 class="mb-0 text-white-custom" style="font-family: 'Roboto', sans-serif;">{{ Auth::user()->name }}</h4>
-                            <p class="text-muted text-white-custom" style="font-family: 'Poppins', sans-serif;">{{ Auth::user()->email }}</p>
-                            <p class="text-muted text-white-custom" style="font-family: 'Poppins', sans-serif;">Masjid: {{ Auth::user()->nama_masjid }}</p>
-                            <p class="text-muted text-white-custom" style="font-family: 'Poppins', sans-serif;">Kota: {{ Auth::user()->kota }}</p>
-                            {{-- <a href="{{ route('profile.settings') }}" class="btn btn-primary rounded-pill mt-3">
-                                <i class="fas fa-cog me-2"></i> Settings
-                            </a> --}}
+
+                            <form action="{{ route('profile.update', Auth::user()->id) }}" method="POST">
+                                @csrf
+                                @method('PUT')
+
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="email" id="email" name="email" class="form-control" value="{{ Auth::user()->email }}" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="nama_masjid" class="form-label">Masjid</label>
+                                    <input type="text" id="nama_masjid" name="nama_masjid" class="form-control" value="{{ Auth::user()->nama_masjid }}" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="kota" class="form-label">Kota</label>
+                                    <input type="text" id="kota" name="kota" class="form-control" value="{{ Auth::user()->kota }}" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary rounded-pill mt-3">
+                                    <i class="fas fa-save me-2"></i> Save Changes
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- User Data Section -->
-
 
         </div>
     </div>
@@ -43,8 +53,6 @@
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- DataTables JS -->
-
-
 @endsection
 
 @endsection
