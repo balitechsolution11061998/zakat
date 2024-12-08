@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Models\Muzakki;
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithTitle;
@@ -13,6 +14,7 @@ class MuzakkiExport implements FromCollection, WithHeadings, WithTitle
     {
         // Fetch the data and format jumlah_tanggungan as Rupiah
         return Muzakki::select('id', 'nama_muzakki', 'jumlah_tanggungan', 'alamat', 'handphone')
+            ->where('user_id', Auth::user()->id)
             ->get()
             ->map(function ($muzakki) {
                 $muzakki->jumlah_tanggungan = $this->formatRupiah($muzakki->jumlah_tanggungan);

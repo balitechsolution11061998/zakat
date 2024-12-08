@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\Mustahik;
 use Yajra\DataTables\Facades\DataTables;
 use Dompdf\Dompdf;
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 
 class MustahikController extends Controller
@@ -23,6 +24,7 @@ class MustahikController extends Controller
         if ($request->ajax()) {
             // Fetch the data with a LEFT JOIN to ensure that even items without categories are included
             $items = Mustahik::with('kategori_mustahik')
+                ->where('user_id', Auth::user()->id)
                 ->get(); // Use get() to retrieve all records
 
             return DataTables::of($items)
@@ -56,13 +58,11 @@ class MustahikController extends Controller
         return view('admin.mustahik.index');
     }
 
-
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-
     public function create()
     {
         $items = KategoriMustahik::all();
@@ -97,6 +97,7 @@ class MustahikController extends Controller
                 'jumlah_hak' => $validatedData['jumlah_hak'],
                 'handphone' => $validatedData['handphone'],
                 'alamat' => $validatedData['alamat'],
+                'user_id' => Auth::user()->id, // Set user_id to the authenticated user's ID
             ]);
 
             // Return success response
@@ -114,7 +115,6 @@ class MustahikController extends Controller
             ], 500); // 500 Internal Server Error
         }
     }
-
 
     /**
      * Display the specified resource.
@@ -151,14 +151,23 @@ class MustahikController extends Controller
     public function update(Request $request, $id)
     {
         try {
-            // Retrieve all form data from the request
-            $data = $request->all();
+            // Validate the incoming request data
+            $validatedData = $request->validate([
+                'nama_mustahik' => 'required|string|max:255',
+                'nomor_kk' => 'required|numeric',
+                'kategori_mustahik' => 'required|string',
+                'jumlah_hak' => 'required|numeric',
+                'handphone' => 'required|numeric',
+                'alamat' => 'required|string',
+            ]);
 
             // Find the Mustahik record by ID
             $item = Mustahik::findOrFail($id);
 
             // Update the Mustahik record with new data
-            $item->update($data);
+            $item->update(array_merge($validatedData, [
+                'user_id' => Auth::user()->id, // Set user_id to the authenticated user's ID
+            ]));
 
             // Return a successful response as JSON
             return response()->json([
@@ -174,7 +183,6 @@ class MustahikController extends Controller
             ], 500); // Return HTTP status 500 for internal server errors
         }
     }
-
 
     /**
      * Remove the specified resource from storage.
@@ -213,7 +221,8 @@ class MustahikController extends Controller
 
     public function exportPdf()
     {
-        $mustahiks = Mustahik::select('id', 'nama_mustahik', 'nomor_kk', 'kategori_mustahik', 'jumlah_hak', 'handphone', 'alamat')->get();
+        $mustahiks = Mustahik::select('id', 'nama_mustahik', 'nomor_kk', 'kategori_mustahik', 'jumlah_hak', 'handphone', 'alamat')->where('user_id', Auth::user()->id)
+        ->get();
 
         // Load the view and pass the data
         $pdf = new Dompdf();

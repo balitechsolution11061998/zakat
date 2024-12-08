@@ -1,18 +1,113 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Kalkulator Zakat</title>
 
-@section('content')
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOM6g0g5g5g5g5g5g5g5g5g5g5g5g5g5g5g5g5" crossorigin="anonymous">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            background-image: url('images/6.jpg');
+            background-size: cover;
+            background-position: center;
+            color: #000; /* Set text color to black */
+            font-family: 'Roboto', sans-serif; /* Use Roboto font */
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.8); /* Light background for header */
+            padding: 50px 0;
+            text-align: center;
+            border-radius: 0 0 15px 15px;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #333; /* Darker text color for contrast */
+        }
+
+        .header h5 {
+            font-size: 1.5rem;
+            color: #555; /* Slightly lighter color for subtitle */
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.9); /* Light background for container */
+            border-radius: 15px;
+            padding: 30px;
+        }
+
+        .card {
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-success {
+            background-color: #28a745;
+            border: none;
+        }
+
+        .btn-success:hover {
+            background-color: #218838;
+        }
+
+        .result {
+            margin-top: 1rem;
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .alert-info {
+            background-color: rgba(0, 123, 255, 0.1);
+            border-color: rgba(0, 123, 255, 0.2);
+        }
+
+        .rounded-circle {
+            border-radius: 50%;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s;
+        }
+
+        .rounded-circle:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Kalkulator Zakat</h1>
+        <h5>Menunaikan Kewajiban Zakat dengan Mudah dan Cepat</h5>
+    </div>
+
     <div class="container mx-auto p-6">
         <div class="row mb-5">
-            <img src="images/berzakat.jpg" class="col-6 rounded-lg shadow-lg">
+            <img src="images/berzakat.jpg" class="col-6 rounded-circle shadow-lg"> <!-- Softer rounded image -->
             <div class="col-6">
-                <h1 class="text-3xl font-bold text-white">Tunaikan Kewajiban Zakat</h1>
-                <h5 class="text-lg text-white mt-2">"Ambillah zakat dari harta mereka, guna membersihkan dan menyucikan
+                <h1 class="text-3xl font-bold">Tunaikan Kewajiban Zakat</h1>
+                <h5 class="text-lg mt-2">"Ambillah zakat dari harta mereka, guna membersihkan dan menyucikan
                     mereka, dan berdoalah untuk
                     mereka. Sesungguhnya doamu itu (menumbuhkan) ketenteraman jiwa bagi mereka. Allah Maha Mendengar,
                     Maha Mengetahui." Q.S At-Taubah : 103</h5>
                 @guest
                     <a href="{{ url('/login') }}" class="btn btn-success mt-4">
-                        <span>Login</span>
+                        <i class="fas fa-sign-in-alt"></i> Login <!-- Font Awesome icon for login -->
                     </a>
                 @endguest
             </div>
@@ -170,17 +265,6 @@
             return 'Rp ' + angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
         }
 
-        // Zakat Fitrah Functions
-        document.getElementById('jenisMakanan').addEventListener('change', function() {
-            const jenisMakanan = this.value;
-            const hargaPerKgContainer = document.getElementById('hargaPerKgContainer');
-            if (jenisMakanan === 'uang') {
-                hargaPerKgContainer.style.display = 'block'; // Show price input for cash
-            } else {
-                hargaPerKgContainer.style.display = 'none'; // Hide price input for staple foods
-            }
-        });
-
         function hitungZakatFitrah() {
             const jumlahJiwa = parseInt(document.getElementById('jumlahJiwa').value) || 0;
             const hargaPerKg = parseFloat(document.getElementById('hargaPerKg').value.replace(/\./g, '').replace(/,/g,
@@ -193,31 +277,8 @@
         }
     </script>
 
-    <style>
-        body {
-            background-image: url('images/6.jpg');
-            background-size: cover;
-        }
-
-        h1,
-        h5 {
-            color: white;
-        }
-
-        .info-text {
-            color: red;
-        }
-
-        .result {
-            margin-top: 1rem;
-            color: green;
-        }
-
-        .card {
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-            /* Ensure cards take full height */
-        }
-    </style>
-@endsection
+    <!-- Bootstrap 5 JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+</body>
+</html>

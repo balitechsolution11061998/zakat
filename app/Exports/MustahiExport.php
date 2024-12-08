@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Models\Mustahik; // Import the Mustahik model
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
@@ -14,7 +15,8 @@ class MustahiExport implements FromCollection, WithHeadings
     public function collection()
     {
         // Fetch the Mustahik data
-        return Mustahik::select('id', 'nama_mustahik', 'nomor_kk', 'kategori_mustahik', 'jumlah_hak', 'handphone', 'alamat')->get();
+        return Mustahik::select('id', 'nama_mustahik', 'nomor_kk', 'kategori_mustahik', 'jumlah_hak', 'handphone', 'alamat')->where('user_id', Auth::user()->id)
+        ->get();
     }
 
     /**

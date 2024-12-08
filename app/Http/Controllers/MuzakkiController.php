@@ -10,6 +10,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\MuzakkiExport;
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use Illuminate\Support\Facades\Auth;
 
 class MuzakkiController extends Controller
 {
@@ -21,7 +22,7 @@ class MuzakkiController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $items = Muzakki::query();
+            $items = Muzakki::where('user_id', Auth::user()->id);
             return DataTables::of($items)
                 ->addColumn('action', function ($item) {
                     return '
@@ -59,7 +60,7 @@ class MuzakkiController extends Controller
 
     public function exportPdf()
     {
-        $muzakkis = Muzakki::select('id', 'nama_muzakki', 'jumlah_tanggungan', 'alamat', 'handphone')->get();
+        $muzakkis = Muzakki::select('id', 'nama_muzakki', 'jumlah_tanggungan', 'alamat', 'handphone')->where('user_id',Auth::user()->id)->get();
 
         // Load the view and pass the data
         $pdf = new Dompdf();
@@ -115,6 +116,7 @@ class MuzakkiController extends Controller
 
             // Remove dots from jumlah_tanggungan
             $validated['jumlah_tanggungan'] = str_replace('.', '', $validated['jumlah_tanggungan']);
+            $validated['user_id'] = Auth::user()->id;
 
             // Create a new Muzakki record with validated data
             Muzakki::create($validated);
@@ -184,6 +186,7 @@ class MuzakkiController extends Controller
 
             // Remove dots from jumlah_tanggungan
             $validated['jumlah_tanggungan'] = str_replace('.', '', $validated['jumlah_tanggungan']);
+            $validated['user_id'] = Auth::user()->id;
 
             // Find the Muzakki record by ID
             $item = Muzakki::findOrFail($id);

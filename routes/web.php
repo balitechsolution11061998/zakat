@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\KategoriMustahikController;
 use App\Http\Controllers\MustahikController;
 use App\Http\Controllers\MuzakkiController;
@@ -11,7 +12,8 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-
+Route::get('register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+Route::post('register', [RegisterController::class, 'create']);
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::prefix('dashboard')
