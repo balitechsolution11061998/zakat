@@ -299,23 +299,33 @@
                     </a>
                     <div class="dropdown-menu dropdown-user-profile dropdown-menu-end pc-h-dropdown">
                         <div class="dropdown-header">
-                            <h4>Good Morning, <span class="small text-muted"> {{ Auth::user()->name }}</span></h4>
+                            @php
+                                $currentHour = date('H'); // Get the current hour in 24-hour format
+                                if ($currentHour < 12) {
+                                    $greeting = 'Good Morning';
+                                } elseif ($currentHour < 18) {
+                                    $greeting = 'Good Afternoon';
+                                } else {
+                                    $greeting = 'Good Evening';
+                                }
+                            @endphp
+                            <h4>{{ $greeting }}, <span class="small text-muted">{{ Auth::user()->name }}</span></h4>
                             <hr>
-                            <div class="profile-notification-scroll position-relative"
-                                style="max-height: calc(100vh - 280px)">
-
-
-
+                            <div class="profile-notification-scroll position-relative" style="max-height: calc(100vh - 280px)">
+                                <a class="dropdown-item" href="{{ route('profile.settings') }}">
+                                    <i class="fas fa-cog me-2"></i> Settings
+                                </a>
                                 <a class="dropdown-item text-danger" href="{{ route('logout') }}"
                                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i
-                                        class="fas fa-sign-out-alt me-2"></i> Logout</a>
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                    style="display: none;">
+                                    class="fas fa-sign-out-alt me-2"></i> Logout</a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                     @csrf
                                 </form>
                             </div>
                         </div>
                     </div>
+
+
                 </li>
             </ul>
         </div>

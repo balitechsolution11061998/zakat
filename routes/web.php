@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\KategoriMustahikController;
 use App\Http\Controllers\MustahikController;
 use App\Http\Controllers\MuzakkiController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -47,3 +48,4 @@ Route::prefix('dashboard')
         Route::resource('laporan_distribusi', 'App\Http\Controllers\LaporanDistribusiController');
 
     });
+    Route::get('/profile/settings', [ProfileController::class, 'settings'])->name('profile.settings');
