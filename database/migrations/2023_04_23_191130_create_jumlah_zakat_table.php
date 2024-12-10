@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('jumlah_zakat', function (Blueprint $table) {
             $table->id();
-            $table->integer('jumlah_beras')->nullable();
             $table->integer('jumlah_uang')->nullable();
             $table->integer('total_uang')->nullable();
             $table->integer('total_distribusi')->nullable();
