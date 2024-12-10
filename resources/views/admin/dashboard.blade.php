@@ -78,7 +78,6 @@
                                                 <th>Nama Muzzaki</th>
                                                 <th>Jenis Bayar</th>
                                                 <th>Jml Tanggungan Dibayar</th>
-                                                <th>Bayar Beras</th>
                                                 <th>Bayar Uang</th>
                                             </tr>
                                         </thead>
@@ -89,17 +88,6 @@
                             </div>
                         </div>
                     </div>
-
-                    {{-- <div class="col-xl-6 col-lg-12">
-                        <div class="card shadow-sm rounded-3">
-                            <div class="card-header bg-light rounded-top-3">
-                                <h5 class="mb-0">📅 Kalender</h5>
-                            </div>
-                            <div class="card-body">
-                                <div id="calendar"></div>
-                            </div>
-                        </div>
-                    </div> --}}
                 </div>
             </div>
         </div>
@@ -109,23 +97,6 @@
 
     <script>
         $(document).ready(function() {
-            // Initialize FullCalendar
-            // var calendarEl = document.getElementById('calendar');
-            // var calendar = new FullCalendar.Calendar(calendarEl, {
-            //     initialView: 'dayGridMonth',
-            //     headerToolbar: {
-            //         left: 'prev,next today',
-            //         center: 'title',
-            //         right: 'dayGridMonth,timeGridWeek,timeGridDay'
-            //     },
-
-            //     editable: true,
-            //     selectable: true,
-            //     eventClick: function(info) {
-            //         alert('Event: ' + info.event.title);
-            //     }
-            // });
-            // calendar.render();
 
             // Initialize DataTable
             $('#pengumpulanZakatTable').DataTable({
@@ -139,7 +110,6 @@
                     }},
                     { data: 'jenis_bayar', name: 'jenis_bayar' },
                     { data: 'jumlah_tanggungandibayar', name: 'jumlah_tanggungandibayar' },
-                    { data: 'bayar_beras', name: 'bayar_beras' },
                     { data: 'bayar_uang', name: 'bayar_uang' }
                 ]
             });
