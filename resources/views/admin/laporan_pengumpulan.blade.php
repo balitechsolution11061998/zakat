@@ -46,20 +46,6 @@
                         <div class="card shadow-sm border-0 rounded-3 animate__animated animate__fadeInUp d-flex flex-column">
                             <div class="bg-success text-white card-body rounded-3 flex-grow-1 d-flex align-items-center">
                                 <div class="icon-container me-3">
-                                    <i data-feather="package" class="icon-lg"></i>
-                                </div>
-                                <div class="flex-grow-1 text-center">
-                                    <h5 class="card-title">Total Beras</h5>
-                                    <h2 class="mb-0 counter" style="color: white">{{ $totalBeras }}</h2>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3 mb-4">
-                        <div class="card shadow-sm border-0 rounded-3 animate__animated animate__fadeInUp d-flex flex-column">
-                            <div class="bg-success text-white card-body rounded-3 flex-grow-1 d-flex align-items-center">
-                                <div class="icon-container me-3">
                                     <i data-feather="dollar-sign" class="icon-lg"></i>
                                 </div>
                                 <div class="flex-grow-1 text-center">
@@ -72,9 +58,6 @@
 
                 </div>
             </div>
-
-
-
 
             <!-- Data Table Section -->
             <div class="container">
@@ -92,7 +75,6 @@
                                         <th>Nama Muzakki</th>
                                         <th>Jenis Bayar</th>
                                         <th>Jml Tanggungan Dibayar</th>
-                                        <th>Bayar Beras</th>
                                         <th>Bayar Uang</th>
                                     </tr>
                                 </thead>
@@ -137,9 +119,6 @@
                         data: 'muzzaki',
                         name: 'muzzaki',
                         render: function(data, type, row) {
-                            function formatRupiah(angka) {
-                                return 'Rp ' + angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-                            }
                             if (data) {
                                 return `
                                     <div class="d-flex align-items-center">
@@ -148,7 +127,7 @@
                                         </div>
                                         <div>
                                             <strong>${data.nama_muzakki}</strong><br>
-                                            <span class="text-muted">Tanggungan: ${formatRupiah(row.jumlah_tanggungandibayar)}</span>
+                                            <span class="text-muted">Tanggungan: ${formatRupiah(row.jumlah_tanggungan_dibayar)}</span>
                                         </div>
                                     </div>
                                 `;
@@ -160,7 +139,7 @@
                                         </div>
                                         <div>
                                             <strong>Tidak Diketahui</strong><br>
-                                            <span class="text-muted">Tanggungan: ${formatRupiah(row.jumlah_tanggungandibayar)}</span>
+                                            <span class="text-muted">Tanggungan: ${formatRupiah(row.jumlah_tanggungan_dibayar)}</span>
                                         </div>
                                     </div>
                                 `;
@@ -169,13 +148,12 @@
                     },
                     { data: 'jenis_bayar', name: 'jenis_bayar' },
                     {
-                        data: 'jumlah_tanggungandibayar',
-                        name: 'jumlah_tanggungandibayar',
+                        data: 'jumlah_tanggungan_dibayar',
+                        name: 'jumlah_tanggungan_dibayar',
                         render: function(data) {
                             return `<span>${formatRupiah(data)}</span>`;
                         }
                     },
-                    { data: 'bayar_beras', name: 'bayar_beras' },
                     { data: 'bayar_uang', name: 'bayar_uang' },
                 ]
             });

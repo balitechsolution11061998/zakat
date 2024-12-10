@@ -59,19 +59,21 @@
                                         <i class="fas fa-info-circle me-3" style="font-size: 1.5rem;"></i>
                                         <span class="badge bg-primary text-wrap"
                                             style="font-size: 1rem; padding: 12px; line-height: 1.5;">
-                                            Isi salah satu dari 2 form dibawah ini, jika memilih beras sebelumnya maka isi dengan satuan KG dan jika uang maka isi dengan nominal angka tanpa RP
+                                            Isi form dibawah ini dengan benar dan lengkap.
                                         </span>
                                     </div>
                                 </div>
+
+                                <!-- Jenis Bayar -->
                                 <div class="col-md-4 mb-4">
                                     <div class="form-group">
-                                        <label for="jenis_zakat">Jenis Bayar *</label>
+                                        <label for="jenis_zayar">Jenis Bayar *</label>
                                         <select class="form-control @error('jenis_zakat') is-invalid @enderror"
                                                 id="jenis_zakat"
                                                 name="jenis_zakat">
                                             <option value="">Pilih Jenis Bayar</option>
                                             <option value="uang" {{ $item->jenis_zakat == 'uang' ? 'selected' : '' }}>Uang</option>
-                                            <option value="beras" {{ $item->jenis_zakat == 'beras' ? 'selected' : '' }}>Beras</option>
+                                            <!-- Removed Beras option -->
                                         </select>
                                         @error('jenis_zakat')
                                             <span class="invalid-feedback" role="alert">
@@ -79,12 +81,6 @@
                                             </span>
                                         @enderror
                                     </div>
-                                </div>
-                                <!-- Bayar Beras Input -->
-                                <div class="col-md-4 mb-4">
-                                    <label for="jumlah_beras" class="form-label">Bayar Beras *</label>
-                                    <input type="number" class="form-control" id="jumlah_beras" name="jumlah_beras"
-                                        placeholder="Masukkan jumlah dalam KG" value="{{ old('jumlah_beras', $item->jumlah_beras) }}">
                                 </div>
 
                                 <!-- Bayar Uang Input -->
@@ -131,7 +127,7 @@
 
             Swal.fire({
                 title: 'Konfirmasi',
-                text: 'Apakah Anda yakin ingin mengupdate data pengumpulan zakat?',
+                text: 'Apakah Anda yakin ingin mengupdate data distribusi zakat?',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -176,7 +172,7 @@
                                 }).then(() => {
                                     form.reset(); // Reset the form
                                     // Redirect to /dashboard/zakat/
-                                    window.location.href = '/dashboard/pengumpulan_zakat/';
+                                    window.location.href = '/dashboard/distribusi_zakat/';
                                 });
                             } else {
                                 Swal.fire({

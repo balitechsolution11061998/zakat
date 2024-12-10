@@ -46,20 +46,6 @@
                         <div class="card shadow-sm border-0 rounded-3 animate__animated animate__fadeInUp d-flex flex-column">
                             <div class="bg-success text-white card-body rounded-3 flex-grow-1 d-flex align-items-center">
                                 <div class="icon-container me-3">
-                                    <i data-feather="package" class="icon-lg"></i>
-                                </div>
-                                <div class="flex-grow-1 text-center">
-                                    <h5 class="card-title">Total Beras</h5>
-                                    <h2 class="mb-0 counter" style="color: white">{{ $totalBeras }}</h2>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3 mb-4">
-                        <div class="card shadow-sm border-0 rounded-3 animate__animated animate__fadeInUp d-flex flex-column">
-                            <div class="bg-success text-white card-body rounded-3 flex-grow-1 d-flex align-items-center">
-                                <div class="icon-container me-3">
                                     <i data-feather="dollar-sign" class="icon-lg"></i>
                                 </div>
                                 <div class="flex-grow-1 text-center">
@@ -88,7 +74,6 @@
                                         <th>ID</th>
                                         <th>Nama Mustahik</th>
                                         <th>Jenis Zakat</th>
-                                        <th>Jumlah Beras</th>
                                         <th>Jumlah Uang</th>
                                     </tr>
                                 </thead>
@@ -133,9 +118,6 @@
                         data: 'mustahik',
                         name: 'mustahik',
                         render: function(data, type, row) {
-                            function formatRupiah(angka) {
-                                return 'Rp ' + angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-                            }
                             if (data) {
                                 return `
                                     <div class="d-flex align-items-center">
@@ -162,7 +144,6 @@
                         }
                     },
                     { data: 'jenis_zakat', name: 'jenis_zakat' },
-                    { data: 'jumlah_beras', name: 'jumlah_beras' },
                     { data: 'jumlah_uang', name: 'jumlah_uang' },
                 ]
             });

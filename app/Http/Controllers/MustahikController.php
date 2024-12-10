@@ -65,9 +65,7 @@ class MustahikController extends Controller
      */
     public function create()
     {
-        $items = KategoriMustahik::all();
-
-        return view('admin.mustahik.create', compact('items'));
+        return view('admin.mustahik.create');
     }
 
     /**

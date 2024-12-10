@@ -1,11 +1,12 @@
 @extends('layouts.apps')
 
-@section('title', 'Data Pengumpulan Zaqat')
+@section('title', 'Data Pengumpulan Zakat')
 @section('content')
     <!-- DataTables CSS -->
     <link href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.bootstrap5.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+
     <div class="pc-container">
         <div class="pc-content">
 
@@ -13,20 +14,18 @@
             <div class="container mb-4 mt-10">
                 <div class="card rounded shadow-lg animate__animated animate__fadeInDown">
                     <div class="card-header bg-success text-white rounded-top-2 text-left">
-                        <h3 class="mb-0" style="font-family: 'Roboto', sans-serif;color:white;">Data Pengumpulan Zakat
-                        </h3>
+                        <h3 class="mb-0" style="font-family: 'Roboto', sans-serif;color:white;">Data Pengumpulan Zakat</h3>
                     </div>
                     <div class="card-body">
                         <p class="text-muted" style="font-family: 'Poppins', sans-serif; text-align: justify;">
-                            Dibawah ini adalah data pengumpulan zakat yang telah anda tambahkan. Data dibawah juga bisa anda
+                            Di bawah ini adalah data pengumpulan zakat yang telah Anda tambahkan. Data di bawah juga bisa Anda
                             lihat detailnya dengan menekan logo mata berwarna hijau, edit dengan menekan logo pencil
-                            berwarna ungu dan hapus dengan menekan logo sampah berwarna merah
+                            berwarna ungu dan hapus dengan menekan logo sampah berwarna merah.
                         </p>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="pc-content">
+
             <div class="container">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h4 class="mb-0" style="font-family: 'Roboto', sans-serif; color: #333;">Data Pengumpulan Zakat</h4>
@@ -36,20 +35,17 @@
                 </div>
                 <div class="card rounded shadow-lg animate__animated animate__fadeInUp">
                     <div class="card-header bg-success text-white rounded-top-2 text-left">
-                        <h4 class="mb-0" style="font-family: 'Roboto', sans-serif; color: white;">Tabel Data Pengumpulan
-                            Zakat</h4>
+                        <h4 class="mb-0" style="font-family: 'Roboto', sans-serif; color: white;">Tabel Data Pengumpulan Zakat</h4>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive rounded-4">
-                            <table id="pengumpulanZakatTable"
-                                class="table table-striped table-bordered rounded-4 overflow-hidden">
+                            <table id="pengumpulanZakatTable" class="table table-striped table-bordered rounded-4 overflow-hidden">
                                 <thead class="table-success">
                                     <tr class="text-center">
                                         <th>ID</th>
                                         <th>Nama Muzakki</th>
                                         <th>Jenis Bayar</th>
                                         <th>Jml Tanggungan Dibayar</th>
-                                        <th>Bayar Beras</th>
                                         <th>Bayar Uang</th>
                                         <th>Opsi</th>
                                     </tr>
@@ -62,11 +58,9 @@
                     </div>
                 </div>
             </div>
+
         </div>
-
-
     </div>
-
 
 @section('scripts')
 
@@ -93,15 +87,13 @@
                 ajax: "{{ route('pengumpulan_zakat.index') }}", // Replace with your route
                 columns: [
                     { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false }, // Index Column
-
                     {
                         data: 'muzzaki', // Mengacu pada relasi
                         name: 'muzzaki',
                         render: function(data, type, row) {
                             // Fungsi untuk format Rupiah
                             function formatRupiah(angka) {
-                                return 'Rp ' + angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g,
-                                    '.');
+                                return 'Rp ' + angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
                             }
 
                             // Periksa apakah data tersedia
@@ -113,7 +105,7 @@
                                         </div>
                                         <div>
                                             <strong>${data.nama_muzakki}</strong><br>
-                                            <span class="text-muted">Tanggungan: ${formatRupiah(row.jumlah_tanggungandibayar)}</span>
+                                            <span class="text-muted">Tanggungan: ${formatRupiah(row.jumlah_tanggungan_dibayar)}</span>
                                         </div>
                                     </div>
                                 `;
@@ -125,28 +117,20 @@
                                         </div>
                                         <div>
                                             <strong>Tidak Diketahui</strong><br>
-                                            <span class="text-muted">Tanggungan: ${formatRupiah(row.jumlah_tanggungandibayar)}</span>
+                                            <span class="text-muted">Tanggungan: ${formatRupiah(row.jumlah_tanggungan_dibayar)}</span>
                                         </div>
                                     </div>
                                 `;
                             }
                         }
                     },
-
+                    { data: 'jenis_bayar', name: 'jenis_bayar' },
                     {
-                        data: 'jenis_bayar',
-                        name: 'jenis_bayar'
-                    },
-                    {
-                        data: 'jumlah_tanggungandibayar',
-                        name: 'jumlah_tanggungandibayar',
+                        data: 'jumlah_tanggungan_dibayar',
+                        name: 'jumlah_tanggungan_dibayar',
                         render: function(data) {
                             return `<span>${formatRupiah(data)}</span>`;
                         }
-                    },
-                    {
-                        data: 'bayar_beras',
-                        name: 'bayar_beras'
                     },
                     {
                         data: 'bayar_uang',
@@ -161,17 +145,11 @@
                 ]
             });
 
-
             function formatRupiah(value) {
-                console.log(value);
-                // Check if value is a number or can be converted to one
                 const numericValue = Number(value);
                 if (isNaN(numericValue)) {
-                    console.error('Invalid number:', value);
-                    return 'Invalid Value'; // Return a fallback string if input is not valid
+                    return 'Invalid Value';
                 }
-
-                // Format as currency
                 const formatter = new Intl.NumberFormat('id-ID', {
                     style: 'currency',
                     currency: 'IDR',
@@ -181,9 +159,6 @@
             }
 
         });
-
-
-
 
         $(document).on('click', '.btn-delete', function(e) {
             e.preventDefault();
@@ -220,14 +195,12 @@
                             });
 
                             // Refresh the DataTable
-                            $('#distribuziZakat').DataTable().ajax
-                        .reload(); // Adjust selector to match your table ID
+                            $('#pengumpulanZakatTable').DataTable().ajax.reload(); // Adjust selector to match your table ID
                         },
                         error: function(xhr) {
                             Swal.fire({
                                 title: 'Gagal!',
-                                text: xhr.responseJSON?.message ||
-                                    'Terjadi kesalahan saat menghapus data.',
+                                text: xhr.responseJSON?.message || 'Terjadi kesalahan saat menghapus data.',
                                 icon: 'error'
                             });
                         }

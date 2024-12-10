@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->integer('jumlah_beras')->nullable();
             $table->integer('jumlah_uang')->nullable();
-            $table->integer('total_beras')->nullable();
             $table->integer('total_uang')->nullable();
             $table->integer('total_distribusi')->nullable();
             $table->timestamps();

@@ -44,9 +44,6 @@ class PengumpulanZakatController extends Controller
                 ->addColumn('nama_muzzaki', function ($row) {
                     return $row->muzzaki ? $row->muzzaki->nama : 'Tidak Diketahui';
                 })
-                ->editColumn('bayar_beras', function ($row) {
-                    return $row->bayar_beras ? $row->bayar_beras . ' Kg' : '-';
-                })
                 ->editColumn('bayar_uang', function ($row) {
                     return $row->bayar_uang ? 'Rp ' . number_format($row->bayar_uang, 0, ',', '.') : '-';
                 })
@@ -82,7 +79,6 @@ class PengumpulanZakatController extends Controller
             'jumlah_tanggungan' => 'required|integer|min:0',
             'jumlah_tanggungan_dibayar' => 'required|integer|min:0',
             'jenis_bayar' => 'required',
-            'bayar_beras' => 'required|integer|min:0',
             'bayar_uang' => 'required|string',
         ]);
 
@@ -103,7 +99,6 @@ class PengumpulanZakatController extends Controller
             $pengumpulanZakat->jumlah_tanggungan = $request->jumlah_tanggungan;
             $pengumpulanZakat->jumlah_tanggungandibayar = $request->jumlah_tanggungan_dibayar;
             $pengumpulanZakat->jenis_bayar = $request->jenis_bayar;
-            $pengumpulanZakat->bayar_beras = $request->bayar_beras;
             $pengumpulanZakat->bayar_uang = $bayar_uang;
             $pengumpulanZakat->save();
 
@@ -112,17 +107,13 @@ class PengumpulanZakatController extends Controller
 
             if (!$jumlahZakat) {
                 $jumlahZakat = new JumlahZakat();
-                $jumlahZakat->jumlah_beras = 0;
                 $jumlahZakat->jumlah_uang = 0;
-                $jumlahZakat->total_beras = 0;
                 $jumlahZakat->total_uang = 0;
                 $jumlahZakat->total_distribusi = 0;
             }
 
             // Update the JumlahZakat record
-            $jumlahZakat->jumlah_beras += $request->bayar_beras;
             $jumlahZakat->jumlah_uang += $bayar_uang;
-            $jumlahZakat->total_beras += $request->bayar_beras;
             $jumlahZakat->total_uang += $bayar_uang;
             $jumlahZakat->total_distribusi += 1;
             $jumlahZakat->save();
@@ -190,9 +181,8 @@ class PengumpulanZakatController extends Controller
         $request->validate([
             'nama_muzakki' => 'required|string|max:255',
             'jumlah_tanggungan' => 'required|integer|min:0',
-            'jumlah_tanggungandibayar' => 'required|integer|min:0',
+            'jumlah_tanggungan_dibayar' => 'required|integer|min:0',
             'jenis_bayar' => 'required',
-            'bayar_beras' => 'required|integer|min:0',
             'bayar_uang' => 'required|string',
         ]);
 
@@ -214,29 +204,24 @@ class PengumpulanZakatController extends Controller
 
             if (!$jumlahZakat) {
                 $jumlahZakat = new JumlahZakat();
-                $jumlahZakat->jumlah_beras = 0;
                 $jumlahZakat->jumlah_uang = 0;
-                $jumlahZakat->total_beras = 0;
                 $jumlahZakat->total_uang = 0;
                 $jumlahZakat->total_distribusi = 0;
             }
 
             // Revert the previous values in JumlahZakat
-            $jumlahZakat->jumlah_beras -= $pengumpulanZakat->bayar_beras;
             $jumlahZakat->jumlah_uang -= $pengumpulanZakat->bayar_uang;
 
             // Update the PengumpulanZakat record
             $pengumpulanZakat->user_id = $userId; // Set user_id
             $pengumpulanZakat->nama_muzakki = $request->nama_muzakki;
             $pengumpulanZakat->jumlah_tanggungan = $request->jumlah_tanggungan;
-            $pengumpulanZakat->jumlah_tanggungandibayar = $request->jumlah_tanggungandibayar;
+            $pengumpulanZakat->jumlah_tanggungandibayar = $request->jumlah_tanggungan_dibayar;
             $pengumpulanZakat->jenis_bayar = $request->jenis_bayar;
-            $pengumpulanZakat->bayar_beras = $request->bayar_beras;
             $pengumpulanZakat->bayar_uang = $bayar_uang;
             $pengumpulanZakat->save();
 
             // Update the JumlahZakat record with new values
-            $jumlahZakat->jumlah_beras += $request->bayar_beras;
             $jumlahZakat->jumlah_uang += $bayar_uang;
             $jumlahZakat->save();
 

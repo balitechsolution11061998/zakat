@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use App\Models\DistribusiZakat;
 use App\Models\JumlahZakat;
 use App\Models\Mustahik;
-use App\Models\Muzakki;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
@@ -44,9 +43,6 @@ class DistribusiZakatController extends Controller
                 ->addColumn('nama_mustahik', function ($row) {
                     return $row->mustahik ? $row->mustahik->nama_mustahik : 'Tidak Diketahui';
                 })
-                ->editColumn('jumlah_beras', function ($row) {
-                    return $row->jumlah_beras ? $row->jumlah_beras . ' Kg' : '-';
-                })
                 ->editColumn('jumlah_uang', function ($row) {
                     return $row->jumlah_uang ? 'Rp ' . number_format($row->jumlah_uang, 0, ',', '.') : '-';
                 })
@@ -57,16 +53,13 @@ class DistribusiZakatController extends Controller
         return view('admin.distribusi_zakat.index');
     }
 
-
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-
     public function create()
     {
-
         $items = Mustahik::all();
         return view('admin.distribusi_zakat.create', compact('items'));
     }
@@ -87,10 +80,6 @@ class DistribusiZakatController extends Controller
 
             // Mengambil data jumlah zakat saat ini
             $jumlahZakat = JumlahZakat::first();
-            // Memeriksa apakah stok beras cukup
-            if ($jumlahZakat->jumlah_beras < (int)$request->jumlah_beras) {
-                throw new \Exception('Stok beras tidak cukup', 400);
-            }
 
             // Memeriksa apakah stok uang cukup
             $jumlahUang = (int) preg_replace('/[^\d]/', '', $request->jumlah_uang);
@@ -98,17 +87,15 @@ class DistribusiZakatController extends Controller
                 throw new \Exception('Stok uang tidak cukup', 400);
             }
 
-            // Membuat entri baru di tabel PengumpulanZakat dengan data yang sudah disanitasi
-            $pengumpulanZakat = new DistribusiZakat();
-            $pengumpulanZakat->user_id = $userId; // Set user_id
-            $pengumpulanZakat->nama_mustahik = $request->nama_mustahik;
-            $pengumpulanZakat->jenis_zakat = $request->jenis_zakat;
-            $pengumpulanZakat->jumlah_beras = $request->jumlah_beras;
-            $pengumpulanZakat->jumlah_uang = $jumlahUang;
-            $pengumpulanZakat->save();
+            // Membuat entri baru di tabel DistribusiZakat dengan data yang sudah disanitasi
+            $distribusiZakat = new DistribusiZakat();
+            $distribusiZakat->user_id = $userId; // Set user_id
+            $distribusiZakat->nama_mustahik = $request->nama_mustahik;
+            $distribusiZakat->jenis_zakat = $request->jenis_zakat;
+            $distribusiZakat->jumlah_uang = $jumlahUang;
+            $distribusiZakat->save();
 
             // Mengupdate tabel JumlahZakat
-            $jumlahZakat->jumlah_beras -= $request->jumlah_beras;
             $jumlahZakat->jumlah_uang -= $jumlahUang;
             $jumlahZakat->total_distribusi += 1;
             $jumlahZakat->save();
@@ -118,8 +105,8 @@ class DistribusiZakatController extends Controller
 
             // Mengembalikan respon JSON dengan kode sukses
             return response()->json([
-                'message' => 'Pengumpulan zakat berhasil ditambahkan dan jumlah zakat berhasil diupdate.',
-                'data' => $pengumpulanZakat,
+                'message' => 'Distribusi zakat berhasil ditambahkan dan jumlah zakat berhasil diupdate.',
+                'data' => $distribusiZakat,
                 'status' => 'success',
             ], 200);
         } catch (\Exception $e) {
@@ -133,14 +120,11 @@ class DistribusiZakatController extends Controller
 
             // Mengembalikan respon JSON dengan kode error
             return response()->json([
-                'message' => 'Gagal menambahkan pengumpulan zakat dan mengupdate jumlah zakat.',
+                'message' => 'Gagal menambahkan distribusi zakat dan mengupdate jumlah zakat.',
                 'error' => $e->getMessage()
             ], $statusCode);
         }
     }
-
-
-
 
     /**
      * Display the specified resource.
@@ -165,7 +149,7 @@ class DistribusiZakatController extends Controller
 
         return view('admin.distribusi_zakat.edit', [
             'item' => $item,
-            'mustahik'=>$mustahik,
+            'mustahik' => $mustahik,
         ]);
     }
 
@@ -189,31 +173,22 @@ class DistribusiZakatController extends Controller
             // Find the existing distribution zakat record
             $item = DistribusiZakat::findOrFail($id);
 
-            // Check if the zakat type is rice and if the stock is sufficient
-            if ($request->jenis_zakat === 'beras' && $jumlahZakat->jumlah_beras < $request->jumlah_beras) {
-                throw new \Exception('Stok beras tidak cukup', 400);
-            }
-
             // Check if the zakat type is money and if the stock is sufficient
             $jumlahUang = (int) preg_replace('/[^\d]/', '', $request->jumlah_uang);
-            if ($request->jenis_zakat === 'uang' && $jumlahZakat->jumlah_uang < $jumlahUang) {
+            if ($jumlahZakat->jumlah_uang < $jumlahUang) {
                 throw new \Exception('Stok uang tidak cukup', 400);
             }
+
             $item->user_id = $userId; // Set user_id
 
             // Update the existing record with sanitized data
             $item->nama_mustahik = $request->nama_mustahik;
             $item->jenis_zakat = $request->jenis_zakat;
-            $item->jumlah_beras = $request->jumlah_beras;
             $item->jumlah_uang = $jumlahUang;
             $item->save();
 
             // Update the total zakat amounts
-            if ($request->jenis_zakat === 'beras') {
-                $jumlahZakat->jumlah_beras -= $request->jumlah_beras;
-            } elseif ($request->jenis_zakat === 'uang') {
-                $jumlahZakat->jumlah_uang -= $jumlahUang;
-            }
+            $jumlahZakat->jumlah_uang -= $jumlahUang;
             $jumlahZakat->total_distribusi += 1; // Increment total distribution count
             $jumlahZakat->save();
 
@@ -222,9 +197,9 @@ class DistribusiZakatController extends Controller
 
             // Return JSON response with success message
             return response()->json([
-                'message' => 'Pengumpulan zakat berhasil diupdate dan jumlah zakat berhasil diupdate.',
+                'message' => 'Distribusi zakat berhasil diupdate dan jumlah zakat berhasil diupdate.',
                 'data' => $item,
-                'status'=>'success',
+                'status' => 'success',
             ], 200);
         } catch (\Exception $e) {
             // Rollback transaction if an error occurs
@@ -237,7 +212,7 @@ class DistribusiZakatController extends Controller
 
             // Return JSON response with error message
             return response()->json([
-                'message' => 'Gagal mengupdate pengumpulan zakat dan mengupdate jumlah zakat.',
+                'message' => 'Gagal mengupdate distribusi zakat dan mengupdate jumlah zakat.',
                 'error' => $e->getMessage()
             ], $statusCode);
         }

@@ -102,9 +102,7 @@
                                             <option value="uang"
                                                 {{ old('jenis_bayar', $data->jenis_bayar) == 'uang' ? 'selected' : '' }}>
                                                 Uang</option>
-                                            <option value="beras"
-                                                {{ old('jenis_bayar', $data->jenis_bayar) == 'beras' ? 'selected' : '' }}>
-                                                Beras</option>
+                                            <!-- Removed Beras option -->
                                         </select>
                                         @error('jenis_bayar')
                                             <span class="invalid-feedback" role="alert">
@@ -112,14 +110,6 @@
                                             </span>
                                         @enderror
                                     </div>
-                                </div>
-
-                                <!-- Bayar Beras -->
-                                <div class="col-md-6 mb-4">
-                                    <label for="bayar_beras" class="form-label">Bayar Beras *</label>
-                                    <input type="number" class="form-control" id="bayar_beras" name="bayar_beras"
-                                        value="{{ old('bayar_beras', $data->bayar_beras) }}"
-                                        placeholder="Masukkan jumlah dalam KG">
                                 </div>
 
                                 <!-- Bayar Uang -->
@@ -149,7 +139,6 @@
             </div>
         </div>
     </div>
-
 
 @section('scripts')
     <script>

@@ -18,8 +18,7 @@
                     <div class="card-body" style="background: #f8f9fa;">
                         <p class="mb-0" style="font-size: 18px; color: #555;">
                             <i class="fas fa-info-circle text-success"></i> Lengkapi form di bawah ini dengan data yang
-                            benar.
-                            Pastikan semua data terisi dengan lengkap dan akurat agar dapat diproses dengan tepat.
+                            benar. Pastikan semua data terisi dengan lengkap dan akurat agar dapat diproses dengan tepat.
                         </p>
                     </div>
                 </div>
@@ -67,6 +66,7 @@
                                         @enderror
                                     </div>
                                 </div>
+
                                 <div class="col-md-4 mb-4">
                                     <div class="form-group">
                                         <label for="jumlah_tanggungan_dibayar">Jumlah Tanggungan yang Dibayar *</label>
@@ -81,6 +81,8 @@
                                         @enderror
                                     </div>
                                 </div>
+
+                                <!-- Jenis Bayar -->
                                 <div class="col-md-4 mb-4">
                                     <div class="form-group">
                                         <label for="jenis_bayar">Jenis Bayar *</label>
@@ -89,7 +91,7 @@
                                                 name="jenis_bayar">
                                             <option value="">Pilih Jenis Bayar</option>
                                             <option value="uang" {{ old('jenis_bayar') == 'uang' ? 'selected' : '' }}>Uang</option>
-                                            <option value="beras" {{ old('jenis_bayar') == 'beras' ? 'selected' : '' }}>Beras</option>
+                                            <!-- Removed Beras option -->
                                         </select>
                                         @error('jenis_bayar')
                                             <span class="invalid-feedback" role="alert">
@@ -97,26 +99,6 @@
                                             </span>
                                         @enderror
                                     </div>
-                                </div>
-
-                                <div class="col-md-12">
-                                    <!-- Bootstrap 5 Enhanced Badge with Icon -->
-                                    <div class="alert alert-info d-flex align-items-center rounded-3" role="alert">
-                                        <!-- You can add an icon to enhance the message -->
-                                        <i class="fas fa-info-circle me-3" style="font-size: 1.5rem;"></i>
-
-                                        <span class="badge bg-primary text-wrap"
-                                            style="font-size: 1rem; padding: 12px; line-height: 1.5;">
-                                            Isi salah satu dari 2 form dibawah ini, jika memilih beras sebelumnya maka isi
-                                            dengan satuan KG dan jika uang maka isi dengan nominal angka tanpa RP.
-                                        </span>
-                                    </div>
-                                </div>
-                                <!-- Bayar Beras Input -->
-                                <div class="col-md-6 mb-4">
-                                    <label for="bayar_beras" class="form-label">Bayar Beras *</label>
-                                    <input type="number" class="form-control" id="bayar_beras" name="bayar_beras"
-                                        placeholder="Masukkan jumlah dalam KG">
                                 </div>
 
                                 <!-- Bayar Uang Input -->
@@ -127,7 +109,6 @@
                                 </div>
 
                             </div>
-
 
                         </div>
 
@@ -147,6 +128,7 @@
             </div>
         </div>
     </div>
+
 @section('scripts')
     <!-- Script to format Rupiah -->
     <script>
@@ -157,7 +139,6 @@
                 minimumFractionDigits: 0,
             }).format(value);
         };
-
 
         document.getElementById('zakatForm').addEventListener('submit', function(event) {
             event.preventDefault(); // Prevent the default form submission

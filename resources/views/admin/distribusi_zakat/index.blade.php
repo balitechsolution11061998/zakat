@@ -1,11 +1,12 @@
 @extends('layouts.apps')
 
-@section('title', 'Data Pengumpulan Zaqat')
+@section('title', 'Data Pengumpulan Zakat')
 @section('content')
     <!-- DataTables CSS -->
     <link href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.bootstrap5.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+
     <div class="pc-container">
         <div class="pc-content">
 
@@ -13,42 +14,39 @@
             <div class="container mb-4 mt-10">
                 <div class="card rounded shadow-lg animate__animated animate__fadeInDown">
                     <div class="card-header bg-success text-white rounded-top-2 text-left">
-                        <h3 class="mb-0" style="font-family: 'Roboto', sans-serif;color:white;">Data Distribusi Zakat
-                        </h3>
+                        <h3 class="mb-0" style="font-family: 'Roboto', sans-serif;color:white;">Data Distribusi Zakat</h3>
                     </div>
                     <div class="card-body">
                         <p class="text-muted" style="font-family: 'Poppins', sans-serif; text-align: justify;">
-                            Dibawah ini adalah data Distribusi Zakat yang telah anda tambahkan. Data dibawah juga bisa anda
+                            Di bawah ini adalah data Distribusi Zakat yang telah Anda tambahkan. Data di bawah juga bisa Anda
                             lihat detailnya dengan menekan logo mata berwarna hijau, edit dengan menekan logo pencil
-                            berwarna ungu dan hapus dengan menekan logo sampah berwarna merah
+                            berwarna ungu dan hapus dengan menekan logo sampah berwarna merah.
                         </p>
                     </div>
                 </div>
             </div>
         </div>
+
         <div class="pc-content">
             <div class="container">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h4 class="mb-0" style="font-family: 'Roboto', sans-serif; color: #333;">Data Distribusi Zakat</h4>
                     <a href="{{ url('/dashboard/distribusi_zakat/create') }}" class="btn btn-success rounded-pill">
-                        <i class="fas fa-plus me-2"></i> Data Distribusi Zakat
+                        <i class="fas fa-plus me-2"></i> Tambah Data Distribusi Zakat
                     </a>
                 </div>
                 <div class="card rounded shadow-lg animate__animated animate__fadeInUp">
                     <div class="card-header bg-success text-white rounded-top-2 text-left">
-                        <h4 class="mb-0" style="font-family: 'Roboto', sans-serif; color: white;">Tabel Data Distribusi
-                            Zakat</h4>
+                        <h4 class="mb-0" style="font-family: 'Roboto', sans-serif; color: white;">Tabel Data Distribusi Zakat</h4>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive rounded-4">
-                            <table id="distribuziZakat"
-                                class="table table-striped table-bordered rounded-4 overflow-hidden">
+                            <table id="distribuziZakat" class="table table-striped table-bordered rounded-4 overflow-hidden">
                                 <thead class="table-success">
                                     <tr class="text-center">
                                         <th>ID</th>
                                         <th>Nama Mustahik</th>
                                         <th>Jenis Zakat</th>
-                                        <th>Jumlah Beras</th>
                                         <th>Jumlah Uang</th>
                                         <th>Opsi</th>
                                     </tr>
@@ -63,18 +61,16 @@
             </div>
         </div>
 
-
     </div>
-
 
 @section('scripts')
 
     <!-- jQuery -->
-    <script src="{{ asset('assets/js/jquery-3.6.0.min.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- DataTables JS -->
-    <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('assets/js/dataTables.bootstrap5.min.js') }}"></script>
-    <script src="{{ asset('assets/js/dataTables.buttons.min.js') }}"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.bootstrap5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
@@ -90,10 +86,8 @@
                 processing: true,
                 serverSide: true,
                 ajax: "{{ route('distribusi_zakat.index') }}", // Replace with your route
-                columns: [{
-                        data: 'id',
-                        name: 'id',
-                    },
+                columns: [
+                    { data: 'id', name: 'id' },
                     {
                         data: 'mustahik',
                         name: 'mustahik.nama_mustahik',
@@ -101,27 +95,29 @@
                             // Check if data is available
                             if (data) {
                                 return `
-                <div class="d-flex align-items-center">
-                    <img src="${data.profile_photo_url || '/default-profile.png'}" alt="${data.nama_mustahik}"
-                         class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover; margin-right: 10px;">
-                    <div>
-                        <strong>${data.nama_mustahik}</strong><br>
-                        <span class="text-muted">Kategori: ${data.kategori_mustahik}</span><br>
-                        <span class="text-muted">Hak: ${formatRupiah(row.jumlah_hak)}</span>
-                    </div>
-                </div>
-            `;
+                                    <div class="d-flex align-items-center">
+                                        <div class="avatar bg-success text-white rounded-circle me-2" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
+                                            ${data.nama_mustahik[0].toUpperCase()}
+                                        </div>
+                                        <div>
+                                            <strong>${data.nama_mustahik}</strong><br>
+                                            <span class="text-muted">Kategori: ${data.kategori_mustahik}</span><br>
+                                            <span class="text-muted">Hak: ${formatRupiah(row.jumlah_hak)}</span>
+                                        </div>
+                                    </div>
+                                `;
                             } else {
                                 return `
-                <div class="d-flex align-items-center">
-                    <img src="/default-profile.png" alt="Tidak Diketahui"
-                         class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover; margin-right: 10px;">
-                    <div>
-                        <strong>Tidak Diketahui</strong><br>
-                        <span class="text-muted">Hak: ${formatRupiah(row.jumlah_hak)}</span>
-                    </div>
-                </div>
-            `;
+                                    <div class="d-flex align-items-center">
+                                        <div class="avatar bg-secondary text-white rounded-circle me-2" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
+                                            ?
+                                        </div>
+                                        <div>
+                                            <strong>Tidak Diketahui</strong><br>
+                                            <span class="text-muted">Hak: ${formatRupiah(row.jumlah_hak)}</span>
+                                        </div>
+                                    </div>
+                                `;
                             }
                         },
                     },
@@ -130,14 +126,10 @@
                         name: 'jenis_zakat',
                     },
                     {
-                        data: 'jumlah_beras',
-                        name: 'jumlah_beras',
-                    },
-                    {
                         data: 'jumlah_uang',
                         name: 'jumlah_uang',
-                        render: function(data, type, row) {
-                            return data.replace('Rp', '').replace(/\./g, ',').trim();
+                        render: function(data) {
+                            return formatRupiah(data);
                         },
                     },
                     {
@@ -152,17 +144,11 @@
                 ],
             });
 
-
             function formatRupiah(value) {
-                console.log(value);
-                // Check if value is a number or can be converted to one
                 const numericValue = Number(value);
                 if (isNaN(numericValue)) {
-                    console.error('Invalid number:', value);
-                    return 'Invalid Value'; // Return a fallback string if input is not valid
+                    return 'Invalid Value';
                 }
-
-                // Format as currency
                 const formatter = new Intl.NumberFormat('id-ID', {
                     style: 'currency',
                     currency: 'IDR',
@@ -172,9 +158,6 @@
             }
 
         });
-
-
-
 
         $(document).on('click', '.btn-delete', function(e) {
             e.preventDefault();
@@ -211,14 +194,12 @@
                             });
 
                             // Refresh the DataTable
-                            $('#distribuziZakat').DataTable().ajax
-                                .reload(); // Adjust selector to match your table ID
+                            $('#distribuziZakat').DataTable().ajax.reload(); // Adjust selector to match your table ID
                         },
                         error: function(xhr) {
                             Swal.fire({
                                 title: 'Gagal!',
-                                text: xhr.responseJSON?.message ||
-                                    'Terjadi kesalahan saat menghapus data.',
+                                text: xhr.responseJSON?.message || 'Terjadi kesalahan saat menghapus data.',
                                 icon: 'error'
                             });
                         }
