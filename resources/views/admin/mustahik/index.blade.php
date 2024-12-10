@@ -140,9 +140,7 @@
                         name: 'kategori_mustahik',
                         render: function(data, type, row) {
                             // Check if 'kategori_mustahik' exists and has 'nama_kategori'
-                            return row.kategori_mustahik && row.kategori_mustahik.nama_kategori ?
-                                row.kategori_mustahik.nama_kategori :
-                                'Not Found'; // Fallback to 'Not Found' if the field is null or empty
+                            return row.kategori_mustahik;// Fallback to 'Not Found' if the field is null or empty
                         }
                     },
 

@@ -24,7 +24,6 @@ class LaporanDistribusiController extends Controller
         // Fetch total zakat amounts and distribution counts
         $jumlahZakat = DB::table('jumlah_zakat')->first();
         $totalMustahik = Mustahik::count();
-        $totalBeras = $jumlahZakat->jumlah_beras;
         $totalUang = $jumlahZakat->jumlah_uang;
         $totalDistribusi = $jumlahZakat->total_distribusi;
 
@@ -33,7 +32,6 @@ class LaporanDistribusiController extends Controller
 
         return view('admin.laporan_distribusi', [
             'items' => $items,
-            'totalBeras' => $totalBeras,
             'totalUang' => $totalUang,
             'totalDistribusi' => $totalDistribusi,
             'totalMustahik' => $totalMustahik,

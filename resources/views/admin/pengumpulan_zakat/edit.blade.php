@@ -79,12 +79,12 @@
                                 <!-- Jumlah Tanggungan yang Dibayar -->
                                 <div class="col-md-4 mb-4">
                                     <div class="form-group">
-                                        <label for="jumlah_tanggungandibayar">Jumlah Tanggungan yang Dibayar *</label>
+                                        <label for="jumlah_tanggungan_dibayar">Jumlah Tanggungan yang Dibayar *</label>
                                         <input type="number"
-                                            class="form-control @error('jumlah_tanggungandibayar') is-invalid @enderror"
-                                            id="jumlah_tanggungandibayar" name="jumlah_tanggungandibayar"
-                                            value="{{ old('jumlah_tanggungandibayar', $data->jumlah_tanggungandibayar) }}">
-                                        @error('jumlah_tanggungandibayar')
+                                            class="form-control @error('jumlah_tanggungan_dibayar') is-invalid @enderror"
+                                            id="jumlah_tanggungan_dibayar" name="jumlah_tanggungan_dibayar"
+                                            value="{{ old('jumlah_tanggungan_dibayar', $data->jumlah_tanggungan_dibayar) }}">
+                                        @error('jumlah_tanggungan_dibayar')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>

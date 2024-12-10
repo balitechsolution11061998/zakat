@@ -14,11 +14,13 @@
             <div class="container mb-4 mt-10">
                 <div class="card rounded shadow-lg animate__animated animate__fadeInDown">
                     <div class="card-header bg-success text-white rounded-top-2 text-left">
-                        <h3 class="mb-0" style="font-family: 'Roboto', sans-serif;color:white;">Data Pengumpulan Zakat</h3>
+                        <h3 class="mb-0" style="font-family: 'Roboto', sans-serif;color:white;">Data Pengumpulan Zakat
+                        </h3>
                     </div>
                     <div class="card-body">
                         <p class="text-muted" style="font-family: 'Poppins', sans-serif; text-align: justify;">
-                            Di bawah ini adalah data pengumpulan zakat yang telah Anda tambahkan. Data di bawah juga bisa Anda
+                            Di bawah ini adalah data pengumpulan zakat yang telah Anda tambahkan. Data di bawah juga bisa
+                            Anda
                             lihat detailnya dengan menekan logo mata berwarna hijau, edit dengan menekan logo pencil
                             berwarna ungu dan hapus dengan menekan logo sampah berwarna merah.
                         </p>
@@ -35,11 +37,13 @@
                 </div>
                 <div class="card rounded shadow-lg animate__animated animate__fadeInUp">
                     <div class="card-header bg-success text-white rounded-top-2 text-left">
-                        <h4 class="mb-0" style="font-family: 'Roboto', sans-serif; color: white;">Tabel Data Pengumpulan Zakat</h4>
+                        <h4 class="mb-0" style="font-family: 'Roboto', sans-serif; color: white;">Tabel Data Pengumpulan
+                            Zakat</h4>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive rounded-4">
-                            <table id="pengumpulanZakatTable" class="table table-striped table-bordered rounded-4 overflow-hidden">
+                            <table id="pengumpulanZakatTable"
+                                class="table table-striped table-bordered rounded-4 overflow-hidden">
                                 <thead class="table-success">
                                     <tr class="text-center">
                                         <th>ID</th>
@@ -85,46 +89,56 @@
                 processing: true,
                 serverSide: true,
                 ajax: "{{ route('pengumpulan_zakat.index') }}", // Replace with your route
-                columns: [
-                    { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false }, // Index Column
+                columns: [{
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex',
+                        orderable: false,
+                        searchable: false
+                    }, // Index Column
                     {
                         data: 'muzzaki', // Mengacu pada relasi
                         name: 'muzzaki',
                         render: function(data, type, row) {
+
                             // Fungsi untuk format Rupiah
-                            function formatRupiah(angka) {
-                                return 'Rp ' + angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-                            }
+
 
                             // Periksa apakah data tersedia
-                            if (data) {
+                            if (data && data.nama_muzakki) {
+                                const namaMuzakki = Array.isArray(data.nama_muzakki) && data
+                                    .nama_muzakki.length > 0 ?
+                                    data.nama_muzakki[0].toUpperCase() :
+                                    'Tidak Diketahui';
+
                                 return `
-                                    <div class="d-flex align-items-center">
-                                        <div class="avatar bg-success text-white rounded-circle me-2" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
-                                            ${data.nama_muzakki[0].toUpperCase()}
-                                        </div>
-                                        <div>
-                                            <strong>${data.nama_muzakki}</strong><br>
-                                            <span class="text-muted">Tanggungan: ${formatRupiah(row.jumlah_tanggungan_dibayar)}</span>
-                                        </div>
-                                    </div>
-                                `;
+                            <div class="d-flex align-items-center">
+                                <div class="avatar bg-success text-white rounded-circle me-2" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
+                                    ${namaMuzakki}
+                                </div>
+                                <div>
+                                    <strong>${data.nama_muzakki || 'Tidak Diketahui'}</strong><br>
+                                </div>
+                            </div>
+                        `;
                             } else {
                                 return `
-                                    <div class="d-flex align-items-center">
-                                        <div class="avatar bg-secondary text-white rounded-circle me-2" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
-                                            ?
-                                        </div>
-                                        <div>
-                                            <strong>Tidak Diketahui</strong><br>
-                                            <span class="text-muted">Tanggungan: ${formatRupiah(row.jumlah_tanggungan_dibayar)}</span>
-                                        </div>
-                                    </div>
-                                `;
+                            <div class="d-flex align-items-center">
+                                <div class="avatar bg-secondary text-white rounded-circle me-2" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
+                                    ?
+                                </div>
+                                <div>
+                                    <strong>Tidak Diketahui</strong><br>
+                                    <span class="text-muted">Tanggungan: ${formatRupiah(row.jumlah_tanggungan_dibayar)}</span>
+                                </div>
+                            </div>
+                        `;
                             }
                         }
                     },
-                    { data: 'jenis_bayar', name: 'jenis_bayar' },
+                    {
+                        data: 'jenis_bayar',
+                        name: 'jenis_bayar'
+                    },
                     {
                         data: 'jumlah_tanggungan_dibayar',
                         name: 'jumlah_tanggungan_dibayar',
@@ -157,8 +171,8 @@
                 });
                 return formatter.format(numericValue);
             }
-
         });
+
 
         $(document).on('click', '.btn-delete', function(e) {
             e.preventDefault();
@@ -195,12 +209,14 @@
                             });
 
                             // Refresh the DataTable
-                            $('#pengumpulanZakatTable').DataTable().ajax.reload(); // Adjust selector to match your table ID
+                            $('#pengumpulanZakatTable').DataTable().ajax
+                        .reload(); // Adjust selector to match your table ID
                         },
                         error: function(xhr) {
                             Swal.fire({
                                 title: 'Gagal!',
-                                text: xhr.responseJSON?.message || 'Terjadi kesalahan saat menghapus data.',
+                                text: xhr.responseJSON?.message ||
+                                    'Terjadi kesalahan saat menghapus data.',
                                 icon: 'error'
                             });
                         }

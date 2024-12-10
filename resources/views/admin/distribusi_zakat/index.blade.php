@@ -102,7 +102,6 @@
                                         <div>
                                             <strong>${data.nama_mustahik}</strong><br>
                                             <span class="text-muted">Kategori: ${data.kategori_mustahik}</span><br>
-                                            <span class="text-muted">Hak: ${formatRupiah(row.jumlah_hak)}</span>
                                         </div>
                                     </div>
                                 `;
@@ -129,7 +128,8 @@
                         data: 'jumlah_uang',
                         name: 'jumlah_uang',
                         render: function(data) {
-                            return formatRupiah(data);
+                            // return formatRupiah(data);
+                            return data;
                         },
                     },
                     {

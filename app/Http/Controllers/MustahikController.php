@@ -23,8 +23,7 @@ class MustahikController extends Controller
     {
         if ($request->ajax()) {
             // Fetch the data with a LEFT JOIN to ensure that even items without categories are included
-            $items = Mustahik::with('kategori_mustahik')
-                ->where('user_id', Auth::user()->id)
+            $items = Mustahik::where('user_id', Auth::user()->id)
                 ->get(); // Use get() to retrieve all records
 
             return DataTables::of($items)
@@ -32,11 +31,7 @@ class MustahikController extends Controller
                     // Create the action buttons dynamically
                     return '
                         <div class="d-flex gap-2 justify-content-center">
-                            <a class="btn btn-success btn-sm rounded-pill shadow-sm"
-                                href="' . route('mustahik.show', $item->id) . '"
-                                data-bs-toggle="tooltip" title="Detail">
-                                <i class="fas fa-eye"></i>
-                            </a>
+
                             <a class="btn btn-primary btn-sm rounded-pill shadow-sm"
                                 href="' . route('mustahik.edit', $item->id) . '"
                                 data-bs-toggle="tooltip" title="Edit">
@@ -130,12 +125,10 @@ class MustahikController extends Controller
      */
     public function edit($id)
     {
-        $kategori = KategoriMustahik::all();
         $item = Mustahik::findOrFail($id);
 
         return view('admin.mustahik.edit', [
             'item' => $item,
-            'kategori' => $kategori
         ]);
     }
 

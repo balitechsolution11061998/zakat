@@ -97,7 +97,7 @@ class PengumpulanZakatController extends Controller
             $pengumpulanZakat->user_id = $userId; // Set user_id
             $pengumpulanZakat->nama_muzakki = $request->nama_muzakki;
             $pengumpulanZakat->jumlah_tanggungan = $request->jumlah_tanggungan;
-            $pengumpulanZakat->jumlah_tanggungandibayar = $request->jumlah_tanggungan_dibayar;
+            $pengumpulanZakat->jumlah_tanggungan_dibayar = $request->jumlah_tanggungan_dibayar;
             $pengumpulanZakat->jenis_bayar = $request->jenis_bayar;
             $pengumpulanZakat->bayar_uang = $bayar_uang;
             $pengumpulanZakat->save();
@@ -216,7 +216,7 @@ class PengumpulanZakatController extends Controller
             $pengumpulanZakat->user_id = $userId; // Set user_id
             $pengumpulanZakat->nama_muzakki = $request->nama_muzakki;
             $pengumpulanZakat->jumlah_tanggungan = $request->jumlah_tanggungan;
-            $pengumpulanZakat->jumlah_tanggungandibayar = $request->jumlah_tanggungan_dibayar;
+            $pengumpulanZakat->jumlah_tanggungan_dibayar = $request->jumlah_tanggungan_dibayar;
             $pengumpulanZakat->jenis_bayar = $request->jenis_bayar;
             $pengumpulanZakat->bayar_uang = $bayar_uang;
             $pengumpulanZakat->save();

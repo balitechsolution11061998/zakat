@@ -20,14 +20,12 @@ class LaporanPengumpulanController extends Controller
         $totalMuzakki = DB::table('muzakki')->count();
         $totalMustahik = DB::table('mustahik')->count();
 
-        $totalBeras = $jumlahZakat->total_beras;
         $totalUang = $jumlahZakat->total_uang;
 
         $items = PengumpulanZakat::all();
 
         return view('admin.laporan_pengumpulan', [
             'items' => $items,
-            'totalBeras' => $totalBeras,
             'totalUang' => $totalUang,
             'totalMuzakki'=>$totalMuzakki,
             'totalMustahik'=>$totalMustahik

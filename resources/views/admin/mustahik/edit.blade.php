@@ -80,14 +80,16 @@
                             <div class="row">
                                 <div class="col-md-4 mb-4">
                                     <label for="kategori_mustahik" class="form-label">
-                                        <i class="fas fa-users text-success"></i> Kategori Mustahik <span
-                                            class="text-danger">*</span>
+                                        <i class="fas fa-users text-success"></i> Kategori Mustahik <span class="text-danger">*</span>
                                     </label>
-                                    <select id="kategori_mustahik" class="form-control form-control-lg"
-                                        name="kategori_mustahik" required value="{{ $item->kategori_mustahik }}">
+                                    <select id="kategori_mustahik" class="form-control form-control-lg" name="kategori_mustahik" required>
                                         <option value="">Memuat kategori...</option>
+                                        <option value="fakir" {{ $item->kategori_mustahik == 'fakir' ? 'selected' : '' }}>Fakir</option>
+                                        <option value="miskin" {{ $item->kategori_mustahik == 'miskin' ? 'selected' : '' }}>Miskin</option>
+                                        <option value="amil" {{ $item->kategori_mustahik == 'amil' ? 'selected' : '' }}>Amil</option>
                                     </select>
                                 </div>
+
 
                                 <div class="col-md-4 mb-4">
                                     <label for="jumlah_hak" class="form-label">
@@ -139,10 +141,8 @@
     </div>
 @section('scripts')
     <script>
-        var selectedKategoriId = "{{ $item->kategori_mustahik }}";
 
         document.addEventListener('DOMContentLoaded', function() {
-            fetchKategoriMustahik(selectedKategoriId);
             // Handle form submission with SweetAlert2 and AJAX
             document.getElementById('mustahikForm').addEventListener('submit', function(event) {
                 event.preventDefault(); // Prevent normal form submission
@@ -234,39 +234,7 @@
             });
         });
 
-        function fetchKategoriMustahik(selectedId = null) {
-            $.ajax({
-                url: "{{ route('kategori_mustahik.get') }}", // Laravel route
-                type: "GET",
-                dataType: "json", // Ensure the response is parsed as JSON
-                success: function(response) {
-                    // Check if the response has a success status
-                    if (response.status === 'success') {
-                        // Build the dropdown options
-                        let options = '<option value="">Pilih kategori...</option>';
-                        response.data.forEach(function(item) {
-                            options +=
-                                `<option value="${item.id}" ${selectedId == item.id ? 'selected' : ''}>${item.nama_kategori}</option>`;
-                        });
 
-                        // Populate the select element
-                        $('#kategori_mustahik').html(options);
-
-                        // If `selectedId` is provided, set the selected option
-                        if (selectedId) {
-                            $('#kategori_mustahik').val(selectedId); // Set the value
-                        }
-                    } else {
-                        console.warn('Unexpected response format:', response);
-                        Swal.fire('Warning', 'Data kategori tidak valid.', 'warning');
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error('Gagal mengambil data kategori mustahik:', xhr.responseText);
-                    Swal.fire('Error', 'Tidak dapat memuat kategori mustahik. Silakan coba lagi.', 'error');
-                }
-            });
-        }
     </script>
 
 @endsection
