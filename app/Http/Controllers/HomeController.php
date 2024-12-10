@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -21,12 +22,13 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
+
     public function index()
     {
         // Initial values for nisab and other required variables
         $nisabPerYear = 82312725;
         $nisabPerMonth = $nisabPerYear / 12;
-        
+
         // Set initial values to zero
         $totalMonthlyIncome = 0;
         $zakat = 0;
@@ -41,7 +43,7 @@ class HomeController extends Controller
         // Get input values
         $monthlyIncome = $request->input('monthly_income');
         $otherMonthlyIncome = $request->input('other_monthly_income');
-        
+
         // Calculate total income per month
         $totalMonthlyIncome = $monthlyIncome + $otherMonthlyIncome;
         $nisabPerYear = 82312725;

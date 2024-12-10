@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\GuestController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KategoriMustahikController;
 use App\Http\Controllers\MustahikController;
 use App\Http\Controllers\MuzakkiController;
@@ -8,9 +10,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('home');
-});
+Route::get('/', [GuestController::class, 'calculator']);
 
 Auth::routes();
 Route::get('register', [RegisterController::class, 'showRegistrationForm'])->name('register');

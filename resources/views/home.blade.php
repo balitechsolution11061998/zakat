@@ -20,33 +20,35 @@
             background-image: url('images/6.jpg');
             background-size: cover;
             background-position: center;
-            color: #000; /* Set text color to black */
-            font-family: 'Roboto', sans-serif; /* Use Roboto font */
+            color: #000;
+            font-family: 'Roboto', sans-serif;
         }
 
         .header {
-            background: rgba(255, 255, 255, 0.8); /* Light background for header */
+            background: rgba(255, 255, 255, 0.9);
             padding: 50px 0;
             text-align: center;
             border-radius: 0 0 15px 15px;
             margin-bottom: 30px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
 
         .header h1 {
             font-size: 3rem;
             font-weight: bold;
-            color: #333; /* Darker text color for contrast */
+            color: #333;
         }
 
         .header h5 {
             font-size: 1.5rem;
-            color: #555; /* Slightly lighter color for subtitle */
+            color: #555;
         }
 
         .container {
-            background: rgba(255, 255, 255, 0.9); /* Light background for container */
+            background: rgba(255, 255, 255, 0.9);
             border-radius: 15px;
             padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
         }
 
         .card {
@@ -86,6 +88,22 @@
 
         .rounded-circle:hover {
             transform: scale(1.05);
+        }
+
+        /* Custom styles for inputs */
+        .form-control {
+            border-radius: 10px;
+            border: 1px solid #ced4da;
+        }
+
+        .form-control:focus {
+            border-color: #80bdff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+
+        /* Custom styles for buttons */
+        .calculate-button, .reset-button {
+            margin-top: 10px;
         }
     </style>
 </head>
@@ -154,6 +172,18 @@
                         <input type="text" class="form-control" id="totalPenghasilan" readonly disabled>
                     </div>
 
+                    <div>
+                        <label for="hargaPerKg" class="font-medium">Harga per kg (Rp)</label>
+                        <select id="hargaPerKg" class="form-control" onchange="updateHargaPerKg()">
+                            <option value="0">Pilih harga per kg</option>
+                            @foreach($users as $user)
+                                <option value="{{ $user->jumlah_zakat }}">
+                                    {{ $user->nama_masjid }}, {{ $user->provinsi }}, {{ $user->kelurahan }}, {{ $user->kota }}, Rp {{ number_format($user->jumlah_zakat, 0, ',', '.') }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
                     <button type="button" class="calculate-button btn btn-success" onclick="hitungZakat()">Hitung
                         Zakat</button>
                     <button type="button" class="reset-button btn btn-outline-danger" onclick="resetForm()">Reset</button>
@@ -187,9 +217,15 @@
                     </div>
 
                     <div>
-                        <label for="hargaPerKg" class="font-medium">Harga per kg (Rp)</label>
-                        <input type="text" id="hargaPerKg" class="form-control" placeholder="Masukkan harga per kg"
-                            onkeyup="formatToRupiah(this)">
+                        <label for="hargaPerKgFitrah" class="font-medium">Harga per kg (Rp)</label>
+                        <select id="hargaPerKgFitrah" class="form-control" onchange="updateHargaPerKgFitrah()">
+                            <option value="0">Pilih harga per kg</option>
+                            @foreach($users as $user)
+                                <option value="{{ $user->jumlah_zakat }}">
+                                    {{ $user->nama_masjid }}, {{ $user->provinsi }}, {{ $user->kelurahan }}, {{ $user->kota }}, Rp {{ number_format($user->jumlah_zakat, 0, ',', '.') }}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
 
                     <button type="button" class="calculate-button btn btn-success" onclick="hitungZakatFitrah()">Hitung
@@ -267,8 +303,7 @@
 
         function hitungZakatFitrah() {
             const jumlahJiwa = parseInt(document.getElementById('jumlahJiwa').value) || 0;
-            const hargaPerKg = parseFloat(document.getElementById('hargaPerKg').value.replace(/\./g, '').replace(/,/g,
-                '.')) || 0;
+            const hargaPerKg = parseFloat(document.getElementById('hargaPerKgFitrah').value) || 0;
             const totalZakat = jumlahJiwa * hargaPerKg; // Calculate total in money
 
             // Display results

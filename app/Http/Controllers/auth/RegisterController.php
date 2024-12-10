@@ -20,12 +20,16 @@ class RegisterController extends Controller
     {
         $this->validator($request->all())->validate();
 
+        // Menghapus format rupiah dari jumlah_zakat sebelum menyimpannya
+        $jumlahZakat = str_replace(['Rp ', '.', ','], '', $request->jumlah_zakat);
+
         $user = User::create([
             'nama_masjid' => $request->nama_masjid,
             'kelurahan' => $request->kelurahan, // Menambahkan kelurahan
             'kota' => $request->kota,
             'provinsi' => $request->provinsi, // Menambahkan provinsi
             'kode_pos' => $request->kode_pos, // Menambahkan kode pos
+            'jumlah_zakat' => $jumlahZakat, // Menambahkan jumlah zakat
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
@@ -41,6 +45,7 @@ class RegisterController extends Controller
             'kota' => ['required', 'string', 'max:255'],
             'provinsi' => ['required', 'string', 'max:255'], // Validasi untuk provinsi
             'kode_pos' => ['required', 'integer', 'digits_between:5,10'], // Validasi untuk kode pos
+            'jumlah_zakat' => ['required', 'integer', 'min:0'], // Validasi untuk jumlah zakat
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
