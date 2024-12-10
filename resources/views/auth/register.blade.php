@@ -66,9 +66,49 @@
                         </div>
 
                         <div class="mb-3">
+                            <label for="kelurahan" class="form-label">Kelurahan</label>
+                            <input id="kelurahan" type="text" class="form-control @error('kelurahan') is-invalid @enderror" name="kelurahan" value="{{ old('kelurahan') }}" required autocomplete="kelurahan">
+                            @error('kelurahan')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
                             <label for="kota" class="form-label">Kota</label>
                             <input id="kota" type="text" class="form-control @error('kota') is-invalid @enderror" name="kota" value="{{ old('kota') }}" required autocomplete="name">
                             @error('kota')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="provinsi" class="form-label">Provinsi</label>
+                            <input id="provinsi" type="text" class="form-control @error('provinsi') is-invalid @enderror" name="provinsi" value="{{ old('provinsi') }}" required autocomplete="provinsi">
+                            @error('provinsi')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="kode_pos" class="form-label">Kode Pos</label>
+                            <input id="kode_pos" type="text" class="form-control @error('kode_pos') is-invalid @enderror" name="kode_pos" value="{{ old('kode_pos') }}" required autocomplete="kode_pos">
+                            @error('kode_pos')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="jumlah_zakat" class="form-label">Jumlah Zakat (Rp)</label>
+                            <input id="jumlah_zakat" type="number" class="form-control @error('jumlah_zakat') is-invalid @enderror" name="jumlah_zakat" value="{{ old('jumlah_zakat', 45000) }}" required>
+                            @error('jumlah_zakat')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>

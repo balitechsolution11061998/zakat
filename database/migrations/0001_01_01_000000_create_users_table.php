@@ -13,14 +13,20 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_masjid');
-            $table->string('kota');
+            $table->string('nama_masjid')->nullable(); // Nama masjid
+            $table->string('kelurahan')->nullable(); // Kelurahan
+            $table->string('kota')->nullable(); // Kota
+            $table->string('provinsi')->nullable(); // Provinsi
+            $table->integer('kode_pos')->nullable(); // Kode pos
+            $table->integer('jumlah_zakat')->default(45000); // Jumlah zakat yang disepakati
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
         });
+
+
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();
