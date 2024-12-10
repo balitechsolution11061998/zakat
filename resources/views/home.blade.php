@@ -172,18 +172,6 @@
                         <input type="text" class="form-control" id="totalPenghasilan" readonly disabled>
                     </div>
 
-                    <div>
-                        <label for="hargaPerKg" class="font-medium">Harga per kg (Rp)</label>
-                        <select id="hargaPerKg" class="form-control" onchange="updateHargaPerKg()">
-                            <option value="0">Pilih harga per kg</option>
-                            @foreach($users as $user)
-                                <option value="{{ $user->jumlah_zakat }}">
-                                    {{ $user->nama_masjid }}, {{ $user->provinsi }}, {{ $user->kelurahan }}, {{ $user->kota }}, Rp {{ number_format($user->jumlah_zakat, 0, ',', '.') }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-
                     <button type="button" class="calculate-button btn btn-success" onclick="hitungZakat()">Hitung
                         Zakat</button>
                     <button type="button" class="reset-button btn btn-outline-danger" onclick="resetForm()">Reset</button>
@@ -217,9 +205,9 @@
                     </div>
 
                     <div>
-                        <label for="hargaPerKgFitrah" class="font-medium">Harga per kg (Rp)</label>
+                        <label for="hargaPerKgFitrah" class="font-medium">Nominal</label>
                         <select id="hargaPerKgFitrah" class="form-control" onchange="updateHargaPerKgFitrah()">
-                            <option value="0">Pilih harga per kg</option>
+                            <option value="0">Nominal</option>
                             @foreach($users as $user)
                                 <option value="{{ $user->jumlah_zakat }}">
                                     {{ $user->nama_masjid }}, {{ $user->provinsi }}, {{ $user->kelurahan }}, {{ $user->kota }}, Rp {{ number_format($user->jumlah_zakat, 0, ',', '.') }}
