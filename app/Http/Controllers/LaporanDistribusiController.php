@@ -22,7 +22,7 @@ class LaporanDistribusiController extends Controller
         $userId = Auth::id();
 
         // Fetch total zakat amounts and distribution counts
-        $jumlahZakat = DB::table('jumlah_zakat')->first();
+        $jumlahZakat = DB::table('jumlah_zakat')->where('user_id',$userId)->first();
         $totalMustahik = Mustahik::count();
         $totalUang = $jumlahZakat->jumlah_uang;
         $totalDistribusi = $jumlahZakat->total_distribusi;

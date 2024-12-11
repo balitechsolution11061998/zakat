@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\PengumpulanZakat;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LaporanPengumpulanController extends Controller
 {
@@ -16,21 +17,32 @@ class LaporanPengumpulanController extends Controller
      */
     public function index()
     {
-        $jumlahZakat = DB::table('jumlah_zakat')->first();
-        $totalMuzakki = DB::table('muzakki')->count();
-        $totalMustahik = DB::table('mustahik')->count();
+        // Get the authenticated user's ID
+        $userId = Auth::id();
 
-        $totalUang = $jumlahZakat->total_uang;
+        // Fetch the jumlah_zakat record for the authenticated user
+        $jumlahZakat = DB::table('jumlah_zakat')->where('user_id', $userId)->first();
 
-        $items = PengumpulanZakat::all();
+        // If no record is found, set totalUang to 0
+        $totalUang = $jumlahZakat ? $jumlahZakat->total_uang : 0;
+
+        // Count the total muzzaki for the authenticated user
+        $totalMuzakki = DB::table('muzakki')->where('user_id', $userId)->count();
+
+        // Count the total mustahik for the authenticated user
+        $totalMustahik = DB::table('mustahik')->where('user_id', $userId)->count();
+
+        // Fetch the pengumpulan_zakat records for the authenticated user
+        $items = PengumpulanZakat::where('user_id', $userId)->get();
 
         return view('admin.laporan_pengumpulan', [
             'items' => $items,
             'totalUang' => $totalUang,
-            'totalMuzakki'=>$totalMuzakki,
-            'totalMustahik'=>$totalMustahik
+            'totalMuzakki' => $totalMuzakki,
+            'totalMustahik' => $totalMustahik
         ]);
     }
+
 
     /**
      * Show the form for creating a new resource.
