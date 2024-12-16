@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -45,7 +45,7 @@
         }
         @media (max-width: 768px) {
             .login-image {
-                display: none; /* Hide image on smaller screens */
+                display: none; /* Sembunyikan gambar di layar kecil */
             }
         }
     </style>
@@ -53,12 +53,12 @@
 <body>
     <div class="container-fluid login-container">
         <div class="row w-100">
-            <!-- Left Image Section -->
+            <!-- Bagian Gambar Kiri -->
             <div class="col-lg-6 d-none d-lg-flex align-items-center justify-content-center login-image">
-                <img src="{{ asset('images/9026074.jpg') }}" class="img-fluid rounded" alt="Login Illustration">
+                <img src="{{ asset('images/9026074.jpg') }}" class="img-fluid rounded" alt="Ilustrasi Login">
             </div>
 
-            <!-- Right Form Section -->
+            <!-- Bagian Form Kanan -->
             <div class="col-lg-6 d-flex align-items-center justify-content-center">
                 <div class="login-form w-100" style="max-width: 400px;">
                     <div class="text-center mb-4">
@@ -106,7 +106,7 @@
                     <div class="text-center mt-2">
                         @if (Route::has('password.request'))
                             <a class="btn btn-link" href="{{ route('password.request') }}">
-                                {{ __('Forgot Your Password?') }}
+                                {{ __('Lupa Password?') }}
                             </a>
                         @endif
                     </div>
@@ -125,11 +125,11 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        // Handle form submission
+        // Menangani pengiriman form
         document.getElementById('loginForm').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent the default form submission
+            event.preventDefault(); // Mencegah pengiriman form default
 
-            // Show SweetAlert confirmation
+            // Menampilkan konfirmasi SweetAlert
             Swal.fire({
                 title: 'Konfirmasi',
                 text: "Apakah Anda yakin ingin masuk?",
@@ -140,13 +140,13 @@
                 confirmButtonText: 'Ya, Masuk!'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // If confirmed, submit the form
+                    // Jika dikonfirmasi, kirim form
                     this.submit();
                 }
             });
         });
 
-        // Toastr notifications (example usage)
+        // Notifikasi Toastr (contoh penggunaan)
         @if (session('success'))
             toastr.success("{{ session('success') }}", "Berhasil!");
         @endif

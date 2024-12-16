@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Register</title>
+    <title>Daftar</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
@@ -42,7 +42,7 @@
     <div class="container-fluid login-container">
         <div class="row w-100">
             <div class="col-lg-6 d-none d-lg-flex align-items-center justify-content-center">
-                <img src="{{ asset('images/9026074.jpg') }}" class="img-fluid rounded" alt="Registration Illustration">
+                <img src="{{ asset('images/9026074.jpg') }}" class="img-fluid rounded" alt="Ilustrasi Pendaftaran">
             </div>
 
             <div class="col-lg-6 d-flex align-items-center justify-content-center">
@@ -159,11 +159,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
     <script>
-        // Handle form submission
+        // Menangani pengiriman form
         document.getElementById('registerForm').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent the default form submission
+            event.preventDefault(); // Mencegah pengiriman form default
 
-            // Show SweetAlert confirmation
+            // Menampilkan konfirmasi SweetAlert
             Swal.fire({
                 title: 'Konfirmasi',
                 text: "Apakah Anda yakin ingin mendaftar?",
@@ -174,13 +174,13 @@
                 confirmButtonText: 'Ya, Daftar!'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // If confirmed, submit the form
+                    // Jika dikonfirmasi, kirim form
                     this.submit();
                 }
             });
         });
 
-        // Toastr notifications (example usage)
+        // Notifikasi Toastr (contoh penggunaan)
         @if (session('success'))
             toastr.success("{{ session('success') }}", "Berhasil!");
         @endif
